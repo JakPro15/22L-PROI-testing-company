@@ -1,6 +1,90 @@
-class Game
+#include "abstractgame.h"
+#include <iostream>
+
+
+class Game: AbstractGame
 {
+private:
+    // Returns the unique name of the game (for example "Game 1", if id==10001).
+    std::string getUniqueName() const noexcept;
+protected:
+    // Unique ID of the game assigned at creation. IDs of Game objects should be assigned from the range 10001-19999.
+    const int id;
+    // Throws InvalidId if the object's id is invalid for a Game object.
+    void checkId() const;
+    // Title of the game. Cannot be all-whitespace.
+    std::string title;
+    // Size of the game's files in kilobytes.
+    unsigned int filesSize;
+    // Whether the game's code is availabke to the testers.
+    bool codeAvailable;
+    // Price of the game (for users).
+    Price marketPrice;
+    // Complexity of the game (on a scale from 0 to 3).
+    AbstractGame::Complexity complexity;
+    // Throws InvalidComplecity if the given value is not a valid complexity.
+    static void checkComplexity(AbstractGame::Complexity complexity);
+    // Reference to the company that commissioned the testing.
+    Producer &producer;
+    // At least how many testers are needed to test the game.
+    unsigned int minTestersAmount;
 public:
-    Game();
-    virtual ~Game();
+    // Creates an object of type Game - market price given as a Price object or single int of PLN*100.
+    Game(int id, std::string title, Producer &producer, unsigned int filesSize, AbstractGame::Complexity complexity,
+         bool codeAvailable=false, Price marketPrice=0, unsigned int minTestersAmount=1);
+    // Creates an object of type Game - market price given as two ints (zl and gr).
+    Game(int id, std::string title, Producer &producer, unsigned int filesSize, AbstractGame::Complexity complexity,
+         bool codeAvailable=false, int priceZl=0, int priceGr=0, unsigned int minTestersAmount=1);
+    // Empty virtual destructor - for inheritance.
+    ~Game() override;
+
+    // Returns the identifier of the game.
+    int getId() const noexcept override;
+
+    // Sets the title of the game. Empty (all whitespace) titles are not allowed.
+    void setTitle(std::string title) override;
+    // Returns the title of the game.
+    std::string getTitle() const noexcept override;
+
+    // Sets the size of the game's files in kB.
+    void setFilesSize(unsigned int filesSize) override;
+    // Returns the size of the game's files in kB.
+    unsigned int getFilesSize() const noexcept override;
+
+    // Sets the availability of the game's source code.
+    void setCodeAvailable(bool codeAvailable) noexcept override;
+    // Returns whether the game's source code is available to the testers.
+    unsigned int getCodeAvailable() const noexcept override;
+
+    // Sets the price of the game (for users).
+    void setMarketPrice(Price marketPrice) override;
+    void setMarketPrice(int priceZl, int priceGr) override;
+    // Returns the price of the game (for users).
+    Price getMarketPrice() const noexcept override;
+
+    // Sets the complexity of the game.
+    void setComplexity(AbstractGame::Complexity complexity) override;
+    // Returns how complex the game is.
+    AbstractGame::Complexity getComplexity() const noexcept override;
+
+    // Returns the company that commissioned the testing.
+    Producer& getProducer() const noexcept override;
+
+    // Returns at least how many testers the game needs at a given moment.
+    void setMinTestersAmount(unsigned int minTestersAmount) override;
+    // Returns at least how many testers the game needs at a given moment.
+    unsigned int getMinTestersAmount() const noexcept override;
+
+    // Returns the expected time to test the game.
+    int getTestingTime() const noexcept override;
+
+    // Returns the expected price of testing the game.
+    Price getTestingPrice() const noexcept override;
+
+    // Compares only the unique IDs of the games.
+    bool operator==(const AbstractGame &game) const noexcept override;
+    bool operator!=(const AbstractGame &game) const noexcept override;
+
+    // Puts the unique name of the game obtained from getUniqueName into the stream.
+    friend std::ostream& operator<<(std::ostream &stream, const Game &game);
 };

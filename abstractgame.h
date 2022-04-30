@@ -35,7 +35,8 @@ public:
     virtual unsigned int getCodeAvailable() const noexcept=0;
 
     // Sets the price of the game (for users).
-    virtual void setMarketPrice(Price marketPrice) noexcept=0;
+    virtual void setMarketPrice(Price marketPrice)=0;
+    virtual void setMarketPrice(int priceZl, int priceGr)=0;
     // Returns the price of the game (for users).
     virtual Price getMarketPrice() const noexcept=0;
 
@@ -58,6 +59,6 @@ public:
     // Returns the expected price of testing the game.
     virtual Price getTestingPrice() const noexcept=0;
 
-    virtual bool operator==(const AbstractGame &game)=0;
-    virtual bool operator!=(const AbstractGame &game)=0;
+    virtual bool operator==(const AbstractGame &game) const noexcept=0;
+    virtual bool operator!=(const AbstractGame &game) const noexcept=0;
 };
