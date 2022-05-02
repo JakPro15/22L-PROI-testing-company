@@ -14,7 +14,7 @@ public:
     };
 
     // Empty virtual destructor - for inheritance.
-    virtual ~AbstractGame()=0;
+    virtual ~AbstractGame() {};
 
     // Returns the identifier of the game.
     virtual int getId() const noexcept=0;
@@ -58,7 +58,4 @@ public:
 
     // Returns the expected price of testing the game.
     virtual Price getTestingPrice() const noexcept=0;
-
-    virtual bool operator==(const AbstractGame &game) const noexcept=0;
-    virtual bool operator!=(const AbstractGame &game) const noexcept=0;
 };

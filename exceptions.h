@@ -6,7 +6,6 @@
 #include "exceptions/invalidid.h"
 #include "exceptions/invalidtitle.h"
 #include "exceptions/invalidfilessize.h"
-#include "exceptions/invalidcomplexity.h"
 #include "exceptions/invalidmintestersamount.h"
 
 

@@ -1,12 +1,7 @@
 #include "../game.h"
 #include "../checkallwhitespace.h"
 #include "../exceptions.h"
-
-
-std::string Game::getUniqueName() const noexcept
-{
-     return "Game " + std::to_string(id - 10000);
-}
+#include <cmath>
 
 
 void Game::checkId() const
@@ -18,20 +13,16 @@ void Game::checkId() const
 }
 
 
-void Game::checkComplexity(AbstractGame::Complexity complexity)
+std::string Game::getUniqueName() const noexcept
 {
-     // Check if the value corresponds to an enumerator.
-     if(complexity < 0 or complexity > 3)
-     {
-          throw InvalidComplexity(complexity);
-     }
+     return "Game " + std::to_string(id - 10000);
 }
 
 
 Game::Game(int id, std::string title, Producer &producer, unsigned int filesSize, AbstractGame::Complexity complexity,
-     bool codeAvailable=false, Price marketPrice=0, unsigned int minTestersAmount=1):
+     unsigned int minTestersAmount, bool codeAvailable, Price marketPrice):
      id(id), title(title), producer(producer), filesSize(filesSize), complexity(complexity),
-     codeAvailable(codeAvailable), marketPrice(marketPrice), minTestersAmount(minTestersAmount)
+     minTestersAmount(minTestersAmount), codeAvailable(codeAvailable), marketPrice(marketPrice)
 {
      checkId();
      if(checkAllWhitespace(title))
@@ -42,7 +33,6 @@ Game::Game(int id, std::string title, Producer &producer, unsigned int filesSize
      {
           throw InvalidFilesSize();
      }
-     checkComplexity(complexity);
      if(minTestersAmount == 0)
      {
           throw InvalidMinTestersAmount();
@@ -52,8 +42,8 @@ Game::Game(int id, std::string title, Producer &producer, unsigned int filesSize
 
 
 Game::Game(int id, std::string title, Producer &producer, unsigned int filesSize, AbstractGame::Complexity complexity,
-     bool codeAvailable=false, int priceZl=0, int priceGr=0, unsigned int minTestersAmount=1):
-     Game(id, title, producer, filesSize, complexity, codeAvailable, Price(priceZl, priceGr), minTestersAmount)
+     unsigned int minTestersAmount, bool codeAvailable, int priceZl, int priceGr):
+     Game(id, title, producer, filesSize, complexity, minTestersAmount, codeAvailable, Price(priceZl, priceGr))
 {}
 
 
@@ -138,7 +128,6 @@ Price Game::getMarketPrice() const noexcept
 
 void Game::setComplexity(AbstractGame::Complexity complexity)
 {
-     checkComplexity(complexity);
      this->complexity = complexity;
 }
 
@@ -176,30 +165,69 @@ unsigned int Game::getMinTestersAmount() const noexcept
 
 int Game::getTestingTime() const noexcept
 {
-
+     // In the case of Game object no game length is available.
+     // Size of the game must be estimated based on files size.
+     // Estimated time: an hour per 5 MB of game files
+     double testingTime = filesSize / 5000;
+     // Shorter time (by 20%) if source code is available.
+     if(codeAvailable)
+     {
+          testingTime *= 0.8;
+     }
+     // Longer time (by 20%) for each point of complexity.
+     if(complexity > 0)
+     {
+          testingTime *= (1 + 0.2 * complexity);
+     }
+     // Time increased further by 20% if many testers are needed at once.
+     if(minTestersAmount > 10)
+     {
+          testingTime *= 1.2;
+     }
+     return ceil(testingTime);
 }
 
 
 Price Game::getTestingPrice() const noexcept
 {
-
+     // Base price - 40 zł for each expected hour of testing.
+     Price testingPrice(40 * getTestingTime(), 0);
+     // Discount for free games
+     if(marketPrice == 0)
+     {
+          testingPrice *= 0.8;
+     }
+     // Expensive games get more expensive testing.
+     else if(marketPrice > Price(100, 0))
+     {
+          double factor = (double(marketPrice) - 100) / 200 + 1;
+          testingPrice *= factor;
+     }
+     return testingPrice;
 }
 
 
-bool Game::operator==(const AbstractGame &game) const noexcept
+bool Game::operator==(const Game &game) const noexcept
 {
-
+     if(id == game.getId())
+     {
+          return true;
+     }
+     else
+     {
+          return false;
+     }
 }
 
 
-bool Game::operator!=(const AbstractGame &game) const noexcept
+bool Game::operator!=(const Game &game) const noexcept
 {
-
+     return not (*this == game);
 }
 
 
 std::ostream& operator<<(std::ostream &stream, const Game &game)
 {
-
+     stream << game.getUniqueName();
+     return stream;
 }
-

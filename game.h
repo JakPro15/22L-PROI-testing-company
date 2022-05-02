@@ -5,36 +5,34 @@
 class Game: AbstractGame
 {
 private:
-    // Returns the unique name of the game (for example "Game 1", if id==10001).
-    std::string getUniqueName() const noexcept;
-protected:
-    // Unique ID of the game assigned at creation. IDs of Game objects should be assigned from the range 10001-19999.
-    const int id;
     // Throws InvalidId if the object's id is invalid for a Game object.
     void checkId() const;
+protected:
+    // Returns the unique name of the game (for example "Game 1", if id==10001).
+    std::string getUniqueName() const noexcept;
+    // Unique ID of the game assigned at creation. IDs of Game objects should be assigned from the range 10001-19999.
+    const int id;
     // Title of the game. Cannot be all-whitespace.
     std::string title;
+    // Reference to the company that commissioned the testing.
+    Producer &producer;
     // Size of the game's files in kilobytes.
     unsigned int filesSize;
-    // Whether the game's code is availabke to the testers.
+    // Complexity of the game (on a scale from 0 to 3).
+    AbstractGame::Complexity complexity;
+    // At least how many testers are needed to test the game.
+    unsigned int minTestersAmount;
+    // Whether the game's code is available to the testers.
     bool codeAvailable;
     // Price of the game (for users).
     Price marketPrice;
-    // Complexity of the game (on a scale from 0 to 3).
-    AbstractGame::Complexity complexity;
-    // Throws InvalidComplecity if the given value is not a valid complexity.
-    static void checkComplexity(AbstractGame::Complexity complexity);
-    // Reference to the company that commissioned the testing.
-    Producer &producer;
-    // At least how many testers are needed to test the game.
-    unsigned int minTestersAmount;
 public:
     // Creates an object of type Game - market price given as a Price object or single int of PLN*100.
     Game(int id, std::string title, Producer &producer, unsigned int filesSize, AbstractGame::Complexity complexity,
-         bool codeAvailable=false, Price marketPrice=0, unsigned int minTestersAmount=1);
+         unsigned int minTestersAmount, bool codeAvailable=false, Price marketPrice=0);
     // Creates an object of type Game - market price given as two ints (zl and gr).
     Game(int id, std::string title, Producer &producer, unsigned int filesSize, AbstractGame::Complexity complexity,
-         bool codeAvailable=false, int priceZl=0, int priceGr=0, unsigned int minTestersAmount=1);
+         unsigned int minTestersAmount, bool codeAvailable, int priceZl, int priceGr);
     // Empty virtual destructor - for inheritance.
     ~Game() override;
 
@@ -82,8 +80,8 @@ public:
     Price getTestingPrice() const noexcept override;
 
     // Compares only the unique IDs of the games.
-    bool operator==(const AbstractGame &game) const noexcept override;
-    bool operator!=(const AbstractGame &game) const noexcept override;
+    bool operator==(const Game &game) const noexcept;
+    bool operator!=(const Game &game) const noexcept;
 
     // Puts the unique name of the game obtained from getUniqueName into the stream.
     friend std::ostream& operator<<(std::ostream &stream, const Game &game);
