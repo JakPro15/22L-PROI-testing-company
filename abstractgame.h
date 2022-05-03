@@ -1,3 +1,6 @@
+#ifndef ABSTRACTGAME_H
+#define ABSTRACTGAME_H
+
 #include "producer.h"
 #include "price.h"
 #include <string>
@@ -59,3 +62,6 @@ public:
     // Returns the expected price of testing the game.
     virtual Price getTestingPrice() const noexcept=0;
 };
+
+
+#endif

@@ -1,15 +1,18 @@
+#ifndef GAME_H
+#define GAME_H
+
 #include "abstractgame.h"
 #include <iostream>
 
 
-class Game: AbstractGame
+class Game: public AbstractGame
 {
 private:
     // Throws InvalidId if the object's id is invalid for a Game object.
     void checkId() const;
 protected:
     // Returns the unique name of the game (for example "Game 1", if id==10001).
-    std::string getUniqueName() const noexcept;
+    virtual std::string getUniqueName() const noexcept;
     // Unique ID of the game assigned at creation. IDs of Game objects should be assigned from the range 10001-19999.
     const int id;
     // Title of the game. Cannot be all-whitespace.
@@ -73,7 +76,7 @@ public:
     // Returns at least how many testers the game needs at a given moment.
     unsigned int getMinTestersAmount() const noexcept override;
 
-    // Returns the expected time to test the game.
+    // Returns the expected time to test the game in hours.
     int getTestingTime() const noexcept override;
 
     // Returns the expected price of testing the game.
@@ -86,3 +89,6 @@ public:
     // Puts the unique name of the game obtained from getUniqueName into the stream.
     friend std::ostream& operator<<(std::ostream &stream, const Game &game);
 };
+
+
+#endif
