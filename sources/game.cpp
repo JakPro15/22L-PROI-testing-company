@@ -19,12 +19,12 @@ std::string Game::getUniqueName() const noexcept
 }
 
 
-Game::Game(int id, std::string title, Producer &producer, unsigned int filesSize, AbstractGame::Complexity complexity,
-     unsigned int minTestersAmount, bool codeAvailable, Price marketPrice):
+Game::Game(char, int id, std::string title, Producer &producer, unsigned int filesSize, AbstractGame::Complexity complexity,
+           unsigned int minTestersAmount, bool codeAvailable, Price marketPrice):
      id(id), title(title), producer(producer), filesSize(filesSize), complexity(complexity),
      minTestersAmount(minTestersAmount), codeAvailable(codeAvailable), marketPrice(marketPrice)
 {
-     checkId();
+     // ID is not checked here - the constructor calling this constructor should handle this.
      if(checkAllWhitespace(title))
      {
           throw InvalidTitle(title);
@@ -42,7 +42,15 @@ Game::Game(int id, std::string title, Producer &producer, unsigned int filesSize
 
 
 Game::Game(int id, std::string title, Producer &producer, unsigned int filesSize, AbstractGame::Complexity complexity,
-     unsigned int minTestersAmount, bool codeAvailable, int priceZl, int priceGr):
+           unsigned int minTestersAmount, bool codeAvailable, Price marketPrice):
+     Game('a', id, title, producer, filesSize, complexity, minTestersAmount, codeAvailable, marketPrice)
+{
+     checkId();  // Other arguments are checked in the other constructor.
+}
+
+
+Game::Game(int id, std::string title, Producer &producer, unsigned int filesSize, AbstractGame::Complexity complexity,
+           unsigned int minTestersAmount, bool codeAvailable, int priceZl, int priceGr):
      Game(id, title, producer, filesSize, complexity, minTestersAmount, codeAvailable, Price(priceZl, priceGr))
 {}
 

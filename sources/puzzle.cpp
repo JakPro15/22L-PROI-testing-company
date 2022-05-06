@@ -19,16 +19,18 @@ std::string Puzzle::getUniqueName() const noexcept
 
 
 Puzzle::Puzzle(int id, std::string title, Producer &producer, unsigned int filesSize, AbstractGame::Complexity complexity,
-               unsigned int minTestersAmount, Difficulty difficulty, bool codeAvailable=false, Price marketPrice=0):
-               Game(id, title, producer, filesSize, complexity, minTestersAmount, codeAvailable, marketPrice),
+               unsigned int minTestersAmount, Difficulty difficulty, bool codeAvailable, Price marketPrice):
+               Game('a', id, title, producer, filesSize, complexity, minTestersAmount, codeAvailable, marketPrice),
                difficulty(difficulty)
-{}
+{
+    checkId();  // Different checkId than the one in Game::Game
+}
 
 
 Puzzle::Puzzle(int id, std::string title, Producer &producer, unsigned int filesSize, AbstractGame::Complexity complexity,
                unsigned int minTestersAmount, Difficulty difficulty, bool codeAvailable, int priceZl, int priceGr):
-               Game(id, title, producer, filesSize, complexity, minTestersAmount, codeAvailable, priceZl, priceGr),
-               difficulty(difficulty)
+               Puzzle(id, title, producer, filesSize, complexity, minTestersAmount, difficulty, codeAvailable,
+                      Price(priceZl, priceGr))
 {}
 
 
@@ -70,7 +72,7 @@ unsigned int Puzzle::getLength() const noexcept
 int Puzzle::getTestingTime() const noexcept
 {
     // Estimated time: 2x the time to complete the game + an hour per 5 MB of game files
-    double testingTime = 120 * length + filesSize / 5000;
+    double testingTime = length / 30 + filesSize / 5000;
     // Shorter time (by 20%) if source code is available.
     if(codeAvailable)
     {

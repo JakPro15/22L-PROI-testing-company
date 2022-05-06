@@ -7,10 +7,9 @@
 
 class Game: public AbstractGame
 {
-private:
-    // Throws InvalidId if the object's id is invalid for a Game object.
-    void checkId() const;
 protected:
+    // Throws InvalidId if the object's id is invalid for a Game object.
+    virtual void checkId() const;
     // Returns the unique name of the game (for example "Game 1", if id==10001).
     virtual std::string getUniqueName() const noexcept;
     // Unique ID of the game assigned at creation. IDs of Game objects should be assigned from the range 10001-19999.
@@ -29,6 +28,10 @@ protected:
     bool codeAvailable;
     // Price of the game (for users).
     Price marketPrice;
+    // Protected constructor that doesn't check ID - used in derived classes with different ID sets.
+    // First argument (char) used only to differentiate from other constructors.
+    Game(char, int id, std::string title, Producer &producer, unsigned int filesSize, AbstractGame::Complexity complexity,
+         unsigned int minTestersAmount, bool codeAvailable=false, Price marketPrice=0);
 public:
     // Creates an object of type Game - market price given as a Price object or single int of PLN*100.
     Game(int id, std::string title, Producer &producer, unsigned int filesSize, AbstractGame::Complexity complexity,

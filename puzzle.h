@@ -8,7 +8,7 @@ class Puzzle: public Game
 {
 private:
     // Throws InvalidId if the object's id is invalid for a Puzzle object.
-    void checkId() const;
+    void checkId() const override;
 public:
     enum Difficulty
     {
