@@ -254,6 +254,8 @@ TEST_CASE("Game methods", "[Game]")
         CHECK(game.getTestingTime() == 48);
         game.setComplexity(AbstractGame::Simple);
         CHECK(game.getTestingTime() == 40);
+        game.setMinTestersAmount(15);
+        CHECK(game.getTestingTime() == 48);
     }
     SECTION("Price of testing")
     {
@@ -265,6 +267,9 @@ TEST_CASE("Game methods", "[Game]")
         CHECK(game.getTestingPrice() == Price(1920, 0));
         game.setComplexity(AbstractGame::Simple);
         CHECK(game.getTestingPrice() == Price(1600, 0));
+        game.setMinTestersAmount(15);
+        CHECK(game.getTestingPrice() == Price(1920, 0));
+        game.setMinTestersAmount(9);
         game.setMarketPrice(0);
         CHECK(game.getTestingPrice() == Price(1280, 0));
         game.setMarketPrice(Price(110, 0));

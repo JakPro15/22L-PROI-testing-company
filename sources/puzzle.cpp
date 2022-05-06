@@ -19,18 +19,24 @@ std::string Puzzle::getUniqueName() const noexcept
 
 
 Puzzle::Puzzle(int id, std::string title, Producer &producer, unsigned int filesSize, AbstractGame::Complexity complexity,
-               unsigned int minTestersAmount, Difficulty difficulty, bool codeAvailable, Price marketPrice):
-               Game('a', id, title, producer, filesSize, complexity, minTestersAmount, codeAvailable, marketPrice),
-               difficulty(difficulty)
+               unsigned int minTestersAmount, Difficulty difficulty, unsigned int length, bool codeAvailable,
+               Price marketPrice):
+    Game('a', id, title, producer, filesSize, complexity, minTestersAmount, codeAvailable, marketPrice),
+    difficulty(difficulty), length(length)
 {
-    checkId();  // Different checkId than the one in Game::Game
+    checkId();  // Different checkId than the one in Game::Game regular (public) constructor
+    if(length == 0)
+    {
+        throw InvalidLength();
+    }
 }
 
 
 Puzzle::Puzzle(int id, std::string title, Producer &producer, unsigned int filesSize, AbstractGame::Complexity complexity,
-               unsigned int minTestersAmount, Difficulty difficulty, bool codeAvailable, int priceZl, int priceGr):
-               Puzzle(id, title, producer, filesSize, complexity, minTestersAmount, difficulty, codeAvailable,
-                      Price(priceZl, priceGr))
+               unsigned int minTestersAmount, Difficulty difficulty, unsigned int length, bool codeAvailable,
+               int priceZl, int priceGr):
+    Puzzle(id, title, producer, filesSize, complexity, minTestersAmount, difficulty, length, codeAvailable,
+           Price(priceZl, priceGr))
 {}
 
 

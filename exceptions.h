@@ -8,6 +8,7 @@
 #include "exceptions/invalidfilessize.h"
 #include "exceptions/invalidmintestersamount.h"
 #include "exceptions/invalidlength.h"
+#include "exceptions/invalidfulllength.h"
 
 
 #endif

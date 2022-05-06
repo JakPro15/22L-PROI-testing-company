@@ -27,10 +27,12 @@ protected:
 public:
     // Creates an object of type Puzzle - market price given as a Price object or single int of PLN*100.
     Puzzle(int id, std::string title, Producer &producer, unsigned int filesSize, AbstractGame::Complexity complexity,
-           unsigned int minTestersAmount, Difficulty difficulty, bool codeAvailable=false, Price marketPrice=0);
+           unsigned int minTestersAmount, Difficulty difficulty, unsigned int length, bool codeAvailable=false,
+           Price marketPrice=0);
     // Creates an object of type Puzzle - market price given as two ints (zl and gr).
     Puzzle(int id, std::string title, Producer &producer, unsigned int filesSize, AbstractGame::Complexity complexity,
-           unsigned int minTestersAmount, Difficulty difficulty, bool codeAvailable, int priceZl, int priceGr);
+           unsigned int minTestersAmount, Difficulty difficulty, unsigned int length, bool codeAvailable,
+           int priceZl, int priceGr);
     // Empty virtual destructor - overwritten from Game.
     ~Puzzle() override;
 
