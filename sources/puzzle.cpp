@@ -5,7 +5,7 @@
 
 void Puzzle::checkId() const
 {
-    if(id < 20001 or id > 29999)
+    if(id < minId or id > maxId)
     {
         throw InvalidId("Puzzle", id);
     }
@@ -14,7 +14,7 @@ void Puzzle::checkId() const
 
 std::string Puzzle::getUniqueName() const noexcept
 {
-    return "Puzzle " + std::to_string(id - 20000);
+    return "Puzzle " + std::to_string(id - minId + 1);
 }
 
 
@@ -44,7 +44,7 @@ Puzzle::~Puzzle()
 {}
 
 
-void Puzzle::setDifficulty(Difficulty difficulty)
+void Puzzle::setDifficulty(Difficulty difficulty) noexcept
 {
     this->difficulty = difficulty;
 }
@@ -90,10 +90,7 @@ int Puzzle::getTestingTime() const noexcept
         testingTime *= (1 + 0.2 * complexity);
     }
     // Time modified similarly by difficulty.
-    if(complexity > 0)
-    {
-        testingTime *= (1 + 0.2 * difficulty);
-    }
+    testingTime *= (1 + 0.2 * difficulty);
     // Time increased further by 20% if many testers are needed at once.
     if(minTestersAmount > 10)
     {
@@ -122,7 +119,7 @@ bool Puzzle::operator!=(const Puzzle &game) const noexcept
 }
 
 
-std::ostream& operator<<(std::ostream &stream, const Puzzle &game)
+std::ostream& operator<<(std::ostream &stream, const Puzzle &game) noexcept
 {
     stream << game.getUniqueName();
     return stream;

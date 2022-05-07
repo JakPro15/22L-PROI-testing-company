@@ -5,7 +5,7 @@
 
 void RolePlayingGame::checkId() const
 {
-    if(id < 30001 or id > 39999)
+    if(id < minId or id > maxId)
     {
         throw InvalidId("RolePlayingGame", id);
     }
@@ -14,7 +14,7 @@ void RolePlayingGame::checkId() const
 
 std::string RolePlayingGame::getUniqueName() const noexcept
 {
-    return "RolePlayingGame " + std::to_string(id - 30000);
+    return "RolePlayingGame " + std::to_string(id - minId + 1);
 }
 
 
@@ -149,7 +149,7 @@ bool RolePlayingGame::operator!=(const RolePlayingGame &game) const noexcept
 }
 
 
-std::ostream& operator<<(std::ostream &stream, const RolePlayingGame &game)
+std::ostream& operator<<(std::ostream &stream, const RolePlayingGame &game) noexcept
 {
     stream << game.getUniqueName();
     return stream;

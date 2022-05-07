@@ -7,12 +7,13 @@
 
 class Game: public AbstractGame
 {
-protected:
+private:
     // Throws InvalidId if the object's id is invalid for a Game object.
-    virtual void checkId() const;
-    // Returns the unique name of the game (for example "Game 1", if id==10001).
+    void checkId() const;
+protected:
+    // Returns the unique name of the game (for example "Game 1", if id==1000001).
     virtual std::string getUniqueName() const noexcept;
-    // Unique ID of the game assigned at creation. IDs of Game objects should be assigned from the range 10001-19999.
+    // Unique ID of the game assigned at creation. IDs of Game objects should be assigned from the range 1000001-1999999.
     const int id;
     // Title of the game. Cannot be all-whitespace.
     std::string title;
@@ -31,14 +32,18 @@ protected:
     // Protected constructor that doesn't check ID - used in derived classes with different ID sets.
     // First argument (char) used only to differentiate from other constructors.
     Game(char, int id, std::string title, Producer &producer, unsigned int filesSize, AbstractGame::Complexity complexity,
-         unsigned int minTestersAmount, bool codeAvailable=false, Price marketPrice=0);
+        unsigned int minTestersAmount, bool codeAvailable=false, Price marketPrice=0);
 public:
+    // These constants define the ID limits for this class.
+    const int minId = 1000001;
+    const int maxId = 1999999;
+
     // Creates an object of type Game - market price given as a Price object or single int of PLN*100.
     Game(int id, std::string title, Producer &producer, unsigned int filesSize, AbstractGame::Complexity complexity,
-         unsigned int minTestersAmount, bool codeAvailable=false, Price marketPrice=0);
+        unsigned int minTestersAmount, bool codeAvailable=false, Price marketPrice=0);
     // Creates an object of type Game - market price given as two ints (zl and gr).
     Game(int id, std::string title, Producer &producer, unsigned int filesSize, AbstractGame::Complexity complexity,
-         unsigned int minTestersAmount, bool codeAvailable, int priceZl, int priceGr);
+        unsigned int minTestersAmount, bool codeAvailable, int priceZl, int priceGr);
     // Empty virtual destructor - for inheritance.
     ~Game() override;
 
@@ -90,8 +95,7 @@ public:
     bool operator!=(const Game &game) const noexcept;
 
     // Puts the unique name of the game obtained from getUniqueName into the stream.
-    friend std::ostream& operator<<(std::ostream &stream, const Game &game);
+    friend std::ostream& operator<<(std::ostream &stream, const Game &game) noexcept;
 };
-
 
 #endif

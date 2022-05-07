@@ -8,7 +8,7 @@ class Puzzle: public Game
 {
 private:
     // Throws InvalidId if the object's id is invalid for a Puzzle object.
-    void checkId() const override;
+    void checkId() const;
 public:
     enum Difficulty
     {
@@ -18,13 +18,17 @@ public:
         VeryDifficult
     };
 protected:
-    // Returns the unique name of the puzzle (for example "Puzzle 1", if id==20001).
+    // Returns the unique name of the puzzle (for example "Puzzle 1", if id==2000001).
     std::string getUniqueName() const noexcept override;
     // How difficult the puzzle is - on a scale of -1 to 2.
     Difficulty difficulty;
     // How long does it take to complete the game - in minutes.
     unsigned int length;
 public:
+    // These constants define the ID limits for this class.
+    const int minId = 2000001;
+    const int maxId = 2999999;
+
     // Creates an object of type Puzzle - market price given as a Price object or single int of PLN*100.
     Puzzle(int id, std::string title, Producer &producer, unsigned int filesSize, AbstractGame::Complexity complexity,
            unsigned int minTestersAmount, Difficulty difficulty, unsigned int length, bool codeAvailable=false,
@@ -37,7 +41,7 @@ public:
     ~Puzzle() override;
 
     // Sets the difficulty of the game.
-    void setDifficulty(Difficulty difficulty);
+    void setDifficulty(Difficulty difficulty) noexcept;
     // Returns the difficulty of the game.
     Difficulty getDifficulty() const noexcept;
 
@@ -56,7 +60,7 @@ public:
     bool operator!=(const Puzzle &game) const noexcept;
 
     // Puts the unique name of the game obtained from getUniqueName into the stream.
-    friend std::ostream& operator<<(std::ostream &stream, const Puzzle &game);
+    friend std::ostream& operator<<(std::ostream &stream, const Puzzle &game) noexcept;
 };
 
 
