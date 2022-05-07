@@ -22,15 +22,21 @@ protected:
     std::string getUniqueName() const noexcept override;
     // Score of how much content there is in the game - from -1 to 2
     Depth depth;
+
+    // Protected constructor that doesn't check ID - used in derived classes with different ID sets.
+    // First argument (char) used only to differentiate from other constructors.
+    InfiniteGame(char, int id, std::string title, Producer &producer, unsigned int filesSize,
+                 AbstractGame::Complexity complexity, unsigned int minTestersAmount, Depth depth, bool codeAvailable=false,
+                 Price marketPrice=0);
 public:
     // These constants define the ID limits for this class.
     const int minId = 4000001;
     const int maxId = 4999999;
 
-    // Creates an object of type Puzzle - market price given as a Price object or single int of PLN*100.
+    // Creates an object of type InfiniteGame - market price given as a Price object or single int of PLN*100.
     InfiniteGame(int id, std::string title, Producer &producer, unsigned int filesSize, AbstractGame::Complexity complexity,
                  unsigned int minTestersAmount, Depth depth, bool codeAvailable=false, Price marketPrice=0);
-    // Creates an object of type Puzzle - market price given as two ints (zl and gr).
+    // Creates an object of type InfiniteGame - market price given as two ints (zl and gr).
     InfiniteGame(int id, std::string title, Producer &producer, unsigned int filesSize, AbstractGame::Complexity complexity,
                  unsigned int minTestersAmount, Depth depth, bool codeAvailable, int priceZl, int priceGr);
     // Empty virtual destructor - overwritten from Game.

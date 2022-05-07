@@ -18,10 +18,17 @@ std::string InfiniteGame::getUniqueName() const noexcept
 }
 
 
-InfiniteGame::InfiniteGame(int id, std::string title, Producer &producer, unsigned int filesSize,
+InfiniteGame::InfiniteGame(char, int id, std::string title, Producer &producer, unsigned int filesSize,
                            AbstractGame::Complexity complexity, unsigned int minTestersAmount, Depth depth,
                            bool codeAvailable, Price marketPrice):
     Game('a', id, title, producer, filesSize, complexity, minTestersAmount, codeAvailable, marketPrice), depth(depth)
+{}
+
+
+InfiniteGame::InfiniteGame(int id, std::string title, Producer &producer, unsigned int filesSize,
+                           AbstractGame::Complexity complexity, unsigned int minTestersAmount, Depth depth,
+                           bool codeAvailable, Price marketPrice):
+    InfiniteGame('a', id, title, producer, filesSize, complexity, minTestersAmount, depth, codeAvailable, marketPrice)
 {
     checkId();  // Different checkId than the one in Game::Game regular (public) constructor
 }

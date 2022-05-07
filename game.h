@@ -32,7 +32,7 @@ protected:
     // Protected constructor that doesn't check ID - used in derived classes with different ID sets.
     // First argument (char) used only to differentiate from other constructors.
     Game(char, int id, std::string title, Producer &producer, unsigned int filesSize, AbstractGame::Complexity complexity,
-        unsigned int minTestersAmount, bool codeAvailable=false, Price marketPrice=0);
+         unsigned int minTestersAmount, bool codeAvailable=false, Price marketPrice=0);
 public:
     // These constants define the ID limits for this class.
     const int minId = 1000001;
@@ -40,10 +40,10 @@ public:
 
     // Creates an object of type Game - market price given as a Price object or single int of PLN*100.
     Game(int id, std::string title, Producer &producer, unsigned int filesSize, AbstractGame::Complexity complexity,
-        unsigned int minTestersAmount, bool codeAvailable=false, Price marketPrice=0);
+         unsigned int minTestersAmount, bool codeAvailable=false, Price marketPrice=0);
     // Creates an object of type Game - market price given as two ints (zl and gr).
     Game(int id, std::string title, Producer &producer, unsigned int filesSize, AbstractGame::Complexity complexity,
-        unsigned int minTestersAmount, bool codeAvailable, int priceZl, int priceGr);
+         unsigned int minTestersAmount, bool codeAvailable, int priceZl, int priceGr);
     // Empty virtual destructor - for inheritance.
     ~Game() override;
 
