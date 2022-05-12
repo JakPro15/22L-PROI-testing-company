@@ -97,11 +97,11 @@ TEST_CASE("InfiniteGame methods", "[InfiniteGame]")
 
         CHECK_THROWS_AS(
             InfiniteGame(4000001, "G", pr, 100, AbstractGame::Average, 0, InfiniteGame::Average, true, Price(500)),
-            InvalidMinTestersAmount
+            InvalidTestersAmount
         );
         CHECK_THROWS_AS(
             InfiniteGame(4000001, "G", pr, 100, AbstractGame::Average, 0, InfiniteGame::Average, true, 5, 0),
-            InvalidMinTestersAmount
+            InvalidTestersAmount
         );
 
         CHECK_THROWS_AS(
@@ -276,7 +276,7 @@ TEST_CASE("InfiniteGame methods", "[InfiniteGame]")
     }
     SECTION("MinTestersAmount setter - exception")
     {
-        CHECK_THROWS_AS(game.setMinTestersAmount(0), InvalidMinTestersAmount);
+        CHECK_THROWS_AS(game.setMinTestersAmount(0), InvalidTestersAmount);
     }
     SECTION("Market price setter 1 - typical")
     {

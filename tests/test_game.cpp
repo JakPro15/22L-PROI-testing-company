@@ -60,8 +60,8 @@ TEST_CASE("Game methods", "[Game]")
         CHECK_THROWS_AS(Game(1000001, "G", pr, 0, AbstractGame::Average, 3, true, Price(500)), InvalidFilesSize);
         CHECK_THROWS_AS(Game(1000001, "G", pr, 0, AbstractGame::Average, 3, true, 5, 0), InvalidFilesSize);
 
-        CHECK_THROWS_AS(Game(1000001, "G", pr, 100, AbstractGame::Average, 0, true, Price(500)), InvalidMinTestersAmount);
-        CHECK_THROWS_AS(Game(1000001, "G", pr, 100, AbstractGame::Average, 0, true, 5, 0), InvalidMinTestersAmount);
+        CHECK_THROWS_AS(Game(1000001, "G", pr, 100, AbstractGame::Average, 0, true, Price(500)), InvalidTestersAmount);
+        CHECK_THROWS_AS(Game(1000001, "G", pr, 100, AbstractGame::Average, 0, true, 5, 0), InvalidTestersAmount);
 
         CHECK_THROWS_AS(Game(1000001, "G", pr, 100, AbstractGame::Average, 3, true, Price(-1)), InvalidPrice);
         CHECK_THROWS_AS(Game(1000001, "G", pr, 100, AbstractGame::Average, 3, true, -10), InvalidPrice);
@@ -191,7 +191,7 @@ TEST_CASE("Game methods", "[Game]")
     }
     SECTION("MinTestersAmount setter - exception")
     {
-        CHECK_THROWS_AS(game.setMinTestersAmount(0), InvalidMinTestersAmount);
+        CHECK_THROWS_AS(game.setMinTestersAmount(0), InvalidTestersAmount);
     }
     SECTION("Market price setter 1 - typical")
     {

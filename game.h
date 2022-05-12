@@ -13,7 +13,7 @@ private:
 protected:
     // Returns the unique name of the game (for example "Game 1", if id==1000001).
     virtual std::string getUniqueName() const noexcept;
-    // Unique ID of the game assigned at creation. IDs of Game objects should be assigned from the range 1000001-1999999.
+    // Unique ID of the game assigned at creation.
     const int id;
     // Title of the game. Cannot be all-whitespace.
     std::string title;

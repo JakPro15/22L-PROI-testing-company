@@ -6,9 +6,11 @@
 #include "exceptions/invalidid.h"
 #include "exceptions/invalidtitle.h"
 #include "exceptions/invalidfilessize.h"
-#include "exceptions/invalidmintestersamount.h"
+#include "exceptions/invalidtestersamount.h"
 #include "exceptions/invalidlength.h"
 #include "exceptions/invalidfulllength.h"
+#include "exceptions/testingendederror.h"
+#include "exceptions/testingnotendederror.h"
 
 
 #endif

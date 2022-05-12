@@ -6,10 +6,10 @@
 /*
 Thrown when attempting to set a game's minimal amount of testers to an invalid value.
 */
-class InvalidMinTestersAmount: public std::invalid_argument
+class InvalidTestersAmount: public std::invalid_argument
 {
 public:
-    InvalidMinTestersAmount();
+    InvalidTestersAmount();
 };
 
 

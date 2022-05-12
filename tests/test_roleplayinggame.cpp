@@ -91,10 +91,10 @@ TEST_CASE("RolePlayingGame methods", "[RolePlayingGame]")
         );
 
         CHECK_THROWS_AS(
-            RolePlayingGame(3000001, "G", pr, 100, AbstractGame::Average, 0, 100, 200, true, Price(500)), InvalidMinTestersAmount
+            RolePlayingGame(3000001, "G", pr, 100, AbstractGame::Average, 0, 100, 200, true, Price(500)), InvalidTestersAmount
         );
         CHECK_THROWS_AS(
-            RolePlayingGame(3000001, "G", pr, 100, AbstractGame::Average, 0, 100, 200, true, 5, 0), InvalidMinTestersAmount
+            RolePlayingGame(3000001, "G", pr, 100, AbstractGame::Average, 0, 100, 200, true, 5, 0), InvalidTestersAmount
         );
 
         CHECK_THROWS_AS(
@@ -333,7 +333,7 @@ TEST_CASE("RolePlayingGame methods", "[RolePlayingGame]")
     }
     SECTION("MinTestersAmount setter - exception")
     {
-        CHECK_THROWS_AS(game.setMinTestersAmount(0), InvalidMinTestersAmount);
+        CHECK_THROWS_AS(game.setMinTestersAmount(0), InvalidTestersAmount);
     }
     SECTION("Market price setter 1 - typical")
     {

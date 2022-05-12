@@ -105,11 +105,11 @@ TEST_CASE("CompetitiveGame methods", "[CompetitiveGame]")
 
         CHECK_THROWS_AS(
             CompetitiveGame(5000001, "G", pr, 100, AbstractGame::Average, 0, InfiniteGame::Average, 1000, true, Price(500)),
-            InvalidMinTestersAmount
+            InvalidTestersAmount
         );
         CHECK_THROWS_AS(
             CompetitiveGame(5000001, "G", pr, 100, AbstractGame::Average, 0, InfiniteGame::Average, 1000, true, 5, 0),
-            InvalidMinTestersAmount
+            InvalidTestersAmount
         );
 
         CHECK_THROWS_AS(
@@ -327,7 +327,7 @@ TEST_CASE("CompetitiveGame methods", "[CompetitiveGame]")
     }
     SECTION("MinTestersAmount setter - exception")
     {
-        CHECK_THROWS_AS(game.setMinTestersAmount(0), InvalidMinTestersAmount);
+        CHECK_THROWS_AS(game.setMinTestersAmount(0), InvalidTestersAmount);
     }
     SECTION("Market price setter 1 - typical")
     {

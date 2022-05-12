@@ -1,6 +1,6 @@
-#include "invalidmintestersamount.h"
+#include "invalidtestersamount.h"
 
 
-InvalidMinTestersAmount::InvalidMinTestersAmount():
+InvalidTestersAmount::InvalidTestersAmount():
     std::invalid_argument("Attempted to set a game's minimal amount of testers to zero.")
 {}

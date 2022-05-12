@@ -35,7 +35,7 @@ Game::Game(char, int id, std::string title, Producer &producer, unsigned int fil
     }
     if(minTestersAmount == 0)
     {
-        throw InvalidMinTestersAmount();
+        throw InvalidTestersAmount();
     }
     // Also InvalidPrice can be thrown by the Price constructor.
 }
@@ -156,7 +156,7 @@ void Game::setMinTestersAmount(unsigned int minTestersAmount)
 {
     if(minTestersAmount == 0)
     {
-        throw InvalidMinTestersAmount();
+        throw InvalidTestersAmount();
     }
     else
     {

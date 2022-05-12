@@ -92,10 +92,10 @@ TEST_CASE("Puzzle methods", "[Puzzle]")
 
         CHECK_THROWS_AS(
             Puzzle(2000001, "G", pr, 100, AbstractGame::Average, 0, Puzzle::Average, 100, true, Price(500)),
-            InvalidMinTestersAmount
+            InvalidTestersAmount
         );
         CHECK_THROWS_AS(
-            Puzzle(2000001, "G", pr, 100, AbstractGame::Average, 0, Puzzle::Average, 100, true, 5, 0), InvalidMinTestersAmount
+            Puzzle(2000001, "G", pr, 100, AbstractGame::Average, 0, Puzzle::Average, 100, true, 5, 0), InvalidTestersAmount
         );
 
         CHECK_THROWS_AS(
@@ -319,7 +319,7 @@ TEST_CASE("Puzzle methods", "[Puzzle]")
     }
     SECTION("MinTestersAmount setter - exception")
     {
-        CHECK_THROWS_AS(game.setMinTestersAmount(0), InvalidMinTestersAmount);
+        CHECK_THROWS_AS(game.setMinTestersAmount(0), InvalidTestersAmount);
     }
     SECTION("Market price setter 1 - typical")
     {
