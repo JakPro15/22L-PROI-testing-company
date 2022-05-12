@@ -176,7 +176,7 @@ int Game::getTestingTime() const noexcept
     // In the case of a Game object no game length is available.
     // Size of the game must be estimated based on files size.
     // Estimated time: an hour per 5 MB of game files
-    double testingTime = filesSize / 5000;
+    double testingTime = double(filesSize) / 5000;
     // Shorter time (by 20%) if source code is available.
     if(codeAvailable)
     {

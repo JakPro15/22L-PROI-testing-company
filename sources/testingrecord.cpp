@@ -1,5 +1,5 @@
-#include "testingrecord.h"
-#include "exceptions.h"
+#include "../testingrecord.h"
+#include "../exceptions.h"
 #include <cstdlib>
 #include <cmath>
 #include <algorithm>
@@ -14,56 +14,87 @@ void TestingRecord::checkId() const
 }
 
 
-void TestingRecord::finalizeTesting() noexcept
-{
-    beingTested = false;
-    testingFinished = true;
-    for(Tester &tester: testers)
-    {
-        tester.setBusy(false);
-    }
-    testers = std::list<Tester>();
-}
-
-
-TestingRecord::TestingRecord(int id, const Game &game, int maxTestersAmount): id(id), game(game), testers(), beingTested(false),
-    testingFinished(false), realTestingTime(0), maxTestersAmount(maxTestersAmount)
+TestingRecord::TestingRecord(int id, const Game &game, unsigned int maxTestersAmount): id(id), game(game), testers(),
+    beingTested(false), testingFinished(false), realTestingTime(0), maxTestersAmount(maxTestersAmount)
 {
     checkId();
     double timeChangeFactor = (double(std::rand()) / RAND_MAX) + 0.5;  // Will be between 0.5 and 1.5
-    realTestingEffort = ceil(timeChangeFactor * game.getTestingTime());
+    realTestingEffort = ceil(timeChangeFactor * game.getTestingTime()) * 5;
     effortLeft = realTestingEffort;
-    if(maxTestersAmount == -1)
+    if(maxTestersAmount == 0)
     {
-        maxTestersAmount = 2 * getMinTestersAmount();
+        this->maxTestersAmount = 2 * getMinTestersAmount();
+    }
+    else if(maxTestersAmount < getMinTestersAmount())
+    {
+        throw InvalidTestersAmount();
     }
 }
 
 
-const std::list<Tester>& TestingRecord::getTesters() const noexcept
+const std::list<std::shared_ptr<Tester>>& TestingRecord::getTesters() const noexcept
 {
     return testers;
 }
 
 
-void TestingRecord::addTester(Tester &tester)
+void TestingRecord::addTester(std::shared_ptr<Tester> tester)
 {
-    if(std::find(testers.begin(), testers.end(), tester) == testers.end())
+    if(testingFinished)
     {
-        testers.push_back(tester);
+        throw TestingEndedError();
+    }
+    else
+    {
+        if(testers.size() < getMaxTestersAmount())
+        {
+            if(std::find(testers.begin(), testers.end(), tester) == testers.end())
+            {
+                testers.push_back(tester);
+                tester->setBusy(true);
+                tester->setTestedGameRecord(this);
+                if(testers.size() >= getMinTestersAmount())
+                {
+                    beingTested = true;
+                }
+            }
+        }
     }
 }
 
 
-void TestingRecord::removeTester(const Tester &tester) noexcept
+void TestingRecord::removeTester(std::shared_ptr<Tester> tester)
 {
-    testers.remove(tester);
+    if(testingFinished)
+    {
+        throw TestingEndedError();
+    }
+    else
+    {
+        auto testerIterator = std::find(testers.begin(), testers.end(), tester);
+        if(testerIterator != testers.end())
+        {
+            tester->setBusy(false);
+            tester->setTestedGameRecord(nullptr);
+            testers.erase(testerIterator);
+            if(testers.size() < getMinTestersAmount())
+            {
+                beingTested = false;
+            }
+        }
+    }
 }
 
 
 int TestingRecord::getId() const noexcept
 {
     return id;
+}
+
+
+bool TestingRecord::getBeingTested() const noexcept
+{
+    return beingTested;
 }
 
 
@@ -81,7 +112,11 @@ unsigned int TestingRecord::getMinTestersAmount() const noexcept
 
 void TestingRecord::setMaxTestersAmount(unsigned int maxTestersAmount)
 {
-    if(maxTestersAmount == 0)
+    if(testingFinished)
+    {
+        throw TestingEndedError();
+    }
+    else if(maxTestersAmount < getMinTestersAmount())
     {
         throw InvalidTestersAmount();
     }
@@ -98,7 +133,27 @@ unsigned int TestingRecord::getMaxTestersAmount() const noexcept
 }
 
 
-bool TestingRecord::advanceTesting()
+void TestingRecord::advanceTesting(unsigned int effortPut)
+{
+    if(testingFinished)
+    {
+        throw TestingEndedError();
+    }
+    else if(beingTested)
+    {
+        if(effortLeft > effortPut)
+        {
+            effortLeft -= effortPut;
+        }
+        else
+        {
+            effortLeft = 0;
+        }
+    }
+}
+
+
+bool TestingRecord::checkFinished()
 {
     if(testingFinished)
     {
@@ -106,13 +161,21 @@ bool TestingRecord::advanceTesting()
     }
     else
     {
+        // Done once per hour - can be used to increment the clock
         realTestingTime += 1;
-        if(beingTested)
+
+        if(effortLeft == 0)
         {
-            for(Tester &tester: testers)
+            while(testers.size() > 0)
             {
-                effortLeft -= tester.getProductivity();
+                removeTester(*testers.begin());
             }
+            testingFinished = true;
+            return true;
+        }
+        else
+        {
+            return false;
         }
     }
 }
@@ -149,4 +212,11 @@ Price TestingRecord::getRealPrice() const
         }
         return realPrice;
     }
+}
+
+
+std::ostream& operator<<(std::ostream &stream, const TestingRecord &record) noexcept
+{
+    stream << "TestingRecord " << record.id - record.minId + 1;
+    return stream;
 }
