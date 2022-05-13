@@ -11,10 +11,10 @@ class TestingRecord;
 class Tester
 {
     int prod;
-    bool busy;
+    bool busyness;
     TestingRecord *gameRecord;
 public:
-    Tester(int prod): prod(prod), busy(false), gameRecord(nullptr) {}
+    Tester(int prod): prod(prod), busyness(false), gameRecord(nullptr) {}
 
     // NIE ZMIENIAJ ARGUMENTÓW ANI NAZW ANI TYPÓW WARTOŚCI ZWRACANYCH Z PONIŻSZYCH FUNKCJI
     // TO ROZWALI TestingRecord
@@ -22,9 +22,9 @@ public:
     int getProductivity()
     { return prod; }  // average should be 5
     void setBusy(bool bus)
-    { busy = bus; }
+    { busyness = bus; }
     bool getBusy()
-    { return busy; }
+    { return busyness; }
     void setTestedGameRecord(TestingRecord *record)
     { gameRecord = record; }
     TestingRecord* getTestedGameRecord()

@@ -1,24 +1,21 @@
-#include <stdexcept>
-#include <algorithm>
 #include "../address.h"
-#include "../exceptions/emptynameexception.h"
-#include "../exceptions/zeroexception.h"
-#include "../exceptions/incorrectaddressexception.h"
+#include "../exceptions.h"
+#include "../checkallwhitespace.h"
 
 
 Address::Address(std::string cstreetName, unsigned int chouseNumber,
             unsigned int capartmentNumber, std::string ccityName,
             std::string cpostCode) {
-    std::string nameCopy = cstreetName;
-    nameCopy.erase(std::remove_if(nameCopy.begin(), nameCopy.end(), ::isspace), nameCopy.end());
-    if(!nameCopy.empty())
+
+    if (checkAllWhitespace(cstreetName))
     {
-        streetName = cstreetName;
+        throw EmptyNameException("Street name");
     }
     else
     {
-        throw EmptyNameException("Street name can't be empty");
+        streetName = cstreetName;
     }
+    
     if (chouseNumber != 0)
     {
     houseNumber = chouseNumber;
@@ -28,15 +25,13 @@ Address::Address(std::string cstreetName, unsigned int chouseNumber,
         throw ZeroException("House number");
     }
     apartmentNumber = capartmentNumber;
-    std::string snameCopy = ccityName;
-    snameCopy.erase(std::remove_if(snameCopy.begin(), snameCopy.end(), ::isspace), snameCopy.end());
-    if(!snameCopy.empty())
+    if (checkAllWhitespace(cstreetName))
     {
-        cityName = ccityName;
+        throw EmptyNameException("City name");
     }
     else
     {
-        throw EmptyNameException("City name can't be empty");
+        streetName = ccityName;
     }
     if (cpostCode.length() != 6)
     {
@@ -81,36 +76,34 @@ Address::Address() {
     postCode = "00-000";
 }
 
-std::string Address::getStreetName() const {
+std::string Address::getStreetName() const noexcept {
     return streetName;
 }
 
-unsigned int Address::getHouseNumber() const {
+unsigned int Address::getHouseNumber() const noexcept {
     return houseNumber;
 }
 
-unsigned int Address::getApartmentNumber() const {
+unsigned int Address::getApartmentNumber() const noexcept {
     return apartmentNumber;
 }
 
-std::string Address::getCityName() const {
+std::string Address::getCityName() const noexcept {
     return cityName;
 }
 
-std::string Address::getPostCode() const {
+std::string Address::getPostCode() const noexcept {
     return postCode;
 }
 
 void Address::setStreetName(std::string newName) {
-    std::string nameCopy = newName;
-    nameCopy.erase(std::remove_if(nameCopy.begin(), nameCopy.end(), ::isspace), nameCopy.end());
-    if(!nameCopy.empty())
+    if (checkAllWhitespace(newName))
     {
-        streetName = newName;
+        throw EmptyNameException("Street name");
     }
     else
     {
-        throw EmptyNameException("Street name can't be empty");
+        streetName = newName;
     }
 }
 
@@ -130,15 +123,13 @@ void Address::setApartmentNumber(unsigned int newAnumber) {
 }
 
 void Address::setCityName(std::string newCname) {
-    std::string nameCopy = newCname;
-    nameCopy.erase(std::remove_if(nameCopy.begin(), nameCopy.end(), ::isspace), nameCopy.end());
-    if(!nameCopy.empty())
+    if (checkAllWhitespace(newCname))
     {
-        cityName = newCname;
+        throw EmptyNameException("City name");
     }
     else
     {
-        throw EmptyNameException("City name can't be empty");
+        streetName = newCname;
     }
 }
 
