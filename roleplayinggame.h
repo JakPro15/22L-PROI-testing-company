@@ -23,10 +23,10 @@ public:
 
     // Creates an object of type RolePlayingGame - market price given as a Price object or single int of PLN*100.
     RolePlayingGame(int id, std::string title, Producer &producer, unsigned int filesSize, AbstractGame::Complexity complexity,
-           unsigned int minTestersAmount, int length, int fullLength, bool codeAvailable=false, Price marketPrice=0);
+                    unsigned int minTestersAmount, int length, int fullLength, bool codeAvailable=false, Price marketPrice=0);
     // Creates an object of type RolePlayingGame - market price given as two ints (zl and gr).
     RolePlayingGame(int id, std::string title, Producer &producer, unsigned int filesSize, AbstractGame::Complexity complexity,
-           unsigned int minTestersAmount, int length, int fullLength, bool codeAvailable, int priceZl, int priceGr);
+                    unsigned int minTestersAmount, int length, int fullLength, bool codeAvailable, int priceZl, int priceGr);
     // Empty virtual destructor - overwritten from Game.
     ~RolePlayingGame() override;
 

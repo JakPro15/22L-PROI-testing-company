@@ -140,7 +140,7 @@ TEST_CASE("TestingRecord constructor and setters", "[TestingRecord]")
         record.addTester(tester2Ptr);
         record.addTester(tester3Ptr);
 
-        record.advanceTesting(10);
+        record.advanceTesting(30);
         CHECK(record.checkFinished());
         CHECK_THROWS_AS(record.addTester(tester1Ptr), TestingEndedError);
         CHECK_THROWS_AS(record.addTester(tester2Ptr), TestingEndedError);
@@ -154,7 +154,7 @@ TEST_CASE("TestingRecord time advancing methods", "[TestingRecord]")
     std::srand(0);
     Producer pr;
 
-    SECTION("Case 1 - total effort == 10")
+    SECTION("Case 1 - total effort == 30")
     {
         Game game(1000001, "G", pr, 100, AbstractGame::Average, 3, true, Price(500));
         TestingRecord record(6000001, game, 5);
@@ -167,7 +167,7 @@ TEST_CASE("TestingRecord time advancing methods", "[TestingRecord]")
         record.addTester(tester2Ptr);
         record.addTester(tester3Ptr);
 
-        record.advanceTesting(4);
+        record.advanceTesting(12);
         CHECK_FALSE(record.checkFinished());
         CHECK(record.getBeingTested());
         CHECK(record.getTesters() == testerPtrs);
@@ -178,7 +178,7 @@ TEST_CASE("TestingRecord time advancing methods", "[TestingRecord]")
         CHECK(tester3Ptr->getBusy());
         CHECK(tester3Ptr->getTestedGameRecord() == &record);
 
-        record.advanceTesting(4);
+        record.advanceTesting(12);
         CHECK_FALSE(record.checkFinished());
         CHECK(record.getBeingTested());
         CHECK(record.getTesters() == testerPtrs);
@@ -189,7 +189,7 @@ TEST_CASE("TestingRecord time advancing methods", "[TestingRecord]")
         CHECK(tester3Ptr->getBusy());
         CHECK(tester3Ptr->getTestedGameRecord() == &record);
 
-        record.advanceTesting(4);
+        record.advanceTesting(12);
         CHECK(record.getTesters() == testerPtrs);
         CHECK(record.getBeingTested());
         CHECK(tester1Ptr->getBusy());
@@ -209,7 +209,7 @@ TEST_CASE("TestingRecord time advancing methods", "[TestingRecord]")
         CHECK_FALSE(tester3Ptr->getBusy());
         CHECK(tester3Ptr->getTestedGameRecord() == nullptr);
     }
-    SECTION("Case 2 - total effort == 15")
+    SECTION("Case 2 - total effort == 45")
     {
         Game game(1000001, "G", pr, 10000, AbstractGame::Average, 3, true, Price(500));
         TestingRecord record(6000001, game, 5);
@@ -222,7 +222,7 @@ TEST_CASE("TestingRecord time advancing methods", "[TestingRecord]")
         record.addTester(tester2Ptr);
         record.addTester(tester3Ptr);
 
-        record.advanceTesting(8);
+        record.advanceTesting(24);
         CHECK_FALSE(record.checkFinished());
         CHECK(record.getBeingTested());
         CHECK(record.getTesters() == testerPtrs);
@@ -233,7 +233,7 @@ TEST_CASE("TestingRecord time advancing methods", "[TestingRecord]")
         CHECK(tester3Ptr->getBusy());
         CHECK(tester3Ptr->getTestedGameRecord() == &record);
 
-        record.advanceTesting(2);
+        record.advanceTesting(6);
         CHECK_FALSE(record.checkFinished());
         CHECK(record.getBeingTested());
         CHECK(record.getTesters() == testerPtrs);
@@ -244,7 +244,7 @@ TEST_CASE("TestingRecord time advancing methods", "[TestingRecord]")
         CHECK(tester3Ptr->getBusy());
         CHECK(tester3Ptr->getTestedGameRecord() == &record);
 
-        record.advanceTesting(3);
+        record.advanceTesting(9);
         CHECK_FALSE(record.checkFinished());
         CHECK(record.getBeingTested());
         CHECK(record.getTesters() == testerPtrs);
@@ -255,7 +255,7 @@ TEST_CASE("TestingRecord time advancing methods", "[TestingRecord]")
         CHECK(tester3Ptr->getBusy());
         CHECK(tester3Ptr->getTestedGameRecord() == &record);
 
-        record.advanceTesting(2);
+        record.advanceTesting(6);
         CHECK(record.checkFinished());
         CHECK_FALSE(record.getBeingTested());
         CHECK(record.getTesters() == std::list<std::shared_ptr<Tester>>());
@@ -279,7 +279,7 @@ TEST_CASE("TestingRecord time advancing methods", "[TestingRecord]")
         record.addTester(tester2Ptr);
         record.addTester(tester3Ptr);
 
-        record.advanceTesting(10);
+        record.advanceTesting(30);
         CHECK(record.checkFinished());
         CHECK_THROWS_AS(record.advanceTesting(2), TestingEndedError);
     }
@@ -290,7 +290,7 @@ TEST_CASE("TestingRecord total time and price methods", "[TestingRecord]")
 {
     std::srand(0);
     Producer pr;
-    SECTION("Case 1 - total effort == 10, real time == 1")
+    SECTION("Case 1 - total effort == 30, real time == 1")
     {
         Game game(1000001, "G", pr, 100, AbstractGame::Average, 3, true, Price(500));
         TestingRecord record(6000001, game, 5);
@@ -301,12 +301,12 @@ TEST_CASE("TestingRecord total time and price methods", "[TestingRecord]")
         record.addTester(tester2Ptr);
         record.addTester(tester3Ptr);
 
-        record.advanceTesting(10);
+        record.advanceTesting(30);
         CHECK(record.checkFinished());
         CHECK(record.getRealTime() == 1);
         CHECK(record.getRealPrice() == game.getTestingPrice() * 2);
     }
-    SECTION("Case 2 - total effort == 15, real time == 4")
+    SECTION("Case 2 - total effort == 45, real time == 4")
     {
         Game game(1000001, "G", pr, 10000, AbstractGame::Average, 3, true, Price(500));
         TestingRecord record(6000001, game, 5);
@@ -320,7 +320,7 @@ TEST_CASE("TestingRecord total time and price methods", "[TestingRecord]")
         CHECK_FALSE(record.checkFinished());
         CHECK_FALSE(record.checkFinished());
 
-        record.advanceTesting(15);
+        record.advanceTesting(45);
         CHECK(record.checkFinished());
         CHECK(record.getRealTime() == 4);
         CHECK(record.getRealPrice() == game.getTestingPrice() * 1.5 * 0.8);
@@ -370,7 +370,7 @@ TEST_CASE("Minor methods")
         record.addTester(tester2Ptr);
         record.addTester(tester3Ptr);
 
-        record.advanceTesting(10);
+        record.advanceTesting(30);
         CHECK(record.checkFinished());
         CHECK_THROWS_AS(record.setMaxTestersAmount(45), TestingEndedError);
     }

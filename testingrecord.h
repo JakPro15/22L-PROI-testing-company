@@ -11,7 +11,7 @@ class TestingRecord
 private:
     // Throws InvalidId if the object's id is invalid for a Game object.
     void checkId() const;
-    // Unique ID of the game assigned at creation.
+    // Unique ID of the record assigned at creation.
     const int id;
 
     // Reference to the stored Game object.
@@ -47,7 +47,7 @@ public:
     void removeTester(std::shared_ptr<Tester> testerPtr);
     // Returns the current amount of testers.
 
-    // Returns the identifier of the game.
+    // Returns the identifier of the record.
     int getId() const noexcept;
 
     // Returns whether the game is being tested.
@@ -65,7 +65,7 @@ public:
 
     // Advances the testing process by the given amount.
     void advanceTesting(unsigned int effortPut);
-    // Checks if the testing has finished. If so, finishes the testing and frees the workers, and returns true.
+    // Advances teating time and checks if the testing has finished. If so, frees the workers and returns true.
     bool checkFinished();
 
     // Returns the real time of a finished test in hours

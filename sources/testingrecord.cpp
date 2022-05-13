@@ -19,7 +19,7 @@ TestingRecord::TestingRecord(int id, const Game &game, unsigned int maxTestersAm
 {
     checkId();
     double timeChangeFactor = (double(std::rand()) / RAND_MAX) + 0.5;  // Will be between 0.5 and 1.5
-    realTestingEffort = ceil(timeChangeFactor * game.getTestingTime()) * 5;
+    realTestingEffort = ceil(timeChangeFactor * game.getTestingTime()) * 5 * getMinTestersAmount();
     effortLeft = realTestingEffort;
     if(maxTestersAmount == 0)
     {
@@ -203,7 +203,7 @@ Price TestingRecord::getRealPrice() const
     else
     {
         Price realPrice = game.getTestingPrice();
-        double effortRatio = double(realTestingEffort) / (game.getTestingTime() * 5);
+        double effortRatio = double(realTestingEffort) / (game.getTestingTime() * 5 * getMinTestersAmount());
         realPrice *= effortRatio;
         // 20% discount if time much longer than expected
         if(getRealTime() > 1.5 * game.getTestingTime())
