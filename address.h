@@ -57,11 +57,11 @@ class Address
         void setPostCode(std::string newPostCode);
 
         //Returns true xor false if objects are equal or not accordingly.
-        bool operator==(const Address& secondAddress) const;
-        bool operator!=(const Address& secondAddress) const;
+        bool operator==(const Address& secondAddress) const noexcept;
+        bool operator!=(const Address& secondAddress) const noexcept;
 
         //Outputs the object of this class into a stream.
-        friend std::ostream& operator<<(std::ostream& os, const Address& address);
+        friend std::ostream& operator<<(std::ostream& os, const Address& address) noexcept;
 };
 
 #endif

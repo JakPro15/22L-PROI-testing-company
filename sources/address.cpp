@@ -24,15 +24,18 @@ Address::Address(std::string cstreetName, unsigned int chouseNumber,
     {
         throw ZeroException("House number");
     }
+
     apartmentNumber = capartmentNumber;
-    if (checkAllWhitespace(cstreetName))
+
+    if (checkAllWhitespace(ccityName))
     {
         throw EmptyNameException("City name");
     }
     else
     {
-        streetName = ccityName;
+        cityName = ccityName;
     }
+
     if (cpostCode.length() != 6)
     {
         throw IncorrectAddressException("Incorrect post code length");
@@ -129,7 +132,7 @@ void Address::setCityName(std::string newCname) {
     }
     else
     {
-        streetName = newCname;
+        cityName = newCname;
     }
 }
 
@@ -167,7 +170,7 @@ void Address::setPostCode(std::string new_postCode) {
     }
 }
 
-bool Address::operator==(const Address& secondAddress) const {
+bool Address::operator==(const Address& secondAddress) const noexcept {
     return (
         (streetName == secondAddress.streetName) &&
         (houseNumber == secondAddress.houseNumber) &&
@@ -177,11 +180,11 @@ bool Address::operator==(const Address& secondAddress) const {
     );
 }
 
-bool Address::operator!=(const Address& secondAddress) const {
+bool Address::operator!=(const Address& secondAddress) const noexcept {
     return !(*this == secondAddress);
 }
 
-std::ostream& operator<<(std::ostream& os, const Address& address) {
+std::ostream& operator<<(std::ostream& os, const Address& address) noexcept {
     os << "ul." << address.streetName << " " << address.houseNumber;
     if (address.apartmentNumber != 0)
     {

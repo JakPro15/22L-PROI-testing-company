@@ -5,6 +5,7 @@
 #include <list>
 #include <memory>
 
+class Tester;
 
 class TestingRecord
 {
@@ -45,7 +46,6 @@ public:
     void addTester(std::shared_ptr<Tester> testerPtr);
     // Removes the chosen tester from the collection of the game's testers. Does nothing if the tester already isn't there.
     void removeTester(std::shared_ptr<Tester> testerPtr);
-    // Returns the current amount of testers.
 
     // Returns the identifier of the record.
     int getId() const noexcept;

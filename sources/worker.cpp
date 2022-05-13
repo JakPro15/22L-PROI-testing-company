@@ -6,7 +6,7 @@ void Worker::checkId() const
 {
     if(id < minId or id > maxId)
     {
-        throw InvalidId("Game", id);
+        throw InvalidId("Worker", id);
     }
 }
 
@@ -90,7 +90,7 @@ bool Worker::operator==(const Worker& worker) const noexcept
 
 bool Worker::operator!=(const Worker& worker) const noexcept
 {
-    return not (*this == worker);
+    return !(*this == worker);
 }
 
 
