@@ -27,12 +27,6 @@ TestingDatabase::Request::Request(int id, const Game &game): id(id), game(game)
 }
 
 
-int TestingDatabase::Request::getId() const noexcept
-{
-    return id;
-}
-
-
 TestingCompany& TestingDatabase::getCompany() const noexcept
 {
     return company;
@@ -89,7 +83,7 @@ void TestingDatabase::advanceRequestHandling(unsigned int effortPut) noexcept
         // Request processed - delete it and create a Testing Record from it.
         // Request IDs are always bigger by 5000000 than TestingRecord ids, and this is the only place where
         // TestingRecords are created - database doesn't need to ask the company for a new ID for the record.
-        gamesNotBeingTested.push_back(std::make_unique<TestingRecord>(topRequest.getId() - 5000000, topRequest.game));
+        gamesNotBeingTested.push_back(std::make_unique<TestingRecord>(topRequest.id - 5000000, topRequest.game));
         testingRequests.pop();
     }
 }

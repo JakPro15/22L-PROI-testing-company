@@ -15,5 +15,11 @@
 #include "exceptions/incorrectaddressexception.h"
 #include "exceptions/zeroexception.h"
 #include "exceptions/productivityoutofrangeexception.h"
+#include "exceptions/nogamesuntestederror.h"
+#include "exceptions/duplicategameerror.h"
+#include "exceptions/gamenotpresenterror.h"
+#include "exceptions/gamealreadytestederror.h"
+#include "exceptions/invalidproducer.h"
+#include "exceptions/gamenotrequestederror.h"
 
 #endif

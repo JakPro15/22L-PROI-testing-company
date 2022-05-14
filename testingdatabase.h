@@ -30,16 +30,20 @@ private:
     private:
         // Throws InvalidId if the object's id is invalid for a Request object.
         void checkId() const;
+    public:
         // Unique ID of the request assigned at creation.
         const int id;
-    public:
+        // These constants define the ID limits for this subclass.
         const int minId = 11000001;
         const int maxId = 11999999;
+        // This constant defines how much effort is needed to process a single request.
         const int effortPerRequest = 20;
+        // Read-only reference to the stored Game.
         const Game &game;
+        // How much effort is left to finish processing the request.
         unsigned int effortLeft;
+        // Creates an object of type TestingDatabase::Request.
         Request(int id, const Game &game);
-        int getId() const noexcept;
     };
 
     // Queue of requests waiting to be processed.
