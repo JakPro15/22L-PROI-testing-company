@@ -29,7 +29,7 @@ class Tester: public Worker
         bool busyness;
 
         // Pointer to the game record of the game that is currently being tested by the tester.
-        TestingRecord *gameRecord;
+        TestingRecord* gameRecord;
 
     public:
         // These constants define the ID limits for this class.
@@ -57,11 +57,11 @@ class Tester: public Worker
         //Returns pointer to the game record of the game that is currently being tested by the tester
         TestingRecord* getTestedGameRecord() const noexcept;
 
-        // Compares only the unique IDs of the games.
+        // Compares only the unique IDs of the testers.
         bool operator==(const Tester& tester) const noexcept;
         bool operator!=(const Tester& tester) const noexcept;
 
-        // Puts the unique name of the game obtained from getUniqueName into the stream.
+        // Puts the unique name of the tester obtained from getUniqueName into the stream.
         friend std::ostream& operator<<(std::ostream& os, const Tester& tester) noexcept;
 };
 
