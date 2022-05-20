@@ -1,10 +1,13 @@
 #ifndef PRODUCERDATABASE_H
 #define PRODUCERDATABASE_H
 
-#include "../games/game.h"
-#include "producer.h"
+#include "../games/abstractgame.h"
 #include <vector>
 #include <memory>
+
+
+class AbstractGame;
+class Producer;
 
 
 /*
@@ -48,8 +51,8 @@ public:
     // Unique ID of the database assigned at creation.
     const int id;
     // These constants define the ID limits for this class.
-    const int minId = 12000001;
-    const int maxId = 12999999;
+    static const int minId = 12000001;
+    static const int maxId = 12999999;
 
     // Producer this database belongs to.
     Producer &producer;

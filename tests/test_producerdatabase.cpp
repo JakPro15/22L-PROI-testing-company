@@ -1,12 +1,18 @@
 #include "catch.hpp"
 #include "../producer/producerdatabase.h"
+#include "../producer/producer.h"
+#include "../testingcompany/testingcompany.h"
+#include "../simulation/simulation.h"
+#include "../games/game.h"
 #include "../exceptions.h"
 #include <sstream>
 
 
 TEST_CASE("ProducerDatabase methods", "[ProducerDatabase]")
 {
-    Producer pr;
+    Simulation sim;
+    TestingCompany tcom;
+    Producer pr(14000001, "Pr", Address("SN", 2, 5, "SNville", "12-345"), sim, tcom);
     ProducerDatabase database(12000001, pr);
     Game game(1000001, "Game", pr, 100, AbstractGame::Average, 3);
     SECTION("Constructor - typical")
@@ -15,7 +21,7 @@ TEST_CASE("ProducerDatabase methods", "[ProducerDatabase]")
         CHECK(database.producer == pr);
         CHECK(database.getUntestedGamesAmount() == 0);
 
-        Producer pr2;
+        Producer pr2(14000002, "Pr", Address("SN", 2, 5, "SNville", "12-345"), sim, tcom);
         ProducerDatabase database2(12999999, pr2);
         CHECK(database2.id == 12999999);
         CHECK(database2.producer == pr2);
@@ -44,7 +50,7 @@ TEST_CASE("ProducerDatabase methods", "[ProducerDatabase]")
         database.addGame(game);
         CHECK_THROWS_AS(database.addGame(game), DuplicateGameError);
 
-        Producer pr2;
+        Producer pr2(14000002, "Pr", Address("SN", 2, 5, "SNville", "12-345"), sim, tcom);
         Game game2(1000002, "Game", pr2, 100, AbstractGame::Average, 3);
         CHECK_THROWS_AS(database.addGame(game2), InvalidProducer);
     }

@@ -1,13 +1,18 @@
 #include "catch.hpp"
 #include "../testingcompany/testingrecord.h"
 #include "../games/game.h"
+#include "../producer/producer.h"
+#include "../testingcompany/testingcompany.h"
+#include "../simulation/simulation.h"
 #include "../exceptions.h"
 #include <sstream>
 
 
 TEST_CASE("TestingRecord constructor and setters", "[TestingRecord]")
 {
-    Producer pr;
+    Simulation sim;
+    TestingCompany tcom;
+    Producer pr(14000001, "Pr", Address("SN", 2, 5, "SNville", "12-345"), sim, tcom);
     Game game(1000001, "G", pr, 100000, AbstractGame::Average, 3, true, Price(500));
     TestingRecord record(6000001, game, 5);
     SECTION("Constructor (typical) and getters")
@@ -153,7 +158,9 @@ TEST_CASE("TestingRecord constructor and setters", "[TestingRecord]")
 TEST_CASE("TestingRecord time advancing methods", "[TestingRecord]")
 {
     std::srand(0);
-    Producer pr;
+    Simulation sim;
+    TestingCompany tcom;
+    Producer pr(14000001, "Pr", Address("SN", 2, 5, "SNville", "12-345"), sim, tcom);
 
     SECTION("Case 1 - total effort == 30")
     {
@@ -290,7 +297,9 @@ TEST_CASE("TestingRecord time advancing methods", "[TestingRecord]")
 TEST_CASE("TestingRecord total time and price methods", "[TestingRecord]")
 {
     std::srand(0);
-    Producer pr;
+    Simulation sim;
+    TestingCompany tcom;
+    Producer pr(14000001, "Pr", Address("SN", 2, 5, "SNville", "12-345"), sim, tcom);
     SECTION("Case 1 - total effort == 30, real time == 1")
     {
         Game game(1000001, "G", pr, 100, AbstractGame::Average, 3, true, Price(500));
@@ -338,7 +347,9 @@ TEST_CASE("TestingRecord total time and price methods", "[TestingRecord]")
 
 TEST_CASE("Minor methods")
 {
-    Producer pr;
+    Simulation sim;
+    TestingCompany tcom;
+    Producer pr(14000001, "Pr", Address("SN", 2, 5, "SNville", "12-345"), sim, tcom);
     Game game(1000001, "G", pr, 100, AbstractGame::Average, 3, true, Price(500));
     TestingRecord record(6000001, game, 5);
     SECTION("MaxTesterAmount setter - typical")

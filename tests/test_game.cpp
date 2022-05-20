@@ -1,12 +1,17 @@
 #include "catch.hpp"
 #include "../games/game.h"
+#include "../producer/producer.h"
+#include "../testingcompany/testingcompany.h"
+#include "../simulation/simulation.h"
 #include "../exceptions.h"
 #include <sstream>
 
 
 TEST_CASE("Game methods", "[Game]")
 {
-    Producer pr;
+    Simulation sim;
+    TestingCompany tcom;
+    Producer pr(14000001, "Pr", Address("SN", 2, 5, "SNville", "12-345"), sim, tcom);
     Game game(1000001, "G", pr, 100, AbstractGame::Average, 3, true, Price(500));
     SECTION("Constructors and getters - typical")
     {

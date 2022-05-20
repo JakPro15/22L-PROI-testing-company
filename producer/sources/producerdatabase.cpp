@@ -1,4 +1,5 @@
 #include "../producerdatabase.h"
+#include "../producer.h"
 #include "../../exceptions.h"
 #include <algorithm>
 #include <cstdlib>

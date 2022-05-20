@@ -1,9 +1,11 @@
 #ifndef ABSTRACTGAME_H
 #define ABSTRACTGAME_H
 
-#include "../producer/producer.h"
 #include "price.h"
 #include <string>
+
+
+class Producer;
 
 
 /*

@@ -21,8 +21,7 @@ class Address
             std::string streetName, unsigned int houseNumber,
             unsigned int apartmentNumber, std::string cityName,
             std::string postCode
-            );
-        Address();
+        );
 
         //Returns street name.
         std::string getStreetName() const noexcept;

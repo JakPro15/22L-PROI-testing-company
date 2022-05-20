@@ -3,11 +3,13 @@
 
 #include "tester.h"
 #include "../games/abstractgame.h"
+#include "../games/price.h"
 #include <list>
 #include <memory>
 
 
 class Tester;
+class AbstractGame;
 
 
 /*

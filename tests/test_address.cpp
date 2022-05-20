@@ -12,12 +12,12 @@ TEST_CASE("Address tests")
     CHECK(address.getCityName() == "Lidzbark");
     CHECK(address.getPostCode() == "13-230");
 
-    Address default_address = Address();
-    CHECK(default_address.getStreetName() == "Default");
-    CHECK(default_address.getHouseNumber() == 1);
-    CHECK(default_address.getApartmentNumber() == 1);
-    CHECK(default_address.getCityName() == "Defaultsville");
-    CHECK(default_address.getPostCode() == "00-000");
+    Address address2("Bonk", 11, 1, "Bonkstown", "00-001");
+    CHECK(address2.getStreetName() == "Bonk");
+    CHECK(address2.getHouseNumber() == 11);
+    CHECK(address2.getApartmentNumber() == 1);
+    CHECK(address2.getCityName() == "Bonkstown");
+    CHECK(address2.getPostCode() == "00-001");
 
     SECTION("empty names")
     {
@@ -64,18 +64,16 @@ TEST_CASE("Address tests")
 
     SECTION("comparison")
     {
-        Address address_copy = Address();
-        bool a = default_address == address_copy;
-        bool b = default_address != address_copy;
-        CHECK(a == true);
-        CHECK(b == false);
+        Address address_copy = address;
+        CHECK(address == address_copy);
+        CHECK(address2 != address_copy);
     }
 
     SECTION("stream")
     {
         std::stringstream stream1, stream2;
-        stream1 << default_address;
-        stream2 << "ul.Default 1/1 00-000 Defaultsville";
+        stream1 << address2;
+        stream2 << "ul.Bonk 11/1 00-001 Bonkstown";
         CHECK(stream1.str() == stream2.str());
         stream1.str("");
         stream1.clear();

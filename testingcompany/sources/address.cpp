@@ -71,14 +71,6 @@ Address::Address(std::string cstreetName, unsigned int chouseNumber,
     }
 }
 
-Address::Address() {
-    streetName = "Default";
-    houseNumber = 1;
-    apartmentNumber = 1;
-    cityName = "Defaultsville";
-    postCode = "00-000";
-}
-
 std::string Address::getStreetName() const noexcept {
     return streetName;
 }

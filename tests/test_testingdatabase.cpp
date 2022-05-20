@@ -1,5 +1,8 @@
 #include "../testingcompany/testingdatabase.h"
 #include "../games/roleplayinggame.h"
+#include "../producer/producer.h"
+#include "../testingcompany/testingcompany.h"
+#include "../simulation/simulation.h"
 #include "../exceptions.h"
 #include "catch.hpp"
 
@@ -8,7 +11,9 @@ TEST_CASE("TestingDatabase constructor and request processing", "[TestingDatabas
 {
     TestingCompany company;
     TestingDatabase database(7000001, company);
-    Producer pr;
+    Simulation sim;
+    TestingCompany tcom;
+    Producer pr(14000001, "Pr", Address("SN", 2, 5, "SNville", "12-345"), sim, tcom);
     Game game1(1000001, "G", pr, 100, AbstractGame::Average, 3, true, Price(500));
     RolePlayingGame game2(3000001, "G2", pr, 100, AbstractGame::Complex, 5, 120, 240, true, Price(4000));
     SECTION("Constructor (typical) and getters")
@@ -93,7 +98,9 @@ TEST_CASE("Assigning testers and removing testers to and from games", "[TestingD
 {
     TestingCompany company;
     TestingDatabase database(7000001, company);
-    Producer pr;
+    Simulation sim;
+    TestingCompany tcom;
+    Producer pr(14000001, "Pr", Address("SN", 2, 5, "SNville", "12-345"), sim, tcom);
     Game game1(1000001, "G", pr, 100, AbstractGame::Average, 1, true, Price(500));
     RolePlayingGame game2(3000001, "G2", pr, 100, AbstractGame::Complex, 2, 120, 240, true, Price(4000));
     auto tester1 = std::make_shared<Tester>(10000001, "Paweł", "Piekarski", 3);

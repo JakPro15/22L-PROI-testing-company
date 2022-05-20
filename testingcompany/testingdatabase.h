@@ -11,6 +11,7 @@
 
 
 class TestingCompany;
+class AbstractGame;
 
 
 /*

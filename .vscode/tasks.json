@@ -13,7 +13,9 @@
                 // "-o",
                 // "${workspaceFolder}\\${workspaceFolderBasename}.exe",
                 //Wersja dla Linuxa:
-                "${workspaceFolder}/sources/*.cpp",
+                "${workspaceFolder}/producer/sources/*.cpp",
+                "${workspaceFolder}/games/sources/*.cpp",
+                "${workspaceFolder}/testingcompany/sources/*.cpp",
                 "${workspaceFolder}/exceptions/*.cpp",
                 "-o",
                 "${workspaceFolder}/${workspaceFolderBasename}",
