@@ -4,6 +4,10 @@
 #include "game.h"
 
 
+/*
+Class representing puzzles games, usually singleplayer games requiring thinking
+or clicking skills to win.
+*/
 class Puzzle: public Game
 {
 private:

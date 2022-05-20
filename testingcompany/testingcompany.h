@@ -12,7 +12,7 @@ public:
     TestingCompany(...) {}
     ~TestingCompany() {}
     int getRequestId() { return 11000001; }
-    void testingFinished(const Game &game) {}
+    void testingFinished(const AbstractGame &game) {}
 };
 
 

@@ -1,5 +1,5 @@
 #include "../producerdatabase.h"
-#include "../exceptions.h"
+#include "../../exceptions.h"
 #include <algorithm>
 #include <cstdlib>
 
@@ -22,16 +22,16 @@ void ProducerDatabase::Record::checkId() const
 }
 
 
-ProducerDatabase::Record::Record(int id, Game &game): id(id), game(game), testingRequested(false),
+ProducerDatabase::Record::Record(int id, AbstractGame &game): id(id), game(game), testingRequested(false),
     tested(false), timeUntilPaid(0)
 {
     checkId();
 }
 
 
-int ProducerDatabase::findGame(Game &game)
+int ProducerDatabase::findGame(AbstractGame &game)
 {
-    auto iterator = std::find_if(games.begin(), games.end(), [game](Record &record) {return record.game == game;});
+    auto iterator = std::find_if(games.begin(), games.end(), [&game](Record &record) {return record.game == game;});
     if(iterator == games.end())
     {
         return -1;
@@ -49,7 +49,7 @@ ProducerDatabase::ProducerDatabase(int id, Producer &producer): id(id), producer
 }
 
 
-void ProducerDatabase::addGame(Game &game)
+void ProducerDatabase::addGame(AbstractGame &game)
 {
     if(game.getProducer() != producer)
     {
@@ -99,7 +99,7 @@ unsigned int ProducerDatabase::getUntestedGamesAmount() const noexcept
 }
 
 
-Game& ProducerDatabase::getGameToBeTested()
+AbstractGame& ProducerDatabase::getGameToBeTested()
 {
     auto iterator = std::find_if(games.begin(), games.end(), [](Record &record) {return not record.testingRequested;});
     if(iterator == games.end())
@@ -114,7 +114,7 @@ Game& ProducerDatabase::getGameToBeTested()
 }
 
 
-void ProducerDatabase::gameFinishedTesting(Game& game)
+void ProducerDatabase::gameFinishedTesting(AbstractGame& game)
 {
     int index = findGame(game);
     if(index == -1)

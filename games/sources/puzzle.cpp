@@ -1,5 +1,5 @@
 #include "../puzzle.h"
-#include "../exceptions.h"
+#include "../../exceptions.h"
 #include <cmath>
 
 

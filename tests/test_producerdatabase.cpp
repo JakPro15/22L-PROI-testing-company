@@ -1,5 +1,5 @@
 #include "catch.hpp"
-#include "../producerdatabase.h"
+#include "../producer/producerdatabase.h"
 #include "../exceptions.h"
 #include <sstream>
 

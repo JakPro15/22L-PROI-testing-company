@@ -4,6 +4,10 @@
 #include "infinitegame.h"
 
 
+/*
+Class representing competitive Player vs Player games, including genres such as First Person Shooter or
+Multiplayer Online Battle Arena.
+*/
 class CompetitiveGame: public InfiniteGame
 {
 private:

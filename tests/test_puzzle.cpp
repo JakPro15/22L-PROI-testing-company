@@ -1,5 +1,5 @@
 #include "catch.hpp"
-#include "../puzzle.h"
+#include "../games/puzzle.h"
 #include "../exceptions.h"
 #include <sstream>
 

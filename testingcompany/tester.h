@@ -1,5 +1,6 @@
 #ifndef TESTER_H
 #define TESTER_H
+
 #include "testingrecord.h"
 #include "worker.h"
 #include <memory>

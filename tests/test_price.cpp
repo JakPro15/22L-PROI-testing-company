@@ -1,5 +1,5 @@
 #include "catch.hpp"
-#include "../price.h"
+#include "../games/price.h"
 #include "../exceptions.h"
 #include <sstream>
 

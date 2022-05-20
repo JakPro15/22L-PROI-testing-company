@@ -1,5 +1,5 @@
 #include "catch.hpp"
-#include "../worker.h"
+#include "../testingcompany/worker.h"
 #include "../exceptions.h"
 #include <sstream>
 

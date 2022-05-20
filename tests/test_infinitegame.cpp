@@ -1,5 +1,5 @@
 #include "catch.hpp"
-#include "../infinitegame.h"
+#include "../games/infinitegame.h"
 #include "../exceptions.h"
 #include <sstream>
 

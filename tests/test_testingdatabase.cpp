@@ -1,5 +1,5 @@
-#include "../testingdatabase.h"
-#include "../roleplayinggame.h"
+#include "../testingcompany/testingdatabase.h"
+#include "../games/roleplayinggame.h"
 #include "../exceptions.h"
 #include "catch.hpp"
 

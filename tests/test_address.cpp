@@ -1,7 +1,7 @@
 #include <sstream>
 #include "catch.hpp"
 #include "../exceptions.h"
-#include "../address.h"
+#include "../testingcompany/address.h"
 
 TEST_CASE("Address tests")
 {

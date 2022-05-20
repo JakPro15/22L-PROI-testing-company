@@ -1,5 +1,5 @@
 #include "../testingrecord.h"
-#include "../exceptions.h"
+#include "../../exceptions.h"
 #include <cstdlib>
 #include <cmath>
 #include <algorithm>
@@ -14,7 +14,7 @@ void TestingRecord::checkId() const
 }
 
 
-TestingRecord::TestingRecord(int id, const Game &game, unsigned int maxTestersAmount): id(id), game(game), testers(),
+TestingRecord::TestingRecord(int id, const AbstractGame &game, unsigned int maxTestersAmount): id(id), game(game), testers(),
     beingTested(false), testingFinished(false), realTestingTime(0), maxTestersAmount(maxTestersAmount)
 {
     checkId();
@@ -98,7 +98,7 @@ bool TestingRecord::getBeingTested() const noexcept
 }
 
 
-const Game& TestingRecord::getGame() const noexcept
+const AbstractGame& TestingRecord::getGame() const noexcept
 {
     return game;
 }

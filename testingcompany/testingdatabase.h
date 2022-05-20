@@ -13,6 +13,10 @@
 class TestingCompany;
 
 
+/*
+Represents a gmaes testing company's database, storing tested games and
+the testing information.
+*/
 class TestingDatabase
 {
 private:
@@ -39,11 +43,11 @@ private:
         // This constant defines how much effort is needed to process a single request.
         const int effortPerRequest = 20;
         // Read-only reference to the stored Game.
-        const Game &game;
+        const AbstractGame &game;
         // How much effort is left to finish processing the request.
         unsigned int effortLeft;
         // Creates an object of type TestingDatabase::Request.
-        Request(int id, const Game &game);
+        Request(int id, const AbstractGame &game);
     };
 
     // Queue of requests waiting to be processed.
@@ -72,7 +76,7 @@ public:
     unsigned int getTestRequestsAmount() const noexcept;
 
     // Adds a new request to the queue with the given Game.
-    void newTestingRequest(const Game &game);
+    void newTestingRequest(const AbstractGame &game);
     // Advances the handling of the first request in the queue by the given amount.
     void advanceRequestHandling(unsigned int effortPut) noexcept;
 

@@ -4,6 +4,9 @@
 #include "game.h"
 
 
+/*
+Class representing all kinds of roleplaying or plot-centric games.
+*/
 class RolePlayingGame: public Game
 {
 private:

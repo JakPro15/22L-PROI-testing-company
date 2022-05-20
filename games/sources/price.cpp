@@ -1,5 +1,5 @@
 #include "../price.h"
-#include "../exceptions/invalidprice.h"
+#include "../../exceptions.h"
 #include <cmath>
 
 

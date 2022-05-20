@@ -4,6 +4,9 @@
 #include "game.h"
 
 
+/*
+Class representing games with infinite replayability, single- or multiplayer.
+*/
 class InfiniteGame: public Game
 {
 private:

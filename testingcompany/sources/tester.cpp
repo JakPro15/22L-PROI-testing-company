@@ -1,5 +1,5 @@
 #include "../tester.h"
-#include "../exceptions.h"
+#include "../../exceptions.h"
 
 void Tester::checkId() const
 {

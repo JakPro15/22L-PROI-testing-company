@@ -1,5 +1,6 @@
 #include "catch.hpp"
-#include "../testingrecord.h"
+#include "../testingcompany/testingrecord.h"
+#include "../games/game.h"
 #include "../exceptions.h"
 #include <sstream>
 

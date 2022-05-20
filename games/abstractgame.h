@@ -1,11 +1,14 @@
 #ifndef ABSTRACTGAME_H
 #define ABSTRACTGAME_H
 
-#include "producer.h"
+#include "../producer/producer.h"
 #include "price.h"
 #include <string>
 
 
+/*
+Abstract Game class defining the interface for all games in the simulation.
+*/
 class AbstractGame
 {
 public:
@@ -61,6 +64,10 @@ public:
 
     // Returns the expected price of testing the game.
     virtual Price getTestingPrice() const noexcept=0;
+
+    // Compares the given games.
+    virtual bool operator==(const AbstractGame &game) const noexcept=0;
+    virtual bool operator!=(const AbstractGame &game) const noexcept=0;
 };
 
 

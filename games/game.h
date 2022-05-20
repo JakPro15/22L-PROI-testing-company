@@ -5,6 +5,9 @@
 #include <iostream>
 
 
+/*
+Base Game class, with its genre unspecified.
+*/
 class Game: public AbstractGame
 {
 private:
@@ -91,8 +94,8 @@ public:
     Price getTestingPrice() const noexcept override;
 
     // Compares only the unique IDs of the games.
-    bool operator==(const Game &game) const noexcept;
-    bool operator!=(const Game &game) const noexcept;
+    bool operator==(const AbstractGame &game) const noexcept override;
+    bool operator!=(const AbstractGame &game) const noexcept override;
 
     // Puts the unique name of the game obtained from getUniqueName into the stream.
     friend std::ostream& operator<<(std::ostream &stream, const Game &game) noexcept;

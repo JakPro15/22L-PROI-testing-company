@@ -1,6 +1,6 @@
 #include "../game.h"
-#include "../checkallwhitespace.h"
-#include "../exceptions.h"
+#include "../../testingcompany/checkallwhitespace.h"
+#include "../../exceptions.h"
 #include <cmath>
 
 
@@ -215,7 +215,7 @@ Price Game::getTestingPrice() const noexcept
 }
 
 
-bool Game::operator==(const Game &game) const noexcept
+bool Game::operator==(const AbstractGame &game) const noexcept
 {
     if(id == game.getId())
     {
@@ -228,7 +228,7 @@ bool Game::operator==(const Game &game) const noexcept
 }
 
 
-bool Game::operator!=(const Game &game) const noexcept
+bool Game::operator!=(const AbstractGame &game) const noexcept
 {
     return not (*this == game);
 }

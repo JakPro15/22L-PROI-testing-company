@@ -1,5 +1,5 @@
 #include "../roleplayinggame.h"
-#include "../exceptions.h"
+#include "../../exceptions.h"
 #include <cmath>
 
 

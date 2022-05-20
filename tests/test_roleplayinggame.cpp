@@ -1,5 +1,5 @@
 #include "catch.hpp"
-#include "../roleplayinggame.h"
+#include "../games/roleplayinggame.h"
 #include "../exceptions.h"
 #include <sstream>
 

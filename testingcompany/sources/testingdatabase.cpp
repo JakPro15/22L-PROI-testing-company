@@ -1,5 +1,5 @@
 #include "../testingdatabase.h"
-#include "../exceptions.h"
+#include "../../exceptions.h"
 
 
 void TestingDatabase::checkId() const
@@ -20,7 +20,7 @@ void TestingDatabase::Request::checkId() const
 }
 
 
-TestingDatabase::Request::Request(int id, const Game &game): id(id), game(game)
+TestingDatabase::Request::Request(int id, const AbstractGame &game): id(id), game(game)
 {
     checkId();
     effortLeft = effortPerRequest;
@@ -64,7 +64,7 @@ int TestingDatabase::getId() const noexcept
 }
 
 
-void TestingDatabase::newTestingRequest(const Game &game)
+void TestingDatabase::newTestingRequest(const AbstractGame &game)
 {
     Request newRequest(company.getRequestId(), game);
     testingRequests.push(newRequest);

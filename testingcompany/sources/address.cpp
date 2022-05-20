@@ -1,5 +1,5 @@
 #include "../address.h"
-#include "../exceptions.h"
+#include "../../exceptions.h"
 #include "../checkallwhitespace.h"
 
 
@@ -15,7 +15,7 @@ Address::Address(std::string cstreetName, unsigned int chouseNumber,
     {
         streetName = cstreetName;
     }
-    
+
     if (chouseNumber != 0)
     {
     houseNumber = chouseNumber;

@@ -1,5 +1,5 @@
 #include "../infinitegame.h"
-#include "../exceptions.h"
+#include "../../exceptions.h"
 #include <cmath>
 
 

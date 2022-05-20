@@ -1,12 +1,18 @@
 #ifndef TESTINGRECORD_H
 #define TESTINGRECORD_H
+
 #include "tester.h"
-#include "game.h"
+#include "../games/abstractgame.h"
 #include <list>
 #include <memory>
 
+
 class Tester;
 
+
+/*
+A record of the TestingDatabase, storing information about a currently tested game.
+*/
 class TestingRecord
 {
 private:
@@ -16,7 +22,7 @@ private:
     const int id;
 
     // Reference to the stored Game object.
-    const Game &game;
+    const AbstractGame &game;
     // List of testers currently testing the game.
     std::list<std::shared_ptr<Tester>> testers;
     // Whether the testing is ongoing.
@@ -38,7 +44,7 @@ public:
     const int maxId = 6999999;
 
     // Creates an object of type TestingRecord storing the given Game.
-    TestingRecord(int id, const Game &game, unsigned int maxTestersAmount=0);
+    TestingRecord(int id, const AbstractGame &game, unsigned int maxTestersAmount=0);
 
     // Returns a const reference to the collection of the game's testers.
     const std::list<std::shared_ptr<Tester>>& getTesters() const noexcept;
@@ -54,7 +60,7 @@ public:
     bool getBeingTested() const noexcept;
 
     // Returns a const reference to the game stored by this record.
-    const Game& getGame() const noexcept;
+    const AbstractGame& getGame() const noexcept;
     // Returns how many testers at least are needed to test the game.
     unsigned int getMinTestersAmount() const noexcept;
 
