@@ -13,6 +13,7 @@ class TestingRecord;
 class TestingCompany;
 class AbstractGame;
 class Tester;
+class OutputHandler;
 
 
 /*
@@ -22,6 +23,9 @@ the testing information.
 class TestingDatabase
 {
 private:
+    // Reference to the object that handles simulation output.
+    OutputHandler &out;
+
     // Throws InvalidId if the object's id is invalid for a TestingDatabase object.
     void checkId() const;
 
@@ -45,6 +49,8 @@ private:
         unsigned int effortLeft;
         // Creates an object of type TestingDatabase::Request.
         Request(int id, const AbstractGame &game);
+        // Returns a unique name of the request.
+        std::string getUniqueName() const noexcept;
     };
 
     // Queue of requests waiting to be processed.
@@ -65,7 +71,7 @@ public:
     TestingCompany &company;
 
      // Creates an object of type TestingDatabase within the given TestingCompany.
-    TestingDatabase(int id, TestingCompany &company);
+    TestingDatabase(OutputHandler &out, int id, TestingCompany &company);
 
     // Copying of TestingDatabase is forbidden (IDs wouldn't be unique).
     TestingDatabase(const TestingDatabase&)=delete;

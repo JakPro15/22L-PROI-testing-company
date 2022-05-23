@@ -10,6 +10,7 @@
 class AbstractGame;
 class TestingCompany;
 class Simulation;
+class OutputHandler;
 
 
 /*
@@ -18,6 +19,9 @@ Class representing a company that produces games and requests testing of games.
 class Producer
 {
 private:
+    // Reference to the object that handles simulation output.
+    OutputHandler &out;
+
     // Throws InvalidId if the object's id is invalid for a Producer object.
     void checkId() const;
 
@@ -43,7 +47,7 @@ public:
     TestingCompany &testingCompany;
 
     // Creates an object of class Producer.
-    Producer(int id, std::string name, Address address, Simulation &simulation, TestingCompany &testingCompany);
+    Producer(OutputHandler &out, int id, std::string name, Address address, Simulation &simulation, TestingCompany &testingCompany);
 
     // Copying of Producer is forbidden (IDs wouldn't be unique).
     Producer(const Producer&)=delete;

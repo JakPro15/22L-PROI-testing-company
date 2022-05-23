@@ -13,10 +13,11 @@
 TEST_CASE("TestingDatabase constructor and request processing", "[TestingDatabase]")
 {
     TestingCompany company;
-    TestingDatabase database(7000001, company);
+    OutputHandler out;
+    TestingDatabase database(out, 7000001, company);
     Simulation sim;
     TestingCompany tcom;
-    Producer pr(14000001, "Pr", Address("SN", 2, 5, "SNville", "12-345"), sim, tcom);
+    Producer pr(out, 14000001, "Pr", Address("SN", 2, 5, "SNville", "12-345"), sim, tcom);
     Game game1(1000001, "G", pr, 100, AbstractGame::Average, 3, true, Price(500));
     RolePlayingGame game2(3000001, "G2", pr, 100, AbstractGame::Complex, 5, 120, 240, true, Price(4000));
     SECTION("Constructor (typical) and getters")
@@ -28,7 +29,7 @@ TEST_CASE("TestingDatabase constructor and request processing", "[TestingDatabas
         CHECK(database.getTestRequestsAmount() == 0);
 
         TestingCompany company2;
-        TestingDatabase database(7005001, company2);
+        TestingDatabase database(out, 7005001, company2);
         CHECK(database.id == 7005001);
         CHECK(database.company == company2);
         CHECK(database.getGamesBeingTestedAmount() == 0);
@@ -37,8 +38,8 @@ TEST_CASE("TestingDatabase constructor and request processing", "[TestingDatabas
     }
     SECTION("Constructor - exceptions")
     {
-        CHECK_THROWS_AS(TestingDatabase(7000000, company), InvalidId);
-        CHECK_THROWS_AS(TestingDatabase(8000000, company), InvalidId);
+        CHECK_THROWS_AS(TestingDatabase(out, 7000000, company), InvalidId);
+        CHECK_THROWS_AS(TestingDatabase(out, 8000000, company), InvalidId);
     }
     SECTION("New requests creation")
     {
@@ -100,10 +101,11 @@ TEST_CASE("TestingDatabase constructor and request processing", "[TestingDatabas
 TEST_CASE("Assigning testers and removing testers to and from games", "[TestingDatabase]")
 {
     TestingCompany company;
-    TestingDatabase database(7000001, company);
+    OutputHandler out;
+    TestingDatabase database(out, 7000001, company);
     Simulation sim;
     TestingCompany tcom;
-    Producer pr(14000001, "Pr", Address("SN", 2, 5, "SNville", "12-345"), sim, tcom);
+    Producer pr(out, 14000001, "Pr", Address("SN", 2, 5, "SNville", "12-345"), sim, tcom);
     Game game1(1000001, "G", pr, 100, AbstractGame::Average, 1, true, Price(500));
     RolePlayingGame game2(3000001, "G2", pr, 100, AbstractGame::Complex, 2, 120, 240, true, Price(4000));
     auto tester1 = std::make_shared<Tester>(10000001, "Paweł", "Piekarski", 3);
@@ -211,7 +213,7 @@ TEST_CASE("Assigning testers and removing testers to and from games", "[TestingD
         stream2 << "TestingDatabase 1";
         CHECK(stream1.str() == stream2.str());
 
-        TestingDatabase database2(7009000, company);
+        TestingDatabase database2(out, 7009000, company);
         stream1.str("");
         stream1.clear();
         stream2.str("");

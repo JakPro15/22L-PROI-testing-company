@@ -16,7 +16,7 @@ private:
     void checkId() const;
 protected:
     // Returns the unique name of the game (for example "Game 1", if id==1000001).
-    virtual std::string getUniqueName() const noexcept;
+    std::string getUniqueName() const noexcept override;
     // Title of the game. Cannot be all-whitespace.
     std::string title;
     // Size of the game's files in kilobytes.
@@ -96,5 +96,6 @@ public:
     // Puts the unique name of the game obtained from getUniqueName into the stream.
     friend std::ostream& operator<<(std::ostream &stream, const Game &game) noexcept;
 };
+
 
 #endif

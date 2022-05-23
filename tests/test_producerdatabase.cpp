@@ -12,8 +12,9 @@ TEST_CASE("ProducerDatabase methods", "[ProducerDatabase]")
 {
     Simulation sim;
     TestingCompany tcom;
-    Producer pr(14000001, "Pr", Address("SN", 2, 5, "SNville", "12-345"), sim, tcom);
-    ProducerDatabase database(12000001, pr);
+    OutputHandler out;
+    Producer pr(out, 14000001, "Pr", Address("SN", 2, 5, "SNville", "12-345"), sim, tcom);
+    ProducerDatabase database(out, 12000001, pr);
     Game game(1000001, "Game", pr, 100, AbstractGame::Average, 3);
     SECTION("Constructor - typical")
     {
@@ -21,16 +22,16 @@ TEST_CASE("ProducerDatabase methods", "[ProducerDatabase]")
         CHECK(database.producer == pr);
         CHECK(database.getUntestedGamesAmount() == 0);
 
-        Producer pr2(14000002, "Pr", Address("SN", 2, 5, "SNville", "12-345"), sim, tcom);
-        ProducerDatabase database2(12999999, pr2);
+        Producer pr2(out, 14000002, "Pr", Address("SN", 2, 5, "SNville", "12-345"), sim, tcom);
+        ProducerDatabase database2(out, 12999999, pr2);
         CHECK(database2.id == 12999999);
         CHECK(database2.producer == pr2);
         CHECK(database2.getUntestedGamesAmount() == 0);
     }
     SECTION("Constructor - exceptions")
     {
-        CHECK_THROWS_AS(ProducerDatabase(12000000, pr), InvalidId);
-        CHECK_THROWS_AS(ProducerDatabase(13000000, pr), InvalidId);
+        CHECK_THROWS_AS(ProducerDatabase(out, 12000000, pr), InvalidId);
+        CHECK_THROWS_AS(ProducerDatabase(out, 13000000, pr), InvalidId);
     }
     SECTION("Adding games - typical")
     {
@@ -50,7 +51,7 @@ TEST_CASE("ProducerDatabase methods", "[ProducerDatabase]")
         database.addGame(game);
         CHECK_THROWS_AS(database.addGame(game), DuplicateGameError);
 
-        Producer pr2(14000002, "Pr", Address("SN", 2, 5, "SNville", "12-345"), sim, tcom);
+        Producer pr2(out, 14000002, "Pr", Address("SN", 2, 5, "SNville", "12-345"), sim, tcom);
         Game game2(1000002, "Game", pr2, 100, AbstractGame::Average, 3);
         CHECK_THROWS_AS(database.addGame(game2), InvalidProducer);
     }
@@ -113,7 +114,7 @@ TEST_CASE("ProducerDatabase methods", "[ProducerDatabase]")
         stream2 << "ProducerDatabase 1";
         CHECK(stream1.str() == stream2.str());
 
-        ProducerDatabase database2(12009000, pr);
+        ProducerDatabase database2(out, 12009000, pr);
         stream1.str("");
         stream1.clear();
         stream2.str("");

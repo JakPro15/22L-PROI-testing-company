@@ -3,9 +3,11 @@
 #include "../../exceptions.h"
 #include "../../games/abstractgame.h"
 #include "../../games/price.h"
+#include "../../simulation/outputhandler.h"
 #include <cstdlib>
 #include <cmath>
 #include <algorithm>
+#include <sstream>
 
 
 void TestingRecord::checkId() const
@@ -17,7 +19,7 @@ void TestingRecord::checkId() const
 }
 
 
-TestingRecord::TestingRecord(int id, const AbstractGame &game, unsigned int maxTestersAmount): testers(),
+TestingRecord::TestingRecord(OutputHandler &out, int id, const AbstractGame &game, unsigned int maxTestersAmount): out(out), testers(),
     beingTested(false), testingFinished(false), realTestingTime(0), maxTestersAmount(maxTestersAmount), id(id), game(game)
 {
     checkId();
@@ -53,6 +55,9 @@ void TestingRecord::addTester(std::shared_ptr<Tester> tester)
         {
             if(std::find(testers.begin(), testers.end(), tester) == testers.end())
             {
+                std::stringstream stringstr;
+                stringstr << *this << " adds " << tester << " to " << game << "'s testers list";
+                out << stringstr.str();
                 testers.push_back(tester);
                 tester->setBusy(true);
                 tester->setTestedGameRecord(this);
@@ -77,6 +82,9 @@ void TestingRecord::removeTester(std::shared_ptr<Tester> tester)
         auto testerIterator = std::find(testers.begin(), testers.end(), tester);
         if(testerIterator != testers.end())
         {
+            std::stringstream stringstr;
+            stringstr << *this << " removes " << tester << " from " << game << "'s testers list";
+            out << stringstr.str();
             tester->setBusy(false);
             tester->setTestedGameRecord(nullptr);
             testers.erase(testerIterator);
@@ -134,10 +142,16 @@ void TestingRecord::advanceTesting(unsigned int effortPut)
     {
         if(effortLeft > effortPut)
         {
+            std::stringstream stringstr;
+            stringstr << *this << " advances " << game << "'s testing by " << effortPut;
+            out << stringstr.str();
             effortLeft -= effortPut;
         }
         else
         {
+            std::stringstream stringstr;
+            stringstr << *this << " advances " << game << "'s testing by " << effortLeft << ", bringing the testing to an end";
+            out << stringstr.str();
             effortLeft = 0;
         }
     }
@@ -157,6 +171,9 @@ bool TestingRecord::checkFinished()
 
         if(effortLeft == 0)
         {
+            std::stringstream stringstr;
+            stringstr << *this << " finishes the testing of " << game;
+            out << stringstr.str();
             while(testers.size() > 0)
             {
                 removeTester(*testers.begin());

@@ -7,6 +7,7 @@
 
 class AbstractGame;
 class Producer;
+class OutputHandler;
 
 
 /*
@@ -16,9 +17,6 @@ testing that Producer has.
 class ProducerDatabase
 {
 private:
-    // Throws InvalidId if the object's id is invalid for a TestingDatabase object.
-    void checkId() const;
-
     class Record
     {
     private:
@@ -40,7 +38,15 @@ private:
         unsigned int timeUntilPaid;
         // Creates a record storing the given game.
         Record(int id, AbstractGame &game);
+        // Returns a unique name of the record.
+        std::string getUniqueName() const noexcept;
     };
+
+    // Reference to the object that handles simulation output.
+    OutputHandler &out;
+
+    // Throws InvalidId if the object's id is invalid for a TestingDatabase object.
+    void checkId() const;
 
     // List of records of the games produced by this producer.
     std::vector<Record> games;
@@ -58,7 +64,7 @@ public:
     Producer &producer;
 
     // Creates an object of type ProducerDatabase.
-    ProducerDatabase(int id, Producer &producer);
+    ProducerDatabase(OutputHandler &out, int id, Producer &producer);
 
     // Copying of ProducerDatabase is forbidden (IDs wouldn't be unique).
     ProducerDatabase(const ProducerDatabase&)=delete;

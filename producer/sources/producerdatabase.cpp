@@ -2,8 +2,10 @@
 #include "../producer.h"
 #include "../../exceptions.h"
 #include "../../games/abstractgame.h"
+#include "../../simulation/outputhandler.h"
 #include <algorithm>
 #include <cstdlib>
+#include <sstream>
 
 
 void ProducerDatabase::checkId() const
@@ -30,6 +32,11 @@ ProducerDatabase::Record::Record(int id, AbstractGame &game): id(id), game(game)
     checkId();
 }
 
+std::string ProducerDatabase::Record::getUniqueName() const noexcept
+{
+    return "ProducerDatabase::Record " + std::to_string(id - minId + 1);
+}
+
 
 int ProducerDatabase::findGame(AbstractGame &game)
 {
@@ -45,7 +52,7 @@ int ProducerDatabase::findGame(AbstractGame &game)
 }
 
 
-ProducerDatabase::ProducerDatabase(int id, Producer &producer): id(id), producer(producer)
+ProducerDatabase::ProducerDatabase(OutputHandler &out, int id, Producer &producer): out(out), id(id), producer(producer)
 {
     checkId();
 }
@@ -65,7 +72,11 @@ void ProducerDatabase::addGame(AbstractGame &game)
         }
         else
         {
-            games.push_back(Record(producer.getRecordId(), game));
+            std::stringstream stringstr;
+            Record record(producer.getRecordId(), game);
+            stringstr << *this << " adds " << game << " to itself, enclosed in " << record.getUniqueName();
+            out << stringstr.str();
+            games.push_back(std::move(record));  // to signify that the record is moved, not copied (no ID duplication).
         }
     }
 }
@@ -80,6 +91,10 @@ void ProducerDatabase::checkPayments()
             record.timeUntilPaid--;
             if(record.timeUntilPaid == 0)
             {
+                std::stringstream stringstr;
+                stringstr << *this << " notices " << record.game << "stored in " << record.getUniqueName()
+                          << " should be paid for";
+                out << stringstr.str();
                 producer.payForTesting(record.game);
             }
         }
@@ -110,6 +125,9 @@ AbstractGame& ProducerDatabase::getGameToBeTested()
     }
     else
     {
+        std::stringstream stringstr;
+        stringstr << *this << " prepares " << iterator->game << " to be tested, at request of " << producer;
+        out << stringstr.str();
         iterator->testingRequested = true;
         return iterator->game;
     }
@@ -133,6 +151,9 @@ void ProducerDatabase::gameFinishedTesting(AbstractGame& game)
     }
     else
     {
+        std::stringstream stringstr;
+        stringstr << *this << " notices " << game << "'s testing has been finished";
+        out << stringstr.str();
         games[index].tested = true;
         games[index].timeUntilPaid = std::rand() % 100 + 1;
     }

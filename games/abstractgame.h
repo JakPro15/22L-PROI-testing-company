@@ -14,6 +14,8 @@ Abstract Game class defining the interface for all games in the simulation.
 class AbstractGame
 {
 protected:
+    // Returns the unique name of the game.
+    virtual std::string getUniqueName() const noexcept=0;
     // Protected constructor to initialize ID and producer properly
     AbstractGame(int id, Producer &producer): id(id), producer(producer) {}
 public:
@@ -76,6 +78,13 @@ public:
     // Compares the given games.
     virtual bool operator==(const AbstractGame &game) const noexcept=0;
     virtual bool operator!=(const AbstractGame &game) const noexcept=0;
+
+    // Puts the unique name of the game obtained from getUniqueName into the stream.
+    friend std::ostream& operator<<(std::ostream &stream, const AbstractGame &game) noexcept
+    {
+        stream << game.getUniqueName();
+        return stream;
+    }
 };
 
 

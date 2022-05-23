@@ -29,6 +29,8 @@ public:
 
     bool operator==(const TestingCompany &company) const noexcept { return this == &company; }
     bool operator!=(const TestingCompany &company) const noexcept { return not (*this == company); };
+
+    friend std::ostream& operator<<(std::ostream &stream, const TestingCompany &company) noexcept { return stream; }
 };
 
 

@@ -8,6 +8,7 @@
 class Tester;
 class AbstractGame;
 class Price;
+class OutputHandler;
 
 
 /*
@@ -16,6 +17,9 @@ A record of the TestingDatabase, storing information about a currently tested ga
 class TestingRecord
 {
 private:
+    // Reference to the object that handles simulation output.
+    OutputHandler &out;
+
     // Throws InvalidId if the object's id is invalid for a Game object.
     void checkId() const;
 
@@ -46,7 +50,7 @@ public:
     const AbstractGame &game;
 
     // Creates an object of type TestingRecord storing the given Game.
-    TestingRecord(int id, const AbstractGame &game, unsigned int maxTestersAmount=0);
+    TestingRecord(OutputHandler &out, int id, const AbstractGame &game, unsigned int maxTestersAmount=0);
 
     // Copying of TestingRecord is forbidden (IDs wouldn't be unique).
     TestingRecord(const TestingRecord&)=delete;
