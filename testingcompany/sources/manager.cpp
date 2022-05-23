@@ -1,4 +1,5 @@
 #include "../manager.h"
+#include "../testingcompany.h"
 #include "../../exceptions.h"
 
 void Manager::checkId() const

@@ -1,15 +1,13 @@
 #ifndef TESTINGRECORD_H
 #define TESTINGRECORD_H
 
-#include "tester.h"
-#include "../games/abstractgame.h"
-#include "../games/price.h"
 #include <list>
 #include <memory>
 
 
 class Tester;
 class AbstractGame;
+class Price;
 
 
 /*
@@ -20,11 +18,7 @@ class TestingRecord
 private:
     // Throws InvalidId if the object's id is invalid for a Game object.
     void checkId() const;
-    // Unique ID of the record assigned at creation.
-    const int id;
 
-    // Reference to the stored Game object.
-    const AbstractGame &game;
     // List of testers currently testing the game.
     std::list<std::shared_ptr<Tester>> testers;
     // Whether the testing is ongoing.
@@ -42,11 +36,21 @@ private:
 
 public:
     // These constants define the ID limits for this class.
-    const int minId = 6000001;
-    const int maxId = 6999999;
+    static const int minId = 6000001;
+    static const int maxId = 6999999;
+
+    // Unique ID of the record assigned at creation.
+    const int id;
+
+    // Reference to the stored Game object.
+    const AbstractGame &game;
 
     // Creates an object of type TestingRecord storing the given Game.
     TestingRecord(int id, const AbstractGame &game, unsigned int maxTestersAmount=0);
+
+    // Copying of TestingRecord is forbidden (IDs wouldn't be unique).
+    TestingRecord(const TestingRecord&)=delete;
+    TestingRecord& operator=(const TestingRecord&)=delete;
 
     // Returns a const reference to the collection of the game's testers.
     const std::list<std::shared_ptr<Tester>>& getTesters() const noexcept;
@@ -55,14 +59,9 @@ public:
     // Removes the chosen tester from the collection of the game's testers. Does nothing if the tester already isn't there.
     void removeTester(std::shared_ptr<Tester> testerPtr);
 
-    // Returns the identifier of the record.
-    int getId() const noexcept;
-
     // Returns whether the game is being tested.
     bool getBeingTested() const noexcept;
 
-    // Returns a const reference to the game stored by this record.
-    const AbstractGame& getGame() const noexcept;
     // Returns how many testers at least are needed to test the game.
     unsigned int getMinTestersAmount() const noexcept;
 

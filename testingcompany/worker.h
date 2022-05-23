@@ -3,6 +3,7 @@
 
 #include "abstractworker.h"
 
+
 class Worker: public AbstractWorker
 {
     private:

@@ -1,16 +1,15 @@
 #ifndef PRODUCER_H
 #define PRODUCER_H
 
-#include "../games/abstractgame.h"
 #include "../testingcompany/address.h"
 #include "../testingcompany/testingcompany.h"
-#include "../simulation/simulation.h"
 #include "producerdatabase.h"
 #include <string>
 
 
 class AbstractGame;
 class TestingCompany;
+class Simulation;
 
 
 /*
@@ -30,11 +29,12 @@ private:
     // The producer's database of games and their testing information.
     ProducerDatabase database;
 public:
-    // Unique ID of the producer assigned at creation.
-    const int id;
     // These constants define the ID limits for this class.
     static const int minId = 14000001;
     static const int maxId = 14999999;
+
+    // Unique ID of the producer assigned at creation.
+    const int id;
 
     // Simulation this producer is part of.
     Simulation &simulation;
@@ -72,7 +72,7 @@ public:
     bool operator==(const Producer &producer) const noexcept;
     bool operator!=(const Producer &producer) const noexcept;
 
-    // Puts the unique name of the producer obtained from getUniqueName into the stream.
+    // Puts the unique name of the producer into the stream.
     friend std::ostream& operator<<(std::ostream &stream, const Producer &producer) noexcept;
 };
 

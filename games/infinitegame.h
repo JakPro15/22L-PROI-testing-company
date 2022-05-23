@@ -33,8 +33,8 @@ protected:
                  Price marketPrice=0);
 public:
     // These constants define the ID limits for this class.
-    const int minId = 4000001;
-    const int maxId = 4999999;
+    static const int minId = 4000001;
+    static const int maxId = 4999999;
 
     // Creates an object of type InfiniteGame - market price given as a Price object or single int of PLN*100.
     InfiniteGame(int id, std::string title, Producer &producer, unsigned int filesSize, AbstractGame::Complexity complexity,
@@ -42,6 +42,11 @@ public:
     // Creates an object of type InfiniteGame - market price given as two ints (zl and gr).
     InfiniteGame(int id, std::string title, Producer &producer, unsigned int filesSize, AbstractGame::Complexity complexity,
                  unsigned int minTestersAmount, Depth depth, bool codeAvailable, int priceZl, int priceGr);
+
+    // Copying of InfiniteGame is forbidden (IDs wouldn't be unique).
+    InfiniteGame(const InfiniteGame&)=delete;
+    InfiniteGame& operator=(const InfiniteGame&)=delete;
+
     // Empty virtual destructor - overwritten from Game.
     ~InfiniteGame() override;
 

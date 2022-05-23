@@ -20,8 +20,8 @@ protected:
     int serverSize;
 public:
     // These constants define the ID limits for this class.
-    const int minId = 5000001;
-    const int maxId = 5999999;
+    static const int minId = 5000001;
+    static const int maxId = 5999999;
 
     // Creates an object of type CompetitiveGame - market price given as a Price object or single int of PLN*100.
     CompetitiveGame(int id, std::string title, Producer &producer, unsigned int filesSize, AbstractGame::Complexity complexity,
@@ -31,6 +31,11 @@ public:
     CompetitiveGame(int id, std::string title, Producer &producer, unsigned int filesSize, AbstractGame::Complexity complexity,
                     unsigned int minTestersAmount, InfiniteGame::Depth depth, unsigned int serverSize, bool codeAvailable,
                     int priceZl, int priceGr);
+
+    // Copying of CompetitiveGame is forbidden (IDs wouldn't be unique).
+    CompetitiveGame(const CompetitiveGame&)=delete;
+    CompetitiveGame& operator=(const CompetitiveGame&)=delete;
+
     // Empty virtual destructor - overwritten from InfiniteGame.
     ~CompetitiveGame() override;
 

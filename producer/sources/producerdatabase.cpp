@@ -1,6 +1,7 @@
 #include "../producerdatabase.h"
 #include "../producer.h"
 #include "../../exceptions.h"
+#include "../../games/abstractgame.h"
 #include <algorithm>
 #include <cstdlib>
 
@@ -52,7 +53,7 @@ ProducerDatabase::ProducerDatabase(int id, Producer &producer): id(id), producer
 
 void ProducerDatabase::addGame(AbstractGame &game)
 {
-    if(game.getProducer() != producer)
+    if(game.producer != producer)
     {
         throw InvalidProducer();
     }
@@ -135,4 +136,10 @@ void ProducerDatabase::gameFinishedTesting(AbstractGame& game)
         games[index].tested = true;
         games[index].timeUntilPaid = std::rand() % 100 + 1;
     }
+}
+
+std::ostream& operator<<(std::ostream &stream, const ProducerDatabase &database) noexcept
+{
+    stream << "ProducerDatabase " << database.id - database.minId + 1;
+    return stream;
 }

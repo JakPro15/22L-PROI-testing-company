@@ -17,26 +17,26 @@ TEST_CASE("TestingRecord constructor and setters", "[TestingRecord]")
     TestingRecord record(6000001, game, 5);
     SECTION("Constructor (typical) and getters")
     {
-        CHECK(record.getId() == 6000001);
+        CHECK(record.id == 6000001);
         CHECK_FALSE(record.getBeingTested());
-        CHECK(record.getGame() == game);
+        CHECK(record.game == game);
         CHECK(record.getMinTestersAmount() == 3);
         CHECK(record.getMaxTestersAmount() == 5);
         CHECK(record.getTesters() == std::list<std::shared_ptr<Tester>>());
 
         TestingRecord record2(6500000, game, 5);
-        CHECK(record2.getId() == 6500000);
+        CHECK(record2.id == 6500000);
         CHECK_FALSE(record.getBeingTested());
-        CHECK(record2.getGame() == game);
+        CHECK(record2.game == game);
         CHECK(record2.getMinTestersAmount() == 3);
         CHECK(record2.getMaxTestersAmount() == 5);
         CHECK(record2.getTesters() == std::list<std::shared_ptr<Tester>>());
 
         Game game2(1000002, "G", pr, 100, AbstractGame::Average, 30, true, Price(500));
         TestingRecord record3(6500001, game2);
-        CHECK(record3.getId() == 6500001);
+        CHECK(record3.id == 6500001);
         CHECK_FALSE(record.getBeingTested());
-        CHECK(record3.getGame() == game2);
+        CHECK(record3.game == game2);
         CHECK(record3.getMinTestersAmount() == 30);
         CHECK(record3.getMaxTestersAmount() == 60);
         CHECK(record3.getTesters() == std::list<std::shared_ptr<Tester>>());
@@ -355,17 +355,17 @@ TEST_CASE("Minor methods")
     SECTION("MaxTesterAmount setter - typical")
     {
         record.setMaxTestersAmount(12);
-        CHECK(record.getId() == 6000001);
+        CHECK(record.id == 6000001);
         CHECK_FALSE(record.getBeingTested());
-        CHECK(record.getGame() == game);
+        CHECK(record.game == game);
         CHECK(record.getMinTestersAmount() == 3);
         CHECK(record.getMaxTestersAmount() == 12);
         CHECK(record.getTesters() == std::list<std::shared_ptr<Tester>>());
 
         record.setMaxTestersAmount(3);
-        CHECK(record.getId() == 6000001);
+        CHECK(record.id == 6000001);
         CHECK_FALSE(record.getBeingTested());
-        CHECK(record.getGame() == game);
+        CHECK(record.game == game);
         CHECK(record.getMinTestersAmount() == 3);
         CHECK(record.getMaxTestersAmount() == 3);
         CHECK(record.getTesters() == std::list<std::shared_ptr<Tester>>());

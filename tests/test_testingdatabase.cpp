@@ -1,10 +1,13 @@
 #include "../testingcompany/testingdatabase.h"
+#include "../testingcompany/testingrecord.h"
+#include "../testingcompany/tester.h"
 #include "../games/roleplayinggame.h"
 #include "../producer/producer.h"
 #include "../testingcompany/testingcompany.h"
 #include "../simulation/simulation.h"
 #include "../exceptions.h"
 #include "catch.hpp"
+#include <sstream>
 
 
 TEST_CASE("TestingDatabase constructor and request processing", "[TestingDatabase]")
@@ -18,16 +21,16 @@ TEST_CASE("TestingDatabase constructor and request processing", "[TestingDatabas
     RolePlayingGame game2(3000001, "G2", pr, 100, AbstractGame::Complex, 5, 120, 240, true, Price(4000));
     SECTION("Constructor (typical) and getters")
     {
-        CHECK(database.getId() == 7000001);
-        CHECK(&database.getCompany() == &company);
+        CHECK(database.id == 7000001);
+        CHECK(database.company == company);
         CHECK(database.getGamesBeingTestedAmount() == 0);
         CHECK(database.getGamesWaitingForTestersAmount() == 0);
         CHECK(database.getTestRequestsAmount() == 0);
 
         TestingCompany company2;
         TestingDatabase database(7005001, company2);
-        CHECK(database.getId() == 7005001);
-        CHECK(&database.getCompany() == &company2);
+        CHECK(database.id == 7005001);
+        CHECK(database.company == company2);
         CHECK(database.getGamesBeingTestedAmount() == 0);
         CHECK(database.getGamesWaitingForTestersAmount() == 0);
         CHECK(database.getTestRequestsAmount() == 0);
@@ -40,15 +43,15 @@ TEST_CASE("TestingDatabase constructor and request processing", "[TestingDatabas
     SECTION("New requests creation")
     {
         database.newTestingRequest(game1);
-        CHECK(database.getId() == 7000001);
-        CHECK(&database.getCompany() == &company);
+        CHECK(database.id == 7000001);
+        CHECK(database.company == company);
         CHECK(database.getGamesBeingTestedAmount() == 0);
         CHECK(database.getGamesWaitingForTestersAmount() == 0);
         CHECK(database.getTestRequestsAmount() == 1);
 
         database.newTestingRequest(game2);
-        CHECK(database.getId() == 7000001);
-        CHECK(&database.getCompany() == &company);
+        CHECK(database.id == 7000001);
+        CHECK(database.company == company);
         CHECK(database.getGamesBeingTestedAmount() == 0);
         CHECK(database.getGamesWaitingForTestersAmount() == 0);
         CHECK(database.getTestRequestsAmount() == 2);
@@ -57,36 +60,36 @@ TEST_CASE("TestingDatabase constructor and request processing", "[TestingDatabas
     {
         database.newTestingRequest(game1);
         database.newTestingRequest(game2);
-        CHECK(database.getId() == 7000001);
-        CHECK(&database.getCompany() == &company);
+        CHECK(database.id == 7000001);
+        CHECK(database.company == company);
         CHECK(database.getGamesBeingTestedAmount() == 0);
         CHECK(database.getGamesWaitingForTestersAmount() == 0);
         CHECK(database.getTestRequestsAmount() == 2);
 
         database.advanceRequestHandling(10);
-        CHECK(database.getId() == 7000001);
-        CHECK(&database.getCompany() == &company);
+        CHECK(database.id == 7000001);
+        CHECK(database.company == company);
         CHECK(database.getGamesBeingTestedAmount() == 0);
         CHECK(database.getGamesWaitingForTestersAmount() == 0);
         CHECK(database.getTestRequestsAmount() == 2);
 
         database.advanceRequestHandling(12);
-        CHECK(database.getId() == 7000001);
-        CHECK(&database.getCompany() == &company);
+        CHECK(database.id == 7000001);
+        CHECK(database.company == company);
         CHECK(database.getGamesBeingTestedAmount() == 0);
         CHECK(database.getGamesWaitingForTestersAmount() == 1);
         CHECK(database.getTestRequestsAmount() == 1);
 
         database.advanceRequestHandling(19);
-        CHECK(database.getId() == 7000001);
-        CHECK(&database.getCompany() == &company);
+        CHECK(database.id == 7000001);
+        CHECK(database.company == company);
         CHECK(database.getGamesBeingTestedAmount() == 0);
         CHECK(database.getGamesWaitingForTestersAmount() == 1);
         CHECK(database.getTestRequestsAmount() == 1);
 
         database.advanceRequestHandling(1);
-        CHECK(database.getId() == 7000001);
-        CHECK(&database.getCompany() == &company);
+        CHECK(database.id == 7000001);
+        CHECK(database.company == company);
         CHECK(database.getGamesBeingTestedAmount() == 0);
         CHECK(database.getGamesWaitingForTestersAmount() == 2);
         CHECK(database.getTestRequestsAmount() == 0);
@@ -123,42 +126,42 @@ TEST_CASE("Assigning testers and removing testers to and from games", "[TestingD
     CHECK(database.getGamesWaitingForTestersAmount() == 1);
     CHECK(database.getTestRequestsAmount() == 0);
     CHECK(tester1->getBusy());
-    CHECK(tester1->getTestedGameRecord()->getGame() == game1);
+    CHECK(tester1->getTestedGameRecord()->game == game1);
 
     CHECK(database.assignTester(tester2));
     CHECK(database.getGamesBeingTestedAmount() == 1);
     CHECK(database.getGamesWaitingForTestersAmount() == 1);
     CHECK(database.getTestRequestsAmount() == 0);
     CHECK(tester2->getBusy());
-    CHECK(tester2->getTestedGameRecord()->getGame() == game2);
+    CHECK(tester2->getTestedGameRecord()->game == game2);
 
     CHECK(database.assignTester(tester3));
     CHECK(database.getGamesBeingTestedAmount() == 2);
     CHECK(database.getGamesWaitingForTestersAmount() == 0);
     CHECK(database.getTestRequestsAmount() == 0);
     CHECK(tester3->getBusy());
-    CHECK(tester3->getTestedGameRecord()->getGame() == game2);
+    CHECK(tester3->getTestedGameRecord()->game == game2);
 
     CHECK(database.assignTester(tester4));
     CHECK(database.getGamesBeingTestedAmount() == 2);
     CHECK(database.getGamesWaitingForTestersAmount() == 0);
     CHECK(database.getTestRequestsAmount() == 0);
     CHECK(tester4->getBusy());
-    CHECK(tester4->getTestedGameRecord()->getGame() == game1);
+    CHECK(tester4->getTestedGameRecord()->game == game1);
 
     CHECK(database.assignTester(tester5));
     CHECK(database.getGamesBeingTestedAmount() == 2);
     CHECK(database.getGamesWaitingForTestersAmount() == 0);
     CHECK(database.getTestRequestsAmount() == 0);
     CHECK(tester5->getBusy());
-    CHECK(tester5->getTestedGameRecord()->getGame() == game2);
+    CHECK(tester5->getTestedGameRecord()->game == game2);
 
     CHECK(database.assignTester(tester6));
     CHECK(database.getGamesBeingTestedAmount() == 2);
     CHECK(database.getGamesWaitingForTestersAmount() == 0);
     CHECK(database.getTestRequestsAmount() == 0);
     CHECK(tester6->getBusy());
-    CHECK(tester6->getTestedGameRecord()->getGame() == game2);
+    CHECK(tester6->getTestedGameRecord()->game == game2);
 
     CHECK_FALSE(database.assignTester(tester7));
     CHECK(database.getGamesBeingTestedAmount() == 2);
@@ -199,5 +202,23 @@ TEST_CASE("Assigning testers and removing testers to and from games", "[TestingD
         CHECK(database.getGamesBeingTestedAmount() == 1);
         CHECK(database.getGamesWaitingForTestersAmount() == 0);
         CHECK(database.getTestRequestsAmount() == 0);
+    }
+
+    SECTION("<< operator")
+    {
+        std::stringstream stream1, stream2;
+        stream1 << database;
+        stream2 << "TestingDatabase 1";
+        CHECK(stream1.str() == stream2.str());
+
+        TestingDatabase database2(7009000, company);
+        stream1.str("");
+        stream1.clear();
+        stream2.str("");
+        stream2.clear();
+
+        stream1 << database2;
+        stream2 << "TestingDatabase 9000";
+        CHECK(stream1.str() == stream2.str());
     }
 }

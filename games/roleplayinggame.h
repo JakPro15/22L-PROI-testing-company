@@ -21,8 +21,8 @@ protected:
     unsigned int fullLength;
 public:
     // These constants define the ID limits for this class.
-    const int minId = 3000001;
-    const int maxId = 3999999;
+    static const int minId = 3000001;
+    static const int maxId = 3999999;
 
     // Creates an object of type RolePlayingGame - market price given as a Price object or single int of PLN*100.
     RolePlayingGame(int id, std::string title, Producer &producer, unsigned int filesSize, AbstractGame::Complexity complexity,
@@ -30,6 +30,11 @@ public:
     // Creates an object of type RolePlayingGame - market price given as two ints (zl and gr).
     RolePlayingGame(int id, std::string title, Producer &producer, unsigned int filesSize, AbstractGame::Complexity complexity,
                     unsigned int minTestersAmount, int length, int fullLength, bool codeAvailable, int priceZl, int priceGr);
+
+    // Copying of RolePlayingGame is forbidden (IDs wouldn't be unique).
+    RolePlayingGame(const RolePlayingGame&)=delete;
+    RolePlayingGame& operator=(const RolePlayingGame&)=delete;
+
     // Empty virtual destructor - overwritten from Game.
     ~RolePlayingGame() override;
 

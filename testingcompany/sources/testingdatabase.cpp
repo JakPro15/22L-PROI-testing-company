@@ -1,4 +1,6 @@
 #include "../testingdatabase.h"
+#include "../testingrecord.h"
+#include "../testingcompany.h"
 #include "../../exceptions.h"
 
 
@@ -27,12 +29,6 @@ TestingDatabase::Request::Request(int id, const AbstractGame &game): id(id), gam
 }
 
 
-TestingCompany& TestingDatabase::getCompany() const noexcept
-{
-    return company;
-}
-
-
 unsigned int TestingDatabase::getGamesBeingTestedAmount() const noexcept
 {
     return gamesBeingTested.size();
@@ -51,16 +47,10 @@ unsigned int TestingDatabase::getTestRequestsAmount() const noexcept
 }
 
 
-TestingDatabase::TestingDatabase(int id, TestingCompany &company): id(id), company(company), testingRequests(),
-    gamesNotBeingTested(), gamesBeingTested()
+TestingDatabase::TestingDatabase(int id, TestingCompany &company): testingRequests(), gamesNotBeingTested(),
+    gamesBeingTested(), id(id), company(company)
 {
     checkId();
-}
-
-
-int TestingDatabase::getId() const noexcept
-{
-    return id;
 }
 
 
@@ -101,7 +91,7 @@ void TestingDatabase::checkRecords()
         TestingRecord &record = **iterator;
         if(record.checkFinished())
         {
-            company.testingFinished(record.getGame());
+            company.testingFinished(record.game);
             recordsToRemove.push(iterator);
         }
         else if(not record.getBeingTested())
@@ -146,3 +136,9 @@ bool TestingDatabase::assignTester(std::shared_ptr<Tester> testerPtr)
     return false;
 }
 
+
+std::ostream& operator<<(std::ostream &stream, const TestingDatabase &database) noexcept
+{
+    stream << "TestingDatabase " << database.id - database.minId + 1;
+    return stream;
+}

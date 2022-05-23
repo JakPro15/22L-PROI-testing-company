@@ -4,6 +4,9 @@
 #include <ostream>
 
 
+class OutputHandler;
+
+
 /*
 Price class representing a price in Polish currency (PLN).
 */
@@ -28,6 +31,7 @@ public:
     int getGr() const noexcept;
     // Throws InvalidPrice if newGr<0 or newGr>=100
     void setGr(int newGr);
+    // Puts the price as a string into the stream.
     friend std::ostream& operator<<(std::ostream &stream, const Price &price) noexcept;
     // == is the base operator
     bool operator==(const Price& price) const noexcept;

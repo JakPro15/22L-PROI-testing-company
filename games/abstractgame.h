@@ -1,11 +1,11 @@
 #ifndef ABSTRACTGAME_H
 #define ABSTRACTGAME_H
 
-#include "price.h"
 #include <string>
 
 
 class Producer;
+class Price;
 
 
 /*
@@ -13,6 +13,9 @@ Abstract Game class defining the interface for all games in the simulation.
 */
 class AbstractGame
 {
+protected:
+    // Protected constructor to initialize ID and producer properly
+    AbstractGame(int id, Producer &producer): id(id), producer(producer) {}
 public:
     enum Complexity
     {
@@ -21,11 +24,17 @@ public:
         Complex
     };
 
+    // Unique ID of the game assigned at creation.
+    const int id;
+    // Reference to the company that developed the game.
+    Producer &producer;
+
+    // Copying of AbstractGame is forbidden (IDs wouldn't be unique).
+    AbstractGame(const AbstractGame&)=delete;
+    AbstractGame& operator=(const AbstractGame&)=delete;
+
     // Empty virtual destructor - for inheritance.
     virtual ~AbstractGame() {};
-
-    // Returns the identifier of the game.
-    virtual int getId() const noexcept=0;
 
     // Sets the title of the game. Empty (all whitespace) titles are not allowed.
     virtual void setTitle(std::string title)=0;
@@ -52,9 +61,6 @@ public:
     virtual void setComplexity(Complexity complexity)=0;
     // Returns how complex the game is.
     virtual Complexity getComplexity() const noexcept=0;
-
-    // Returns the company that commissioned the testing.
-    virtual Producer& getProducer() const noexcept=0;
 
     // Returns at least how many testers the game needs at a given moment.
     virtual void setMinTestersAmount(unsigned int minTestersAmount)=0;

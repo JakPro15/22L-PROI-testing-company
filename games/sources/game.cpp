@@ -21,7 +21,7 @@ std::string Game::getUniqueName() const noexcept
 
 Game::Game(char, int id, std::string title, Producer &producer, unsigned int filesSize, AbstractGame::Complexity complexity,
         unsigned int minTestersAmount, bool codeAvailable, Price marketPrice):
-    id(id), title(title), producer(producer), filesSize(filesSize), complexity(complexity),
+    AbstractGame(id, producer), title(title), filesSize(filesSize), complexity(complexity),
     minTestersAmount(minTestersAmount), codeAvailable(codeAvailable), marketPrice(marketPrice)
 {
     // ID is not checked here - the constructor calling this constructor should handle this.
@@ -57,12 +57,6 @@ Game::Game(int id, std::string title, Producer &producer, unsigned int filesSize
 
 Game::~Game()
 {}
-
-
-int Game::getId() const noexcept
-{
-    return id;
-}
 
 
 void Game::setTitle(std::string title)
@@ -146,12 +140,6 @@ AbstractGame::Complexity Game::getComplexity() const noexcept
 }
 
 
-Producer& Game::getProducer() const noexcept
-{
-    return producer;
-}
-
-
 void Game::setMinTestersAmount(unsigned int minTestersAmount)
 {
     if(minTestersAmount == 0)
@@ -217,7 +205,7 @@ Price Game::getTestingPrice() const noexcept
 
 bool Game::operator==(const AbstractGame &game) const noexcept
 {
-    if(id == game.getId())
+    if(id == game.id)
     {
         return true;
     }

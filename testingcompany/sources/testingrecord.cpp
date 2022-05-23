@@ -1,5 +1,8 @@
 #include "../testingrecord.h"
+#include "../tester.h"
 #include "../../exceptions.h"
+#include "../../games/abstractgame.h"
+#include "../../games/price.h"
 #include <cstdlib>
 #include <cmath>
 #include <algorithm>
@@ -14,8 +17,8 @@ void TestingRecord::checkId() const
 }
 
 
-TestingRecord::TestingRecord(int id, const AbstractGame &game, unsigned int maxTestersAmount): id(id), game(game), testers(),
-    beingTested(false), testingFinished(false), realTestingTime(0), maxTestersAmount(maxTestersAmount)
+TestingRecord::TestingRecord(int id, const AbstractGame &game, unsigned int maxTestersAmount): testers(),
+    beingTested(false), testingFinished(false), realTestingTime(0), maxTestersAmount(maxTestersAmount), id(id), game(game)
 {
     checkId();
     double timeChangeFactor = (double(std::rand()) / RAND_MAX) + 0.5;  // Will be between 0.5 and 1.5
@@ -86,21 +89,9 @@ void TestingRecord::removeTester(std::shared_ptr<Tester> tester)
 }
 
 
-int TestingRecord::getId() const noexcept
-{
-    return id;
-}
-
-
 bool TestingRecord::getBeingTested() const noexcept
 {
     return beingTested;
-}
-
-
-const AbstractGame& TestingRecord::getGame() const noexcept
-{
-    return game;
 }
 
 

@@ -1,17 +1,18 @@
 #ifndef TESTINGDATABASE_H
 #define TESTINGDATABASE_H
 
-#include "testingrecord.h"
-#include "testingcompany.h"
 #include <vector>
 #include <deque>
 #include <queue>
 #include <list>
 #include <memory>
+#include <iostream>
 
 
+class TestingRecord;
 class TestingCompany;
 class AbstractGame;
+class Tester;
 
 
 /*
@@ -23,11 +24,6 @@ class TestingDatabase
 private:
     // Throws InvalidId if the object's id is invalid for a TestingDatabase object.
     void checkId() const;
-    // Unique ID of the database assigned at creation.
-    const int id;
-
-    // Reference to the company this database belongs to.
-    TestingCompany &company;
 
     // Represents a not yet processed testing request.
     class Request
@@ -59,17 +55,21 @@ private:
     std::list<std::unique_ptr<TestingRecord>> gamesBeingTested;
 public:
     // These constants define the ID limits for this class.
-    const int minId = 7000001;
-    const int maxId = 7999999;
+    static const int minId = 7000001;
+    static const int maxId = 7999999;
+
+    // Unique ID of the database assigned at creation.
+    const int id;
+
+    // Reference to the company this database belongs to.
+    TestingCompany &company;
 
      // Creates an object of type TestingDatabase within the given TestingCompany.
     TestingDatabase(int id, TestingCompany &company);
 
-    // Returns the identifier of the database.
-    int getId() const noexcept;
-
-    // Returns the company this database belongs to.
-    TestingCompany& getCompany() const noexcept;
+    // Copying of TestingDatabase is forbidden (IDs wouldn't be unique).
+    TestingDatabase(const TestingDatabase&)=delete;
+    TestingDatabase& operator=(const TestingDatabase&)=delete;
 
     // These functions return the sizes of their respective collections.
     unsigned int getGamesBeingTestedAmount() const noexcept;
@@ -85,6 +85,9 @@ public:
     void checkRecords();
     // Assigns the tester to a game and returns true. If there are no available games, returns false.
     bool assignTester(std::shared_ptr<Tester> tester);
+
+    // Puts the unique name of the testing database into the stream.
+    friend std::ostream& operator<<(std::ostream &stream, const TestingDatabase &database) noexcept;
 };
 
 

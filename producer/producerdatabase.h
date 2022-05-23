@@ -1,7 +1,6 @@
 #ifndef PRODUCERDATABASE_H
 #define PRODUCERDATABASE_H
 
-#include "../games/abstractgame.h"
 #include <vector>
 #include <memory>
 
@@ -48,17 +47,22 @@ private:
     // Returns the index of the record holding the given Game. Returns -1 if the game is not found.
     int findGame(AbstractGame &game);
 public:
-    // Unique ID of the database assigned at creation.
-    const int id;
     // These constants define the ID limits for this class.
     static const int minId = 12000001;
     static const int maxId = 12999999;
+
+    // Unique ID of the database assigned at creation.
+    const int id;
 
     // Producer this database belongs to.
     Producer &producer;
 
     // Creates an object of type ProducerDatabase.
     ProducerDatabase(int id, Producer &producer);
+
+    // Copying of ProducerDatabase is forbidden (IDs wouldn't be unique).
+    ProducerDatabase(const ProducerDatabase&)=delete;
+    ProducerDatabase& operator=(const ProducerDatabase&)=delete;
 
     // Adds the given Game to the database. Raises DuplicateGameError if the Game is already there.
     void addGame(AbstractGame &game);
@@ -73,6 +77,9 @@ public:
 
     // Registers in the database that the given game has been tested.
     void gameFinishedTesting(AbstractGame& game);
+
+    // Puts the unique name of the producer database into the stream.
+    friend std::ostream& operator<<(std::ostream &stream, const ProducerDatabase &database) noexcept;
 };
 
 

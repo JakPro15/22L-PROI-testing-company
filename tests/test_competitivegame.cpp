@@ -17,9 +17,9 @@ TEST_CASE("CompetitiveGame methods", "[CompetitiveGame]")
     {
         // Construction from Price object
         CompetitiveGame game1(5000001, "G", pr, 100, AbstractGame::Average, 3, InfiniteGame::Average, 1000, true, Price(500));
-        CHECK(game1.getId() == 5000001);
+        CHECK(game1.id == 5000001);
         CHECK(game1.getTitle() == "G");
-        CHECK(&game1.getProducer() == &pr);
+        CHECK(game1.producer == pr);
         CHECK(game1.getFilesSize() == 100);
         CHECK(game1.getComplexity() == 1);
         CHECK(game1.getDepth() == 0);
@@ -31,9 +31,9 @@ TEST_CASE("CompetitiveGame methods", "[CompetitiveGame]")
         // Construction from one integer
         CompetitiveGame game2(5999999, "            TYYY", pr, 10000, AbstractGame::Complex, 1, InfiniteGame::Shallow,
                               100, false, 500);
-        CHECK(game2.getId() == 5999999);
+        CHECK(game2.id == 5999999);
         CHECK(game2.getTitle() == "            TYYY");
-        CHECK(&game2.getProducer() == &pr);
+        CHECK(game2.producer == pr);
         CHECK(game2.getFilesSize() == 10000);
         CHECK(game2.getComplexity() == 2);
         CHECK(game2.getDepth() == -1);
@@ -44,9 +44,9 @@ TEST_CASE("CompetitiveGame methods", "[CompetitiveGame]")
 
         // Construction from two integers
         CompetitiveGame game3(5000001, "G a a", pr, 234, AbstractGame::Simple, 23, InfiniteGame::Expansive, 0, true, 5, 12);
-        CHECK(game3.getId() == 5000001);
+        CHECK(game3.id == 5000001);
         CHECK(game3.getTitle() == "G a a");
-        CHECK(&game3.getProducer() == &pr);
+        CHECK(game3.producer == pr);
         CHECK(game3.getFilesSize() == 234);
         CHECK(game3.getComplexity() == 0);
         CHECK(game3.getDepth() == 2);
@@ -141,9 +141,9 @@ TEST_CASE("CompetitiveGame methods", "[CompetitiveGame]")
     SECTION("Title setter - typical")
     {
         game.setTitle("ABC");
-        CHECK(game.getId() == 5000001);
+        CHECK(game.id == 5000001);
         CHECK(game.getTitle() == "ABC");
-        CHECK(&game.getProducer() == &pr);
+        CHECK(game.producer == pr);
         CHECK(game.getFilesSize() == 100);
         CHECK(game.getComplexity() == 1);
         CHECK(game.getDepth() == 0);
@@ -153,9 +153,9 @@ TEST_CASE("CompetitiveGame methods", "[CompetitiveGame]")
         CHECK(game.getMinTestersAmount() == 3);
 
         game.setTitle("Specje \tu Sa");
-        CHECK(game.getId() == 5000001);
+        CHECK(game.id == 5000001);
         CHECK(game.getTitle() == "Specje \tu Sa");
-        CHECK(&game.getProducer() == &pr);
+        CHECK(game.producer == pr);
         CHECK(game.getFilesSize() == 100);
         CHECK(game.getComplexity() == 1);
         CHECK(game.getDepth() == 0);
@@ -173,9 +173,9 @@ TEST_CASE("CompetitiveGame methods", "[CompetitiveGame]")
     SECTION("Files size setter - typical")
     {
         game.setFilesSize(234);
-        CHECK(game.getId() == 5000001);
+        CHECK(game.id == 5000001);
         CHECK(game.getTitle() == "G");
-        CHECK(&game.getProducer() == &pr);
+        CHECK(game.producer == pr);
         CHECK(game.getFilesSize() == 234);
         CHECK(game.getComplexity() == 1);
         CHECK(game.getDepth() == 0);
@@ -185,9 +185,9 @@ TEST_CASE("CompetitiveGame methods", "[CompetitiveGame]")
         CHECK(game.getMinTestersAmount() == 3);
 
         game.setFilesSize(734);
-        CHECK(game.getId() == 5000001);
+        CHECK(game.id == 5000001);
         CHECK(game.getTitle() == "G");
-        CHECK(&game.getProducer() == &pr);
+        CHECK(game.producer == pr);
         CHECK(game.getFilesSize() == 734);
         CHECK(game.getComplexity() == 1);
         CHECK(game.getDepth() == 0);
@@ -203,9 +203,9 @@ TEST_CASE("CompetitiveGame methods", "[CompetitiveGame]")
     SECTION("Code available setter")
     {
         game.setCodeAvailable(true);
-        CHECK(game.getId() == 5000001);
+        CHECK(game.id == 5000001);
         CHECK(game.getTitle() == "G");
-        CHECK(&game.getProducer() == &pr);
+        CHECK(game.producer == pr);
         CHECK(game.getFilesSize() == 100);
         CHECK(game.getComplexity() == 1);
         CHECK(game.getDepth() == 0);
@@ -215,9 +215,9 @@ TEST_CASE("CompetitiveGame methods", "[CompetitiveGame]")
         CHECK(game.getMinTestersAmount() == 3);
 
         game.setCodeAvailable(false);
-        CHECK(game.getId() == 5000001);
+        CHECK(game.id == 5000001);
         CHECK(game.getTitle() == "G");
-        CHECK(&game.getProducer() == &pr);
+        CHECK(game.producer == pr);
         CHECK(game.getFilesSize() == 100);
         CHECK(game.getComplexity() == 1);
         CHECK(game.getDepth() == 0);
@@ -229,9 +229,9 @@ TEST_CASE("CompetitiveGame methods", "[CompetitiveGame]")
     SECTION("Complexity setter")
     {
         game.setComplexity(AbstractGame::Simple);
-        CHECK(game.getId() == 5000001);
+        CHECK(game.id == 5000001);
         CHECK(game.getTitle() == "G");
-        CHECK(&game.getProducer() == &pr);
+        CHECK(game.producer == pr);
         CHECK(game.getFilesSize() == 100);
         CHECK(game.getComplexity() == 0);
         CHECK(game.getDepth() == 0);
@@ -241,9 +241,9 @@ TEST_CASE("CompetitiveGame methods", "[CompetitiveGame]")
         CHECK(game.getMinTestersAmount() == 3);
 
         game.setComplexity(AbstractGame::Complex);
-        CHECK(game.getId() == 5000001);
+        CHECK(game.id == 5000001);
         CHECK(game.getTitle() == "G");
-        CHECK(&game.getProducer() == &pr);
+        CHECK(game.producer == pr);
         CHECK(game.getFilesSize() == 100);
         CHECK(game.getComplexity() == 2);
         CHECK(game.getDepth() == 0);
@@ -255,9 +255,9 @@ TEST_CASE("CompetitiveGame methods", "[CompetitiveGame]")
     SECTION("Depth setter")
     {
         game.setDepth(InfiniteGame::Deep);
-        CHECK(game.getId() == 5000001);
+        CHECK(game.id == 5000001);
         CHECK(game.getTitle() == "G");
-        CHECK(&game.getProducer() == &pr);
+        CHECK(game.producer == pr);
         CHECK(game.getFilesSize() == 100);
         CHECK(game.getComplexity() == 1);
         CHECK(game.getDepth() == 1);
@@ -267,9 +267,9 @@ TEST_CASE("CompetitiveGame methods", "[CompetitiveGame]")
         CHECK(game.getMinTestersAmount() == 3);
 
         game.setDepth(InfiniteGame::Shallow);
-        CHECK(game.getId() == 5000001);
+        CHECK(game.id == 5000001);
         CHECK(game.getTitle() == "G");
-        CHECK(&game.getProducer() == &pr);
+        CHECK(game.producer == pr);
         CHECK(game.getFilesSize() == 100);
         CHECK(game.getComplexity() == 1);
         CHECK(game.getDepth() == -1);
@@ -281,9 +281,9 @@ TEST_CASE("CompetitiveGame methods", "[CompetitiveGame]")
     SECTION("Server size setter")
     {
         game.setServerSize(99999);
-        CHECK(game.getId() == 5000001);
+        CHECK(game.id == 5000001);
         CHECK(game.getTitle() == "G");
-        CHECK(&game.getProducer() == &pr);
+        CHECK(game.producer == pr);
         CHECK(game.getFilesSize() == 100);
         CHECK(game.getComplexity() == 1);
         CHECK(game.getDepth() == 0);
@@ -293,9 +293,9 @@ TEST_CASE("CompetitiveGame methods", "[CompetitiveGame]")
         CHECK(game.getMinTestersAmount() == 3);
 
         game.setServerSize(0);
-        CHECK(game.getId() == 5000001);
+        CHECK(game.id == 5000001);
         CHECK(game.getTitle() == "G");
-        CHECK(&game.getProducer() == &pr);
+        CHECK(game.producer == pr);
         CHECK(game.getFilesSize() == 100);
         CHECK(game.getComplexity() == 1);
         CHECK(game.getDepth() == 0);
@@ -307,9 +307,9 @@ TEST_CASE("CompetitiveGame methods", "[CompetitiveGame]")
     SECTION("MinTestersAmount setter - typical")
     {
         game.setMinTestersAmount(1);
-        CHECK(game.getId() == 5000001);
+        CHECK(game.id == 5000001);
         CHECK(game.getTitle() == "G");
-        CHECK(&game.getProducer() == &pr);
+        CHECK(game.producer == pr);
         CHECK(game.getFilesSize() == 100);
         CHECK(game.getComplexity() == 1);
         CHECK(game.getDepth() == 0);
@@ -319,9 +319,9 @@ TEST_CASE("CompetitiveGame methods", "[CompetitiveGame]")
         CHECK(game.getMinTestersAmount() == 1);
 
         game.setMinTestersAmount(734);
-        CHECK(game.getId() == 5000001);
+        CHECK(game.id == 5000001);
         CHECK(game.getTitle() == "G");
-        CHECK(&game.getProducer() == &pr);
+        CHECK(game.producer == pr);
         CHECK(game.getFilesSize() == 100);
         CHECK(game.getComplexity() == 1);
         CHECK(game.getDepth() == 0);
@@ -337,9 +337,9 @@ TEST_CASE("CompetitiveGame methods", "[CompetitiveGame]")
     SECTION("Market price setter 1 - typical")
     {
         game.setMarketPrice(Price(20, 12));
-        CHECK(game.getId() == 5000001);
+        CHECK(game.id == 5000001);
         CHECK(game.getTitle() == "G");
-        CHECK(&game.getProducer() == &pr);
+        CHECK(game.producer == pr);
         CHECK(game.getFilesSize() == 100);
         CHECK(game.getComplexity() == 1);
         CHECK(game.getDepth() == 0);
@@ -348,9 +348,9 @@ TEST_CASE("CompetitiveGame methods", "[CompetitiveGame]")
         CHECK(game.getMinTestersAmount() == 3);
 
         game.setMarketPrice(734);
-        CHECK(game.getId() == 5000001);
+        CHECK(game.id == 5000001);
         CHECK(game.getTitle() == "G");
-        CHECK(&game.getProducer() == &pr);
+        CHECK(game.producer == pr);
         CHECK(game.getFilesSize() == 100);
         CHECK(game.getComplexity() == 1);
         CHECK(game.getDepth() == 0);
@@ -362,9 +362,9 @@ TEST_CASE("CompetitiveGame methods", "[CompetitiveGame]")
     SECTION("Market price setter 2 - typical")
     {
         game.setMarketPrice(234, 0);
-        CHECK(game.getId() == 5000001);
+        CHECK(game.id == 5000001);
         CHECK(game.getTitle() == "G");
-        CHECK(&game.getProducer() == &pr);
+        CHECK(game.producer == pr);
         CHECK(game.getFilesSize() == 100);
         CHECK(game.getComplexity() == 1);
         CHECK(game.getDepth() == 0);
@@ -374,9 +374,9 @@ TEST_CASE("CompetitiveGame methods", "[CompetitiveGame]")
         CHECK(game.getMinTestersAmount() == 3);
 
         game.setMarketPrice(0, 120);
-        CHECK(game.getId() == 5000001);
+        CHECK(game.id == 5000001);
         CHECK(game.getTitle() == "G");
-        CHECK(&game.getProducer() == &pr);
+        CHECK(game.producer == pr);
         CHECK(game.getFilesSize() == 100);
         CHECK(game.getComplexity() == 1);
         CHECK(game.getDepth() == 0);

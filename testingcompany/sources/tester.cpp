@@ -1,6 +1,7 @@
 #include "../tester.h"
 #include "../../exceptions.h"
 
+
 void Tester::checkId() const
 {
     if(id < minId or id > maxId)

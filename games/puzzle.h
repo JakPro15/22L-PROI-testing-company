@@ -30,8 +30,8 @@ protected:
     unsigned int length;
 public:
     // These constants define the ID limits for this class.
-    const int minId = 2000001;
-    const int maxId = 2999999;
+    static const int minId = 2000001;
+    static const int maxId = 2999999;
 
     // Creates an object of type Puzzle - market price given as a Price object or single int of PLN*100.
     Puzzle(int id, std::string title, Producer &producer, unsigned int filesSize, AbstractGame::Complexity complexity,
@@ -41,6 +41,11 @@ public:
     Puzzle(int id, std::string title, Producer &producer, unsigned int filesSize, AbstractGame::Complexity complexity,
            unsigned int minTestersAmount, Difficulty difficulty, unsigned int length, bool codeAvailable,
            int priceZl, int priceGr);
+
+    // Copying of Puzzle is forbidden (IDs wouldn't be unique).
+    Puzzle(const Puzzle&)=delete;
+    Puzzle& operator=(const Puzzle&)=delete;
+
     // Empty virtual destructor - overwritten from Game.
     ~Puzzle() override;
 

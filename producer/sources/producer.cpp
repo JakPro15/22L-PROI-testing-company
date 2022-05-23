@@ -1,6 +1,7 @@
 #include "../producer.h"
 #include "../../testingcompany/checkallwhitespace.h"
 #include "../../exceptions.h"
+#include "../../simulation/simulation.h"
 #include <cstdlib>
 
 

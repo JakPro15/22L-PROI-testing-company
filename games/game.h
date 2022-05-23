@@ -2,6 +2,7 @@
 #define GAME_H
 
 #include "abstractgame.h"
+#include "price.h"
 #include <iostream>
 
 
@@ -16,12 +17,8 @@ private:
 protected:
     // Returns the unique name of the game (for example "Game 1", if id==1000001).
     virtual std::string getUniqueName() const noexcept;
-    // Unique ID of the game assigned at creation.
-    const int id;
     // Title of the game. Cannot be all-whitespace.
     std::string title;
-    // Reference to the company that commissioned the testing.
-    Producer &producer;
     // Size of the game's files in kilobytes.
     unsigned int filesSize;
     // Complexity of the game (on a scale from 0 to 3).
@@ -38,8 +35,8 @@ protected:
          unsigned int minTestersAmount, bool codeAvailable=false, Price marketPrice=0);
 public:
     // These constants define the ID limits for this class.
-    const int minId = 1000001;
-    const int maxId = 1999999;
+    static const int minId = 1000001;
+    static const int maxId = 1999999;
 
     // Creates an object of type Game - market price given as a Price object or single int of PLN*100.
     Game(int id, std::string title, Producer &producer, unsigned int filesSize, AbstractGame::Complexity complexity,
@@ -47,11 +44,13 @@ public:
     // Creates an object of type Game - market price given as two ints (zl and gr).
     Game(int id, std::string title, Producer &producer, unsigned int filesSize, AbstractGame::Complexity complexity,
          unsigned int minTestersAmount, bool codeAvailable, int priceZl, int priceGr);
+
+    // Copying of Game is forbidden (IDs wouldn't be unique).
+    Game(const Game&)=delete;
+    Game& operator=(const Game&)=delete;
+
     // Empty virtual destructor - for inheritance.
     ~Game() override;
-
-    // Returns the identifier of the game.
-    int getId() const noexcept override;
 
     // Sets the title of the game. Empty (all whitespace) titles are not allowed.
     void setTitle(std::string title) override;
@@ -78,9 +77,6 @@ public:
     void setComplexity(AbstractGame::Complexity complexity) override;
     // Returns how complex the game is.
     AbstractGame::Complexity getComplexity() const noexcept override;
-
-    // Returns the company that commissioned the testing.
-    Producer& getProducer() const noexcept override;
 
     // Returns at least how many testers the game needs at a given moment.
     void setMinTestersAmount(unsigned int minTestersAmount) override;

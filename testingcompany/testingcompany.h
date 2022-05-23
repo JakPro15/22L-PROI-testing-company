@@ -1,8 +1,6 @@
 #ifndef TESTINGCOMPANY_H
 #define TESTINGCOMPANY_H
 
-#include "testingdatabase.h"
-
 
 class AbstractGame;
 
@@ -14,6 +12,11 @@ private:
     unsigned int effort;
 public:
     TestingCompany(...) {}
+
+    // Copying of TestingCompany is forbidden (IDs wouldn't be unique).
+    TestingCompany(const TestingCompany&)=delete;
+    TestingCompany& operator=(const TestingCompany&)=delete;
+
     ~TestingCompany() {}
     int getRequestId() { return 11000001; }
 

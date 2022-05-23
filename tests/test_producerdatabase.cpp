@@ -106,4 +106,21 @@ TEST_CASE("ProducerDatabase methods", "[ProducerDatabase]")
 
         CHECK_THROWS_AS(database.gameFinishedTesting(game2), GameAlreadyTestedError);
     }
+    SECTION("<< operator")
+    {
+        std::stringstream stream1, stream2;
+        stream1 << database;
+        stream2 << "ProducerDatabase 1";
+        CHECK(stream1.str() == stream2.str());
+
+        ProducerDatabase database2(12009000, pr);
+        stream1.str("");
+        stream1.clear();
+        stream2.str("");
+        stream2.clear();
+
+        stream1 << database2;
+        stream2 << "ProducerDatabase 9000";
+        CHECK(stream1.str() == stream2.str());
+    }
 }

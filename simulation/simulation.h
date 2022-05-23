@@ -1,8 +1,8 @@
 #ifndef SIMULATION_H
 #define SIMULATION_H
 
-#include "../games/game.h"
-#include "../testingcompany/testingcompany.h"
+
+class AbstractGame;
 
 
 class Simulation

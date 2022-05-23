@@ -2,8 +2,9 @@
 #define _MANAGER_H
 
 #include "worker.h"
-#include "tester.h"
-#include "testingcompany.h"
+
+
+class TestingCompany;
 
 
 class Manager: public Worker
