@@ -21,7 +21,6 @@ Manager::Manager(int id, std::string name, std::string surname, TestingCompany& 
     Worker('a', id, name, surname), company(company)
 {
     checkId();
-    checkId();
     unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
     std::mt19937 generator (seed);
     productivity = (generator() % 21) + 10;  
