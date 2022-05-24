@@ -1,5 +1,6 @@
 #include "catch.hpp"
 #include "../testingcompany/testingrecord.h"
+#include "../testingcompany/tester.h"
 #include "../games/game.h"
 #include "../producer/producer.h"
 #include "../testingcompany/testingcompany.h"
@@ -12,9 +13,10 @@ TEST_CASE("TestingRecord constructor and setters", "[TestingRecord]")
 {
     Simulation sim;
     TestingCompany tcom;
-    Producer pr(14000001, "Pr", Address("SN", 2, 5, "SNville", "12-345"), sim, tcom);
+    OutputHandler out;
+    Producer pr(out, 14000001, "Pr", Address("SN", 2, 5, "SNville", "12-345"), sim, tcom);
     Game game(1000001, "G", pr, 100000, AbstractGame::Average, 3, true, Price(500));
-    TestingRecord record(6000001, game, 5);
+    TestingRecord record(out, 6000001, game, 5);
     SECTION("Constructor (typical) and getters")
     {
         CHECK(record.id == 6000001);
@@ -24,7 +26,7 @@ TEST_CASE("TestingRecord constructor and setters", "[TestingRecord]")
         CHECK(record.getMaxTestersAmount() == 5);
         CHECK(record.getTesters() == std::list<std::shared_ptr<Tester>>());
 
-        TestingRecord record2(6500000, game, 5);
+        TestingRecord record2(out, 6500000, game, 5);
         CHECK(record2.id == 6500000);
         CHECK_FALSE(record.getBeingTested());
         CHECK(record2.game == game);
@@ -33,7 +35,7 @@ TEST_CASE("TestingRecord constructor and setters", "[TestingRecord]")
         CHECK(record2.getTesters() == std::list<std::shared_ptr<Tester>>());
 
         Game game2(1000002, "G", pr, 100, AbstractGame::Average, 30, true, Price(500));
-        TestingRecord record3(6500001, game2);
+        TestingRecord record3(out, 6500001, game2);
         CHECK(record3.id == 6500001);
         CHECK_FALSE(record.getBeingTested());
         CHECK(record3.game == game2);
@@ -43,12 +45,12 @@ TEST_CASE("TestingRecord constructor and setters", "[TestingRecord]")
     }
     SECTION("Constructor - exceptions")
     {
-        CHECK_THROWS_AS(TestingRecord(6000000, game, 200), InvalidId);
-        CHECK_THROWS_AS(TestingRecord(7000000, game, 200), InvalidId);
-        CHECK_THROWS_AS(TestingRecord(6000000, game), InvalidId);
-        CHECK_THROWS_AS(TestingRecord(7000000, game), InvalidId);
+        CHECK_THROWS_AS(TestingRecord(out, 6000000, game, 200), InvalidId);
+        CHECK_THROWS_AS(TestingRecord(out, 7000000, game, 200), InvalidId);
+        CHECK_THROWS_AS(TestingRecord(out, 6000000, game), InvalidId);
+        CHECK_THROWS_AS(TestingRecord(out, 7000000, game), InvalidId);
 
-        CHECK_THROWS_AS(TestingRecord(6000001, game, 2), InvalidTestersAmount);
+        CHECK_THROWS_AS(TestingRecord(out, 6000001, game, 2), InvalidTestersAmount);
     }
     SECTION("Testers collection methods")
     {
@@ -137,7 +139,7 @@ TEST_CASE("TestingRecord constructor and setters", "[TestingRecord]")
     SECTION("Exceptions")
     {
         Game game(1000001, "G", pr, 100, AbstractGame::Average, 3, true, Price(500));
-        TestingRecord record(6000001, game, 5);
+        TestingRecord record(out, 6000001, game, 5);
 
         std::shared_ptr<Tester> tester1Ptr = std::make_shared<Tester>(10000001, "Paweł", "Piekarski", 4);
         std::shared_ptr<Tester> tester2Ptr = std::make_shared<Tester>(10000001, "Paweł", "Piekarski", 5);
@@ -160,12 +162,13 @@ TEST_CASE("TestingRecord time advancing methods", "[TestingRecord]")
     std::srand(0);
     Simulation sim;
     TestingCompany tcom;
-    Producer pr(14000001, "Pr", Address("SN", 2, 5, "SNville", "12-345"), sim, tcom);
+    OutputHandler out;
+    Producer pr(out, 14000001, "Pr", Address("SN", 2, 5, "SNville", "12-345"), sim, tcom);
 
     SECTION("Case 1 - total effort == 30")
     {
         Game game(1000001, "G", pr, 100, AbstractGame::Average, 3, true, Price(500));
-        TestingRecord record(6000001, game, 5);
+        TestingRecord record(out, 6000001, game, 5);
 
         std::shared_ptr<Tester> tester1Ptr = std::make_shared<Tester>(10000001, "Paweł", "Piekarski", 4);
         std::shared_ptr<Tester> tester2Ptr = std::make_shared<Tester>(10000001, "Paweł", "Piekarski", 5);
@@ -220,7 +223,7 @@ TEST_CASE("TestingRecord time advancing methods", "[TestingRecord]")
     SECTION("Case 2 - total effort == 45")
     {
         Game game(1000001, "G", pr, 10000, AbstractGame::Average, 3, true, Price(500));
-        TestingRecord record(6000001, game, 5);
+        TestingRecord record(out, 6000001, game, 5);
 
         std::shared_ptr<Tester> tester1Ptr = std::make_shared<Tester>(10000001, "Paweł", "Piekarski", 4);
         std::shared_ptr<Tester> tester2Ptr = std::make_shared<Tester>(10000001, "Paweł", "Piekarski", 5);
@@ -277,7 +280,7 @@ TEST_CASE("TestingRecord time advancing methods", "[TestingRecord]")
     SECTION("Exception")
     {
         Game game(1000001, "G", pr, 100, AbstractGame::Average, 3, true, Price(500));
-        TestingRecord record(6000001, game, 5);
+        TestingRecord record(out, 6000001, game, 5);
 
         std::shared_ptr<Tester> tester1Ptr = std::make_shared<Tester>(10000001, "Paweł", "Piekarski", 4);
         std::shared_ptr<Tester> tester2Ptr = std::make_shared<Tester>(10000001, "Paweł", "Piekarski", 5);
@@ -299,11 +302,12 @@ TEST_CASE("TestingRecord total time and price methods", "[TestingRecord]")
     std::srand(0);
     Simulation sim;
     TestingCompany tcom;
-    Producer pr(14000001, "Pr", Address("SN", 2, 5, "SNville", "12-345"), sim, tcom);
+    OutputHandler out;
+    Producer pr(out, 14000001, "Pr", Address("SN", 2, 5, "SNville", "12-345"), sim, tcom);
     SECTION("Case 1 - total effort == 30, real time == 1")
     {
         Game game(1000001, "G", pr, 100, AbstractGame::Average, 3, true, Price(500));
-        TestingRecord record(6000001, game, 5);
+        TestingRecord record(out, 6000001, game, 5);
         std::shared_ptr<Tester> tester1Ptr = std::make_shared<Tester>(10000001, "Paweł", "Piekarski", 4);
         std::shared_ptr<Tester> tester2Ptr = std::make_shared<Tester>(10000001, "Paweł", "Piekarski", 5);
         std::shared_ptr<Tester> tester3Ptr = std::make_shared<Tester>(10000001, "Paweł", "Piekarski", 6);
@@ -319,7 +323,7 @@ TEST_CASE("TestingRecord total time and price methods", "[TestingRecord]")
     SECTION("Case 2 - total effort == 45, real time == 4")
     {
         Game game(1000001, "G", pr, 10000, AbstractGame::Average, 3, true, Price(500));
-        TestingRecord record(6000001, game, 5);
+        TestingRecord record(out, 6000001, game, 5);
         std::shared_ptr<Tester> tester1Ptr = std::make_shared<Tester>(10000001, "Paweł", "Piekarski", 4);
         std::shared_ptr<Tester> tester2Ptr = std::make_shared<Tester>(10000001, "Paweł", "Piekarski", 5);
         std::shared_ptr<Tester> tester3Ptr = std::make_shared<Tester>(10000001, "Paweł", "Piekarski", 6);
@@ -338,7 +342,7 @@ TEST_CASE("TestingRecord total time and price methods", "[TestingRecord]")
     SECTION("Exceptions")
     {
         Game game(1000001, "G", pr, 100, AbstractGame::Average, 3, true, Price(500));
-        TestingRecord record(6000001, game, 5);
+        TestingRecord record(out, 6000001, game, 5);
         CHECK_THROWS_AS(record.getRealTime(), TestingNotEndedError);
         CHECK_THROWS_AS(record.getRealPrice(), TestingNotEndedError);
     }
@@ -349,9 +353,10 @@ TEST_CASE("Minor methods")
 {
     Simulation sim;
     TestingCompany tcom;
-    Producer pr(14000001, "Pr", Address("SN", 2, 5, "SNville", "12-345"), sim, tcom);
+    OutputHandler out;
+    Producer pr(out, 14000001, "Pr", Address("SN", 2, 5, "SNville", "12-345"), sim, tcom);
     Game game(1000001, "G", pr, 100, AbstractGame::Average, 3, true, Price(500));
-    TestingRecord record(6000001, game, 5);
+    TestingRecord record(out, 6000001, game, 5);
     SECTION("MaxTesterAmount setter - typical")
     {
         record.setMaxTestersAmount(12);
@@ -398,7 +403,7 @@ TEST_CASE("Minor methods")
         stream2.str("");
         stream2.clear();
 
-        TestingRecord record2(6009011, game, 5);
+        TestingRecord record2(out, 6009011, game, 5);
         stream1 << record2;
         stream2 << "TestingRecord 9011";
         CHECK(stream1.str() == stream2.str());

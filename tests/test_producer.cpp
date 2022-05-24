@@ -12,7 +12,8 @@ TEST_CASE("Producer methods", "[Producer]")
 {
     Simulation sim;
     TestingCompany tcom;
-    Producer producer(14000001, "Pr", Address("SN", 2, 5, "SNville", "12-345"), sim, tcom);
+    OutputHandler out;
+    Producer producer(out, 14000001, "Pr", Address("SN", 2, 5, "SNville", "12-345"), sim, tcom);
     SECTION("Constructor and getters - typical")
     {
         CHECK(producer.id == 14000001);
@@ -23,7 +24,7 @@ TEST_CASE("Producer methods", "[Producer]")
 
         Simulation sim2;
         TestingCompany tcom2;
-        Producer producer2(14999999, "Prodd", Address("Zakopińska", 11, 11, "Zakopane", "33-333"), sim2, tcom2);
+        Producer producer2(out, 14999999, "Prodd", Address("Zakopińska", 11, 11, "Zakopane", "33-333"), sim2, tcom2);
         CHECK(producer2.id == 14999999);
         CHECK(producer2.getName() == "Prodd");
         CHECK(producer2.getAddress() == Address("Zakopińska", 11, 11, "Zakopane", "33-333"));
@@ -32,12 +33,12 @@ TEST_CASE("Producer methods", "[Producer]")
     }
     SECTION("Constructor - exceptions")
     {
-        CHECK_THROWS_AS(Producer(14000000, "Pr", Address("SN", 2, 5, "SNville", "12-345"), sim, tcom), InvalidId);
-        CHECK_THROWS_AS(Producer(15000000, "Pr", Address("SN", 2, 5, "SNville", "12-345"), sim, tcom), InvalidId);
+        CHECK_THROWS_AS(Producer(out, 14000000, "Pr", Address("SN", 2, 5, "SNville", "12-345"), sim, tcom), InvalidId);
+        CHECK_THROWS_AS(Producer(out, 15000000, "Pr", Address("SN", 2, 5, "SNville", "12-345"), sim, tcom), InvalidId);
 
-        CHECK_THROWS_AS(Producer(14000001, "", Address("SN", 2, 5, "SNville", "12-345"), sim, tcom), EmptyNameException);
-        CHECK_THROWS_AS(Producer(14000001, "  ", Address("SN", 2, 5, "SNville", "12-345"), sim, tcom), EmptyNameException);
-        CHECK_THROWS_AS(Producer(14000001, "\t\v\n", Address("SN", 2, 5, "SNville", "12-345"), sim, tcom), EmptyNameException);
+        CHECK_THROWS_AS(Producer(out, 14000001, "", Address("SN", 2, 5, "SNville", "12-345"), sim, tcom), EmptyNameException);
+        CHECK_THROWS_AS(Producer(out, 14000001, "  ", Address("SN", 2, 5, "SNville", "12-345"), sim, tcom), EmptyNameException);
+        CHECK_THROWS_AS(Producer(out, 14000001, "\t\v\n", Address("SN", 2, 5, "SNville", "12-345"), sim, tcom), EmptyNameException);
     }
     SECTION("Name setter - typical")
     {
@@ -83,7 +84,7 @@ TEST_CASE("Producer methods", "[Producer]")
         CHECK(producer == producerRef);
         CHECK_FALSE(producer != producerRef);
 
-        Producer producer2(14000002, "Pr", Address("SN", 2, 5, "SNville", "12-345"), sim, tcom);
+        Producer producer2(out, 14000002, "Pr", Address("SN", 2, 5, "SNville", "12-345"), sim, tcom);
         CHECK(producer != producer2);
         CHECK_FALSE(producer == producer2);
     }
@@ -94,7 +95,7 @@ TEST_CASE("Producer methods", "[Producer]")
         stream2 << "Producer 1";
         CHECK(stream1.str() == stream2.str());
 
-        Producer producer2(14009000, "Prodd", Address("Zakopińska", 11, 11, "Zakopane", "33-333"), sim, tcom);
+        Producer producer2(out, 14009000, "Prodd", Address("Zakopińska", 11, 11, "Zakopane", "33-333"), sim, tcom);
         stream1.str("");
         stream1.clear();
         stream2.str("");
