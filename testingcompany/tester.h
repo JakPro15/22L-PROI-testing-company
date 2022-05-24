@@ -18,12 +18,6 @@ class Tester: public Worker
         //Returns the unique name of the tester.
         std::string getUniqueName() const noexcept;
 
-        /*
-        Productivity of a worker, determines how much progress he makes in testing of a game per hour.
-        On average equal to 5.
-        */
-        unsigned int productivity;
-
         // Determines if a tester is currently testing a game or not
         bool busyness;
 
@@ -32,11 +26,15 @@ class Tester: public Worker
 
     public:
         // These constants define the ID limits for this class.
-        const int minId = 10000001;
-        const int maxId = 10999999;
+        static const int minId = 10000001;
+        static const int maxId = 10999999;
 
         // Creates an object of class Tester with busyness set to false and game record pointer set to nullptr
-        Tester(int id, std::string name, std::string surname, unsigned int productivity);
+        Tester(int id, std::string name, std::string surname);
+
+        // Copying of Tester is forbidden (IDs wouldn't be unique).
+        Tester(const Tester&)=delete;
+        Tester& operator=(const Tester&)=delete;
 
         // Empty virtual destructor - overwritten from Worker.
         ~Tester() override;

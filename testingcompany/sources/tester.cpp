@@ -1,3 +1,5 @@
+#include <chrono>
+#include <random>
 #include "../tester.h"
 #include "../../exceptions.h"
 
@@ -15,18 +17,13 @@ std::string Tester::getUniqueName() const noexcept
     return "Tester " + std::to_string(id - minId + 1);
 }
 
-Tester::Tester(int id, std::string name, std::string surname, unsigned int productivity):
+Tester::Tester(int id, std::string name, std::string surname):
     Worker('a', id, name, surname), busyness(false), gameRecord(nullptr)
 {
     checkId();
-    if ((1 <= productivity) && (productivity <= 9))
-    {
-        this->productivity = productivity;
-    }
-    else
-    {
-        throw ProductivityOutOfRangeException();
-    }
+    unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
+    std::mt19937 generator (seed);
+    productivity = (generator() % 9) + 1;
 }
 
 Tester::~Tester(){}

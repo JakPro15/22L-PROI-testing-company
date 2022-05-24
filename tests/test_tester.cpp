@@ -9,27 +9,24 @@
 
 TEST_CASE("Tester methods", "[Tester]")
 {
-    Tester piekarz(10000001, "Paweł", "Piekarski", 5);
+    Tester piekarz(10000001, "Paweł", "Piekarski");
 
     SECTION("Constructor and getters")
     {
-        Tester butcher(10000002, "Jan", "Rzeźnicki", 4);
+        Tester butcher(10000002, "Jan", "Rzeźnicki");
 
         CHECK(butcher.getId() == 10000002);
         CHECK(butcher.getName() == "Jan");
         CHECK(butcher.getSurname() == "Rzeźnicki");
-        CHECK(butcher.getProductivity() == 4);
         CHECK(butcher.getBusy() == false);
         CHECK(butcher.getTestedGameRecord() == nullptr);
     }
 
     SECTION("Constructor-exceptions")
     {
-        CHECK_THROWS_AS(Tester(1, "Jan", "Kowalski", 5), InvalidId);
-        CHECK_THROWS_AS(Tester(10000002, "\n", "Kowalski", 7), EmptyNameException);
-        CHECK_THROWS_AS(Tester(10000002, "Jan", "   ", 1), EmptyNameException);
-        CHECK_THROWS_AS(Tester(10000003, "Jan", "Kowalski", 0), ProductivityOutOfRangeException);
-        CHECK_THROWS_AS(Tester(10000003, "Jan", "Kowalski", 100), ProductivityOutOfRangeException);
+        CHECK_THROWS_AS(Tester(1, "Jan", "Kowalski"), InvalidId);
+        CHECK_THROWS_AS(Tester(10000002, "\n", "Kowalski"), EmptyNameException);
+        CHECK_THROWS_AS(Tester(10000002, "Jan", "   "), EmptyNameException);
     }
 
     SECTION("Setters")
@@ -60,8 +57,8 @@ TEST_CASE("Tester methods", "[Tester]")
 
     SECTION("Comparison operators")
     {
-        Tester evil_clone(10000001, "Graweł", "Piekarski", 9);
-        Tester random(10000002, "Losowy", "Typ", 5);
+        Tester evil_clone(10000001, "Graweł", "Piekarski");
+        Tester random(10000002, "Losowy", "Typ");
 
         CHECK((piekarz == evil_clone) == true);
         CHECK((piekarz != evil_clone) == false);
@@ -84,7 +81,7 @@ TEST_CASE("Tester methods", "[Tester]")
         stream2.str("");
         stream2.clear();
 
-        Tester random(10000002, "Losowy", "Typ", 7);
+        Tester random(10000002, "Losowy", "Typ");
 
         stream1 << random;
         stream2 << "Tester 2";

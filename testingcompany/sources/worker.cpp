@@ -16,17 +16,9 @@ std::string Worker::getUniqueName() const noexcept
 }
 
 Worker::Worker(char, int id, std::string name, std::string surname):
-    id(id), name(name), surname(surname)
+    AbstractWorker(id, name, surname)
 {
-    // ID is not checked here - the constructor calling this constructor should handle this.
-    if (checkAllWhitespace(name))
-    {
-        throw EmptyNameException();
-    }
-    if (checkAllWhitespace(surname))
-    {
-        throw EmptyNameException("Surname");
-    }
+    
 }
 
 Worker::Worker(int id, std::string name, std::string surname):
@@ -76,7 +68,7 @@ std::string Worker::getSurname() const noexcept
     return surname;
 }
 
-bool Worker::operator==(const Worker& worker) const noexcept
+bool Worker::operator==(const AbstractWorker& worker) const noexcept
 {
     if(id == worker.getId())
     {
@@ -88,7 +80,7 @@ bool Worker::operator==(const Worker& worker) const noexcept
     }
 }
 
-bool Worker::operator!=(const Worker& worker) const noexcept
+bool Worker::operator!=(const AbstractWorker& worker) const noexcept
 {
     return !(*this == worker);
 }

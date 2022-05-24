@@ -14,26 +14,23 @@ class Manager: public Worker
         void checkId() const;
 
     protected:
-
-        /*
-        Productivity of a worker, determines how much effort he puts in per hour.
-        On average equal to 5.
-        */
-        unsigned int productivity;
-
         //Returns the unique name of the manager.
         std::string getUniqueName() const noexcept;
 
     public:
         // These constants define the ID limits for this class.
-        const int minId = 9000001;
-        const int maxId = 9999999;
+        static const int minId = 9000001;
+        static const int maxId = 9999999;
+
+        // Copying of Manager is forbidden (IDs wouldn't be unique).
+        Manager(const Manager&)=delete;
+        Manager& operator=(const Manager&)=delete;
 
         // Pointer to the database of the company in which a manager is employed
         TestingCompany& company;
 
         // Creates an object of class Manager.
-        Manager(int id, std::string name, std::string surname,  unsigned int productivity, TestingCompany& company);
+        Manager(int id, std::string name, std::string surname, TestingCompany& company);
 
         // Empty virtual destructor - overwritten from Worker.
         ~Manager() override;

@@ -13,25 +13,24 @@ class Worker: public AbstractWorker
     protected:
         // Returns the unique name of the worker.
         virtual std::string getUniqueName() const noexcept;
-        // Unique id of a worker.
-        const int id;
-        // Name of the worker.
-        std::string name;
-        // Surname of the worker.
-        std::string surname;
         // Protected constructor that doesn't check ID - used in derived classes with different ID sets.
         // First argument (char) used only to differentiate from other constructors.
         Worker(char, int id, std::string name, std::string surname);
     public:
         // These constants define the ID limits for this class.
-        const int minId = 8000001;
-        const int maxId = 8999999;
+        static const int minId = 8000001;
+        static const int maxId = 8999999;
 
         // Creates an object of class Worker.
         Worker(int id, std::string name, std::string surname);
 
         // Empty virtual destructor - for inheritance.
         ~Worker() override;
+
+        // Copying of Worker is forbidden (IDs wouldn't be unique).
+        Worker(const Worker&)=delete;
+        Worker& operator=(const Worker&)=delete;
+
 
         //Returns the identifier of the worker
         int getId() const noexcept override;
@@ -47,8 +46,8 @@ class Worker: public AbstractWorker
         std::string getSurname() const noexcept override;
 
         //Returns true xor false if objects are equal or not accordingly comparing only their ids.
-        bool operator==(const Worker& worker) const noexcept;
-        bool operator!=(const Worker& worker) const noexcept;
+        bool operator==(const AbstractWorker& worker) const noexcept override;
+        bool operator!=(const AbstractWorker& worker) const noexcept override;
 
         // Puts the unique name of the worker obtained from getUniqueName into the stream.
         friend std::ostream& operator<<(std::ostream& os, const Worker& worker) noexcept;

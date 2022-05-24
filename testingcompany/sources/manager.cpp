@@ -1,3 +1,5 @@
+#include <chrono>
+#include <random>
 #include "../manager.h"
 #include "../testingcompany.h"
 #include "../../exceptions.h"
@@ -15,18 +17,14 @@ std::string Manager::getUniqueName() const noexcept
     return "Manager " + std::to_string(id - minId + 1);
 }
 
-Manager::Manager(int id, std::string name, std::string surname, unsigned int productivity, TestingCompany& company):
-    Worker('a', id, name, surname), productivity(productivity), company(company)
+Manager::Manager(int id, std::string name, std::string surname, TestingCompany& company):
+    Worker('a', id, name, surname), company(company)
 {
     checkId();
-    if ((1 <= productivity) && (productivity <= 9))
-    {
-        this->productivity = productivity;
-    }
-    else
-    {
-        throw ProductivityOutOfRangeException();
-    }
+    checkId();
+    unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
+    std::mt19937 generator (seed);
+    productivity = (generator() % 21) + 10;  
 }
 
 Manager::~Manager(){}
