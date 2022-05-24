@@ -1,6 +1,7 @@
 #ifndef _ABSTRACTWORKER_H
 #define _ABSTRACTWORKER_H
 
+#include "../exceptions.h"
 #include "checkallwhitespace.h"
 #include <string>
 

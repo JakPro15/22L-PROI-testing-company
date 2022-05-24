@@ -3,6 +3,7 @@
 #include "../games/game.h"
 #include "../producer/producer.h"
 #include "../testingcompany/testingcompany.h"
+#include "../testingcompany/testingrecord.h"
 #include "../simulation/simulation.h"
 #include "../exceptions.h"
 #include <sstream>
@@ -40,11 +41,13 @@ TEST_CASE("Tester methods", "[Tester]")
         piekarz.setBusy(true);
         CHECK(piekarz.getBusy() == true);
 
-        Simulation sim;
+    OutputHandler out;
+    Simulation sim;
     TestingCompany tcom;
-    Producer pr(14000001, "Pr", Address("SN", 2, 5, "SNville", "12-345"), sim, tcom);
+
+    Producer pr(out, 14000001, "Pr", Address("SN", 2, 5, "SNville", "12-345"), sim, tcom);
         Game game(1000001, "Bruh", pr, 1000, AbstractGame::Simple, 5);
-        TestingRecord record(6000003, game, 100);
+        TestingRecord record(out, 6000003, game, 100);
         piekarz.setTestedGameRecord(&record);
         CHECK(piekarz.getTestedGameRecord() == &record);
     }

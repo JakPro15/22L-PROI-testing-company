@@ -2,6 +2,7 @@
 #include "../testingcompany/manager.h"
 #include "../games/game.h"
 #include "../exceptions.h"
+#include "../testingcompany/testingcompany.h"
 #include <sstream>
 
 TEST_CASE("Manager methods", "[Manager]")
