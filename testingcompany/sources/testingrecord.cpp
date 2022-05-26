@@ -4,10 +4,11 @@
 #include "../../games/abstractgame.h"
 #include "../../games/price.h"
 #include "../../simulation/outputhandler.h"
-#include <cstdlib>
 #include <cmath>
 #include <algorithm>
 #include <sstream>
+#include <chrono>
+#include <random>
 
 
 void TestingRecord::checkId() const
@@ -22,8 +23,10 @@ void TestingRecord::checkId() const
 TestingRecord::TestingRecord(OutputHandler &out, int id, const AbstractGame &game, unsigned int maxTestersAmount): out(out), testers(),
     beingTested(false), testingFinished(false), realTestingTime(0), maxTestersAmount(maxTestersAmount), id(id), game(game)
 {
+    unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
+    std::mt19937 generator (seed);
     checkId();
-    double timeChangeFactor = (double(std::rand()) / RAND_MAX) + 0.5;  // Will be between 0.5 and 1.5
+    double timeChangeFactor = (double(generator()) / generator.max()) + 0.5;  // Will be between 0.5 and 1.5
     realTestingEffort = ceil(timeChangeFactor * game.getTestingTime()) * 5 * getMinTestersAmount();
     effortLeft = realTestingEffort;
     if(maxTestersAmount == 0)

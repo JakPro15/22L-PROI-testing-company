@@ -4,8 +4,9 @@
 #include "../../games/abstractgame.h"
 #include "../../simulation/outputhandler.h"
 #include <algorithm>
-#include <cstdlib>
 #include <sstream>
+#include <chrono>
+#include <random>
 
 
 void ProducerDatabase::checkId() const
@@ -136,6 +137,8 @@ AbstractGame& ProducerDatabase::getGameToBeTested()
 
 void ProducerDatabase::gameFinishedTesting(AbstractGame& game)
 {
+    unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
+    std::mt19937 generator (seed);
     int index = findGame(game);
     if(index == -1)
     {
@@ -155,7 +158,7 @@ void ProducerDatabase::gameFinishedTesting(AbstractGame& game)
         stringstr << *this << " notices " << game << "'s testing has been finished";
         out << stringstr.str();
         games[index].tested = true;
-        games[index].timeUntilPaid = std::rand() % 100 + 1;
+        games[index].timeUntilPaid = generator() % 100 + 1;
     }
 }
 

@@ -54,12 +54,12 @@ TEST_CASE("TestingRecord constructor and setters", "[TestingRecord]")
     }
     SECTION("Testers collection methods")
     {
-        std::shared_ptr<Tester> tester1Ptr = std::make_shared<Tester>(10000001, "Paweł", "Piekarski", 5);
-        std::shared_ptr<Tester> tester2Ptr = std::make_shared<Tester>(10000001, "Paweł", "Piekarski", 5);
-        std::shared_ptr<Tester> tester3Ptr = std::make_shared<Tester>(10000001, "Paweł", "Piekarski", 5);
-        std::shared_ptr<Tester> tester4Ptr = std::make_shared<Tester>(10000001, "Paweł", "Piekarski", 5);
-        std::shared_ptr<Tester> tester5Ptr = std::make_shared<Tester>(10000001, "Paweł", "Piekarski", 5);
-        std::shared_ptr<Tester> tester6Ptr = std::make_shared<Tester>(10000001, "Paweł", "Piekarski", 5);
+        std::shared_ptr<Tester> tester1Ptr = std::make_shared<Tester>(10000001, "Paweł", "Piekarski");
+        std::shared_ptr<Tester> tester2Ptr = std::make_shared<Tester>(10000001, "Paweł", "Piekarski");
+        std::shared_ptr<Tester> tester3Ptr = std::make_shared<Tester>(10000001, "Paweł", "Piekarski");
+        std::shared_ptr<Tester> tester4Ptr = std::make_shared<Tester>(10000001, "Paweł", "Piekarski");
+        std::shared_ptr<Tester> tester5Ptr = std::make_shared<Tester>(10000001, "Paweł", "Piekarski");
+        std::shared_ptr<Tester> tester6Ptr = std::make_shared<Tester>(10000001, "Paweł", "Piekarski");
 
         std::list<std::shared_ptr<Tester>> testersPtrs = {};
         testersPtrs.push_back(tester1Ptr);
@@ -141,9 +141,9 @@ TEST_CASE("TestingRecord constructor and setters", "[TestingRecord]")
         Game game(1000001, "G", pr, 100, AbstractGame::Average, 3, true, Price(500));
         TestingRecord record(out, 6000001, game, 5);
 
-        std::shared_ptr<Tester> tester1Ptr = std::make_shared<Tester>(10000001, "Paweł", "Piekarski", 4);
-        std::shared_ptr<Tester> tester2Ptr = std::make_shared<Tester>(10000001, "Paweł", "Piekarski", 5);
-        std::shared_ptr<Tester> tester3Ptr = std::make_shared<Tester>(10000001, "Paweł", "Piekarski", 6);
+        std::shared_ptr<Tester> tester1Ptr = std::make_shared<Tester>(10000001, "Paweł", "Piekarski");
+        std::shared_ptr<Tester> tester2Ptr = std::make_shared<Tester>(10000001, "Paweł", "Piekarski");
+        std::shared_ptr<Tester> tester3Ptr = std::make_shared<Tester>(10000001, "Paweł", "Piekarski");
         record.addTester(tester1Ptr);
         record.addTester(tester2Ptr);
         record.addTester(tester3Ptr);
@@ -159,7 +159,6 @@ TEST_CASE("TestingRecord constructor and setters", "[TestingRecord]")
 
 TEST_CASE("TestingRecord time advancing methods", "[TestingRecord]")
 {
-    std::srand(0);
     Simulation sim;
     TestingCompany tcom;
     OutputHandler out;
@@ -170,9 +169,9 @@ TEST_CASE("TestingRecord time advancing methods", "[TestingRecord]")
         Game game(1000001, "G", pr, 100, AbstractGame::Average, 3, true, Price(500));
         TestingRecord record(out, 6000001, game, 5);
 
-        std::shared_ptr<Tester> tester1Ptr = std::make_shared<Tester>(10000001, "Paweł", "Piekarski", 4);
-        std::shared_ptr<Tester> tester2Ptr = std::make_shared<Tester>(10000001, "Paweł", "Piekarski", 5);
-        std::shared_ptr<Tester> tester3Ptr = std::make_shared<Tester>(10000001, "Paweł", "Piekarski", 6);
+        std::shared_ptr<Tester> tester1Ptr = std::make_shared<Tester>(10000001, "Paweł", "Piekarski");
+        std::shared_ptr<Tester> tester2Ptr = std::make_shared<Tester>(10000001, "Paweł", "Piekarski");
+        std::shared_ptr<Tester> tester3Ptr = std::make_shared<Tester>(10000001, "Paweł", "Piekarski");
         std::list<std::shared_ptr<Tester>> testerPtrs = {tester1Ptr, tester2Ptr, tester3Ptr};
         record.addTester(tester1Ptr);
         record.addTester(tester2Ptr);
@@ -225,9 +224,9 @@ TEST_CASE("TestingRecord time advancing methods", "[TestingRecord]")
         Game game(1000001, "G", pr, 10000, AbstractGame::Average, 3, true, Price(500));
         TestingRecord record(out, 6000001, game, 5);
 
-        std::shared_ptr<Tester> tester1Ptr = std::make_shared<Tester>(10000001, "Paweł", "Piekarski", 4);
-        std::shared_ptr<Tester> tester2Ptr = std::make_shared<Tester>(10000001, "Paweł", "Piekarski", 5);
-        std::shared_ptr<Tester> tester3Ptr = std::make_shared<Tester>(10000001, "Paweł", "Piekarski", 6);
+        std::shared_ptr<Tester> tester1Ptr = std::make_shared<Tester>(10000001, "Paweł", "Piekarski");
+        std::shared_ptr<Tester> tester2Ptr = std::make_shared<Tester>(10000001, "Paweł", "Piekarski");
+        std::shared_ptr<Tester> tester3Ptr = std::make_shared<Tester>(10000001, "Paweł", "Piekarski");
         std::list<std::shared_ptr<Tester>> testerPtrs = {tester1Ptr, tester2Ptr, tester3Ptr};
         record.addTester(tester1Ptr);
         record.addTester(tester2Ptr);
@@ -282,9 +281,9 @@ TEST_CASE("TestingRecord time advancing methods", "[TestingRecord]")
         Game game(1000001, "G", pr, 100, AbstractGame::Average, 3, true, Price(500));
         TestingRecord record(out, 6000001, game, 5);
 
-        std::shared_ptr<Tester> tester1Ptr = std::make_shared<Tester>(10000001, "Paweł", "Piekarski", 4);
-        std::shared_ptr<Tester> tester2Ptr = std::make_shared<Tester>(10000001, "Paweł", "Piekarski", 5);
-        std::shared_ptr<Tester> tester3Ptr = std::make_shared<Tester>(10000001, "Paweł", "Piekarski", 6);
+        std::shared_ptr<Tester> tester1Ptr = std::make_shared<Tester>(10000001, "Paweł", "Piekarski");
+        std::shared_ptr<Tester> tester2Ptr = std::make_shared<Tester>(10000001, "Paweł", "Piekarski");
+        std::shared_ptr<Tester> tester3Ptr = std::make_shared<Tester>(10000001, "Paweł", "Piekarski");
         std::list<std::shared_ptr<Tester>> testerPtrs = {tester1Ptr, tester2Ptr, tester3Ptr};
         record.addTester(tester1Ptr);
         record.addTester(tester2Ptr);
@@ -299,7 +298,6 @@ TEST_CASE("TestingRecord time advancing methods", "[TestingRecord]")
 
 TEST_CASE("TestingRecord total time and price methods", "[TestingRecord]")
 {
-    std::srand(0);
     Simulation sim;
     TestingCompany tcom;
     OutputHandler out;
@@ -308,9 +306,9 @@ TEST_CASE("TestingRecord total time and price methods", "[TestingRecord]")
     {
         Game game(1000001, "G", pr, 100, AbstractGame::Average, 3, true, Price(500));
         TestingRecord record(out, 6000001, game, 5);
-        std::shared_ptr<Tester> tester1Ptr = std::make_shared<Tester>(10000001, "Paweł", "Piekarski", 4);
-        std::shared_ptr<Tester> tester2Ptr = std::make_shared<Tester>(10000001, "Paweł", "Piekarski", 5);
-        std::shared_ptr<Tester> tester3Ptr = std::make_shared<Tester>(10000001, "Paweł", "Piekarski", 6);
+        std::shared_ptr<Tester> tester1Ptr = std::make_shared<Tester>(10000001, "Paweł", "Piekarski");
+        std::shared_ptr<Tester> tester2Ptr = std::make_shared<Tester>(10000001, "Paweł", "Piekarski");
+        std::shared_ptr<Tester> tester3Ptr = std::make_shared<Tester>(10000001, "Paweł", "Piekarski");
         record.addTester(tester1Ptr);
         record.addTester(tester2Ptr);
         record.addTester(tester3Ptr);
@@ -324,9 +322,9 @@ TEST_CASE("TestingRecord total time and price methods", "[TestingRecord]")
     {
         Game game(1000001, "G", pr, 10000, AbstractGame::Average, 3, true, Price(500));
         TestingRecord record(out, 6000001, game, 5);
-        std::shared_ptr<Tester> tester1Ptr = std::make_shared<Tester>(10000001, "Paweł", "Piekarski", 4);
-        std::shared_ptr<Tester> tester2Ptr = std::make_shared<Tester>(10000001, "Paweł", "Piekarski", 5);
-        std::shared_ptr<Tester> tester3Ptr = std::make_shared<Tester>(10000001, "Paweł", "Piekarski", 6);
+        std::shared_ptr<Tester> tester1Ptr = std::make_shared<Tester>(10000001, "Paweł", "Piekarski");
+        std::shared_ptr<Tester> tester2Ptr = std::make_shared<Tester>(10000001, "Paweł", "Piekarski");
+        std::shared_ptr<Tester> tester3Ptr = std::make_shared<Tester>(10000001, "Paweł", "Piekarski");
         record.addTester(tester1Ptr);
         record.addTester(tester2Ptr);
         record.addTester(tester3Ptr);
@@ -380,9 +378,9 @@ TEST_CASE("Minor methods")
         CHECK_THROWS_AS(record.setMaxTestersAmount(2), InvalidTestersAmount);
         CHECK_THROWS_AS(record.setMaxTestersAmount(0), InvalidTestersAmount);
 
-        std::shared_ptr<Tester> tester1Ptr = std::make_shared<Tester>(10000001, "Paweł", "Piekarski", 4);
-        std::shared_ptr<Tester> tester2Ptr = std::make_shared<Tester>(10000001, "Paweł", "Piekarski", 5);
-        std::shared_ptr<Tester> tester3Ptr = std::make_shared<Tester>(10000001, "Paweł", "Piekarski", 6);
+        std::shared_ptr<Tester> tester1Ptr = std::make_shared<Tester>(10000001, "Paweł", "Piekarski");
+        std::shared_ptr<Tester> tester2Ptr = std::make_shared<Tester>(10000001, "Paweł", "Piekarski");
+        std::shared_ptr<Tester> tester3Ptr = std::make_shared<Tester>(10000001, "Paweł", "Piekarski");
         record.addTester(tester1Ptr);
         record.addTester(tester2Ptr);
         record.addTester(tester3Ptr);

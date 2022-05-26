@@ -3,8 +3,9 @@
 #include "../../exceptions.h"
 #include "../../simulation/simulation.h"
 #include "../../games/abstractgame.h"
-#include <cstdlib>
 #include <sstream>
+#include <chrono>
+#include <random>
 
 
 void Producer::checkId() const
@@ -79,8 +80,10 @@ void Producer::payForTesting(AbstractGame &game)
 
 void Producer::advanceTime()
 {
+    unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
+    std::mt19937 generator (seed);
     // 1% chance per hour for the producer to make a new game.
-    if(double(std::rand()) / RAND_MAX < 0.01)
+    if(double(generator()) / generator.max() < 0.01)
     {
         AbstractGame &game = simulation.getNewGame();
         database.addGame(game);
@@ -92,7 +95,7 @@ void Producer::advanceTime()
     // 5% chance per hour for the producer to send a testing request.
     if(database.getUntestedGamesAmount() > 0)
     {
-        if(double(std::rand()) / RAND_MAX < 0.01)
+        if(double(generator()) / generator.max() < 0.01)
         {
             AbstractGame &gameToTest = database.getGameToBeTested();
             testingCompany.sendTestingRequest(gameToTest);
