@@ -164,10 +164,10 @@ TEST_CASE("TestingRecord time advancing methods", "[TestingRecord]")
     OutputHandler out;
     Producer pr(out, 14000001, "Pr", Address("SN", 2, 5, "SNville", "12-345"), sim, tcom);
 
-    SECTION("Case 1 - total effort == 30")
+    SECTION("Case 1 - total effort == 15")
     {
         Game game(1000001, "G", pr, 100, AbstractGame::Average, 3, true, Price(500));
-        TestingRecord record(out, 6000001, game, 5);
+        TestingRecord record(out, 6000001, game, 5, true);
 
         std::shared_ptr<Tester> tester1Ptr = std::make_shared<Tester>(10000001, "Paweł", "Piekarski");
         std::shared_ptr<Tester> tester2Ptr = std::make_shared<Tester>(10000001, "Paweł", "Piekarski");
@@ -177,7 +177,7 @@ TEST_CASE("TestingRecord time advancing methods", "[TestingRecord]")
         record.addTester(tester2Ptr);
         record.addTester(tester3Ptr);
 
-        record.advanceTesting(12);
+        record.advanceTesting(6);
         CHECK_FALSE(record.checkFinished());
         CHECK(record.getBeingTested());
         CHECK(record.getTesters() == testerPtrs);
@@ -188,7 +188,7 @@ TEST_CASE("TestingRecord time advancing methods", "[TestingRecord]")
         CHECK(tester3Ptr->getBusy());
         CHECK(tester3Ptr->getTestedGameRecord() == &record);
 
-        record.advanceTesting(12);
+        record.advanceTesting(6);
         CHECK_FALSE(record.checkFinished());
         CHECK(record.getBeingTested());
         CHECK(record.getTesters() == testerPtrs);
@@ -199,7 +199,7 @@ TEST_CASE("TestingRecord time advancing methods", "[TestingRecord]")
         CHECK(tester3Ptr->getBusy());
         CHECK(tester3Ptr->getTestedGameRecord() == &record);
 
-        record.advanceTesting(12);
+        record.advanceTesting(6);
         CHECK(record.getTesters() == testerPtrs);
         CHECK(record.getBeingTested());
         CHECK(tester1Ptr->getBusy());
@@ -219,10 +219,10 @@ TEST_CASE("TestingRecord time advancing methods", "[TestingRecord]")
         CHECK_FALSE(tester3Ptr->getBusy());
         CHECK(tester3Ptr->getTestedGameRecord() == nullptr);
     }
-    SECTION("Case 2 - total effort == 45")
+    SECTION("Case 2 - total effort == 30")
     {
         Game game(1000001, "G", pr, 10000, AbstractGame::Average, 3, true, Price(500));
-        TestingRecord record(out, 6000001, game, 5);
+        TestingRecord record(out, 6000001, game, 5, true);
 
         std::shared_ptr<Tester> tester1Ptr = std::make_shared<Tester>(10000001, "Paweł", "Piekarski");
         std::shared_ptr<Tester> tester2Ptr = std::make_shared<Tester>(10000001, "Paweł", "Piekarski");
@@ -232,7 +232,18 @@ TEST_CASE("TestingRecord time advancing methods", "[TestingRecord]")
         record.addTester(tester2Ptr);
         record.addTester(tester3Ptr);
 
-        record.advanceTesting(24);
+        record.advanceTesting(16);
+        CHECK_FALSE(record.checkFinished());
+        CHECK(record.getBeingTested());
+        CHECK(record.getTesters() == testerPtrs);
+        CHECK(tester1Ptr->getBusy());
+        CHECK(tester1Ptr->getTestedGameRecord() == &record);
+        CHECK(tester2Ptr->getBusy());
+        CHECK(tester2Ptr->getTestedGameRecord() == &record);
+        CHECK(tester3Ptr->getBusy());
+        CHECK(tester3Ptr->getTestedGameRecord() == &record);
+
+        record.advanceTesting(4);
         CHECK_FALSE(record.checkFinished());
         CHECK(record.getBeingTested());
         CHECK(record.getTesters() == testerPtrs);
@@ -254,18 +265,7 @@ TEST_CASE("TestingRecord time advancing methods", "[TestingRecord]")
         CHECK(tester3Ptr->getBusy());
         CHECK(tester3Ptr->getTestedGameRecord() == &record);
 
-        record.advanceTesting(9);
-        CHECK_FALSE(record.checkFinished());
-        CHECK(record.getBeingTested());
-        CHECK(record.getTesters() == testerPtrs);
-        CHECK(tester1Ptr->getBusy());
-        CHECK(tester1Ptr->getTestedGameRecord() == &record);
-        CHECK(tester2Ptr->getBusy());
-        CHECK(tester2Ptr->getTestedGameRecord() == &record);
-        CHECK(tester3Ptr->getBusy());
-        CHECK(tester3Ptr->getTestedGameRecord() == &record);
-
-        record.advanceTesting(6);
+        record.advanceTesting(4);
         CHECK(record.checkFinished());
         CHECK_FALSE(record.getBeingTested());
         CHECK(record.getTesters() == std::list<std::shared_ptr<Tester>>());
@@ -279,7 +279,7 @@ TEST_CASE("TestingRecord time advancing methods", "[TestingRecord]")
     SECTION("Exception")
     {
         Game game(1000001, "G", pr, 100, AbstractGame::Average, 3, true, Price(500));
-        TestingRecord record(out, 6000001, game, 5);
+        TestingRecord record(out, 6000001, game, 5, true);
 
         std::shared_ptr<Tester> tester1Ptr = std::make_shared<Tester>(10000001, "Paweł", "Piekarski");
         std::shared_ptr<Tester> tester2Ptr = std::make_shared<Tester>(10000001, "Paweł", "Piekarski");
@@ -305,7 +305,7 @@ TEST_CASE("TestingRecord total time and price methods", "[TestingRecord]")
     SECTION("Case 1 - total effort == 30, real time == 1")
     {
         Game game(1000001, "G", pr, 100, AbstractGame::Average, 3, true, Price(500));
-        TestingRecord record(out, 6000001, game, 5);
+        TestingRecord record(out, 6000001, game, 5, true);
         std::shared_ptr<Tester> tester1Ptr = std::make_shared<Tester>(10000001, "Paweł", "Piekarski");
         std::shared_ptr<Tester> tester2Ptr = std::make_shared<Tester>(10000001, "Paweł", "Piekarski");
         std::shared_ptr<Tester> tester3Ptr = std::make_shared<Tester>(10000001, "Paweł", "Piekarski");
@@ -316,12 +316,12 @@ TEST_CASE("TestingRecord total time and price methods", "[TestingRecord]")
         record.advanceTesting(30);
         CHECK(record.checkFinished());
         CHECK(record.getRealTime() == 1);
-        CHECK(record.getRealPrice() == game.getTestingPrice() * 2);
+        CHECK(record.getRealPrice() == game.getTestingPrice());
     }
     SECTION("Case 2 - total effort == 45, real time == 4")
     {
         Game game(1000001, "G", pr, 10000, AbstractGame::Average, 3, true, Price(500));
-        TestingRecord record(out, 6000001, game, 5);
+        TestingRecord record(out, 6000001, game, 5, true);
         std::shared_ptr<Tester> tester1Ptr = std::make_shared<Tester>(10000001, "Paweł", "Piekarski");
         std::shared_ptr<Tester> tester2Ptr = std::make_shared<Tester>(10000001, "Paweł", "Piekarski");
         std::shared_ptr<Tester> tester3Ptr = std::make_shared<Tester>(10000001, "Paweł", "Piekarski");
@@ -335,12 +335,12 @@ TEST_CASE("TestingRecord total time and price methods", "[TestingRecord]")
         record.advanceTesting(45);
         CHECK(record.checkFinished());
         CHECK(record.getRealTime() == 4);
-        CHECK(record.getRealPrice() == game.getTestingPrice() * 1.5 * 0.8);
+        CHECK(record.getRealPrice() == game.getTestingPrice() * 0.8);
     }
     SECTION("Exceptions")
     {
         Game game(1000001, "G", pr, 100, AbstractGame::Average, 3, true, Price(500));
-        TestingRecord record(out, 6000001, game, 5);
+        TestingRecord record(out, 6000001, game, 5, true);
         CHECK_THROWS_AS(record.getRealTime(), TestingNotEndedError);
         CHECK_THROWS_AS(record.getRealPrice(), TestingNotEndedError);
     }
@@ -354,7 +354,7 @@ TEST_CASE("Minor methods")
     OutputHandler out;
     Producer pr(out, 14000001, "Pr", Address("SN", 2, 5, "SNville", "12-345"), sim, tcom);
     Game game(1000001, "G", pr, 100, AbstractGame::Average, 3, true, Price(500));
-    TestingRecord record(out, 6000001, game, 5);
+    TestingRecord record(out, 6000001, game, 5, true);
     SECTION("MaxTesterAmount setter - typical")
     {
         record.setMaxTestersAmount(12);
@@ -401,7 +401,7 @@ TEST_CASE("Minor methods")
         stream2.str("");
         stream2.clear();
 
-        TestingRecord record2(out, 6009011, game, 5);
+        TestingRecord record2(out, 6009011, game, 5, true);
         stream1 << record2;
         stream2 << "TestingRecord 9011";
         CHECK(stream1.str() == stream2.str());

@@ -50,7 +50,9 @@ public:
     const AbstractGame &game;
 
     // Creates an object of type TestingRecord storing the given Game.
-    TestingRecord(OutputHandler &out, int id, const AbstractGame &game, unsigned int maxTestersAmount=0);
+    // disableTimeChange disables randomness in TestingRecord - used in testing.
+    TestingRecord(OutputHandler &out, int id, const AbstractGame &game, unsigned int maxTestersAmount=0,
+                  bool disableTimeChange=false);
 
     // Copying of TestingRecord is forbidden (IDs wouldn't be unique).
     TestingRecord(const TestingRecord&)=delete;
