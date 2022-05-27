@@ -11,7 +11,7 @@ TEST_CASE("CompetitiveGame methods", "[CompetitiveGame]")
 {
     Simulation sim;
     TestingCompany tcom;
-    OutputHandler out;
+    OutputHandler out("../simulationlog.txt");
     Producer pr(out, 14000001, "Pr", Address("SN", 2, 5, "SNville", "12-345"), sim, tcom);
     CompetitiveGame game(5000001, "G", pr, 100, AbstractGame::Average, 3, InfiniteGame::Average, 1000, true, Price(500));
     SECTION("Constructors and getters - typical")

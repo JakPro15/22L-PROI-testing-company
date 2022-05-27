@@ -13,7 +13,7 @@ TEST_CASE("TestingRecord constructor and setters", "[TestingRecord]")
 {
     Simulation sim;
     TestingCompany tcom;
-    OutputHandler out;
+    OutputHandler out("../simulationlog.txt");
     Producer pr(out, 14000001, "Pr", Address("SN", 2, 5, "SNville", "12-345"), sim, tcom);
     Game game(1000001, "G", pr, 100000, AbstractGame::Average, 3, true, Price(500));
     TestingRecord record(out, 6000001, game, 5);
@@ -161,7 +161,7 @@ TEST_CASE("TestingRecord time advancing methods", "[TestingRecord]")
 {
     Simulation sim;
     TestingCompany tcom;
-    OutputHandler out;
+    OutputHandler out("../simulationlog.txt");
     Producer pr(out, 14000001, "Pr", Address("SN", 2, 5, "SNville", "12-345"), sim, tcom);
 
     SECTION("Case 1 - total effort == 15")
@@ -300,7 +300,7 @@ TEST_CASE("TestingRecord total time and price methods", "[TestingRecord]")
 {
     Simulation sim;
     TestingCompany tcom;
-    OutputHandler out;
+    OutputHandler out("../simulationlog.txt");
     Producer pr(out, 14000001, "Pr", Address("SN", 2, 5, "SNville", "12-345"), sim, tcom);
     SECTION("Case 1 - total effort == 30, real time == 1")
     {
@@ -351,7 +351,7 @@ TEST_CASE("Minor methods")
 {
     Simulation sim;
     TestingCompany tcom;
-    OutputHandler out;
+    OutputHandler out("../simulationlog.txt");
     Producer pr(out, 14000001, "Pr", Address("SN", 2, 5, "SNville", "12-345"), sim, tcom);
     Game game(1000001, "G", pr, 100, AbstractGame::Average, 3, true, Price(500));
     TestingRecord record(out, 6000001, game, 5, true);

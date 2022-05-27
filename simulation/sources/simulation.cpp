@@ -1,14 +1,13 @@
 #include "../simulation.h"
 #include "../../exceptions.h"
 
-Simulation::Simulation()
-{
-    current_producer_record_id = 13000001;
-}
+Simulation::Simulation(unsigned int iterations, unsigned int testersAmount, unsigned int managersAmount):
+    iterations(iterations), testersAmount(testersAmount), managersAmount(managersAmount), currentProducerRecordId(13000001)
+{}
 
 int Simulation::getProducerRecordId()
 {
-    int return_id  = current_producer_record_id++;
+    int return_id  = currentProducerRecordId++;
     if (return_id > 13999999)
     {
         throw InvalidId("producer record", return_id);

@@ -12,7 +12,7 @@ TEST_CASE("ProducerDatabase methods", "[ProducerDatabase]")
 {
     Simulation sim;
     TestingCompany tcom;
-    OutputHandler out;
+    OutputHandler out("../simulationlog.txt");
     Producer pr(out, 14000001, "Pr", Address("SN", 2, 5, "SNville", "12-345"), sim, tcom);
     ProducerDatabase database(out, 12000001, pr);
     Game game(1000001, "Game", pr, 100, AbstractGame::Average, 3);

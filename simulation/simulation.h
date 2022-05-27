@@ -6,15 +6,25 @@
 
 class AbstractGame;
 
-// This class represents the simulation of a testing company
+// This class represents the simulation of a testing company.
 
 class Simulation
 {
     private:
-        int current_producer_record_id;
+        // The next id which may be given to a producer record.
+        int currentProducerRecordId;
+
+        // Number of iterations through which the simulation will go.
+        unsigned int iterations;
+
+        // Number of testers in the simulation.
+        unsigned int testersAmount;
+
+        // Number of managers in the simulation.
+        unsigned int managersAmount;
     public:
         // Creates an object of class Simulation
-        Simulation();
+        Simulation(unsigned int iterations, unsigned int testersAmount, unsigned int managersAmount);
 
         // Returns current id a producer would have and increments it to keep id's unique.
         int getProducerRecordId();

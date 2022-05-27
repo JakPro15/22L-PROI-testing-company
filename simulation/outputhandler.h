@@ -1,11 +1,18 @@
 #include <iostream>
-
+#include <fstream>
 
 class OutputHandler
 {
-public:
-    // w tej funkcji ma być jakiś czas spania, żeby użytkownik mógł przeczytać to co zostało wypisane
-    // tak jak w wytycznych napisane
-    // ma być też std::endl na końcu
-    OutputHandler& operator<<(const std::string &string) { return *this; }
+    private:
+        // File to which informations will be saved.
+        std::ofstream file;
+
+        // Stream to which the informations will be put (std::cout)
+        std::ostream& outputStream;
+
+    public:
+        OutputHandler(std::string fileName);
+        ~OutputHandler();
+        template<typename T>
+        OutputHandler& operator<<(const T& object);
 };

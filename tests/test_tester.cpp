@@ -41,7 +41,7 @@ TEST_CASE("Tester methods", "[Tester]")
         piekarz.setBusy(true);
         CHECK(piekarz.getBusy() == true);
 
-    OutputHandler out;
+    OutputHandler out("../simulationlog.txt");
     Simulation sim;
     TestingCompany tcom;
 

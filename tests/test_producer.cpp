@@ -12,7 +12,7 @@ TEST_CASE("Producer methods", "[Producer]")
 {
     Simulation sim;
     TestingCompany tcom;
-    OutputHandler out;
+    OutputHandler out("../simulationlog.txt");
     Producer producer(out, 14000001, "Pr", Address("SN", 2, 5, "SNville", "12-345"), sim, tcom);
     SECTION("Constructor and getters - typical")
     {

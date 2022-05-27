@@ -13,7 +13,7 @@
 TEST_CASE("TestingDatabase constructor and request processing", "[TestingDatabase]")
 {
     TestingCompany company;
-    OutputHandler out;
+    OutputHandler out("../simulationlog.txt");
     TestingDatabase database(out, 7000001, company);
     Simulation sim;
     TestingCompany tcom;
@@ -101,7 +101,7 @@ TEST_CASE("TestingDatabase constructor and request processing", "[TestingDatabas
 TEST_CASE("Assigning testers and removing testers to and from games", "[TestingDatabase]")
 {
     TestingCompany company;
-    OutputHandler out;
+    OutputHandler out("../simulationlog.txt");
     TestingDatabase database(out, 7000001, company);
     Simulation sim;
     TestingCompany tcom;

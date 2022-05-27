@@ -20,5 +20,6 @@
 #include "exceptions/gamealreadytestederror.h"
 #include "exceptions/invalidproducer.h"
 #include "exceptions/gamenotrequestederror.h"
+#include "exceptions/fileerror.h"
 
 #endif

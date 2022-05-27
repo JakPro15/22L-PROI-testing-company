@@ -11,7 +11,7 @@ TEST_CASE("Game methods", "[Game]")
 {
     Simulation sim;
     TestingCompany tcom;
-    OutputHandler out;
+    OutputHandler out("../simulationlog.txt");
     Producer pr(out, 14000001, "Pr", Address("SN", 2, 5, "SNville", "12-345"), sim, tcom);
     Game game(1000001, "G", pr, 100, AbstractGame::Average, 3, true, Price(500));
     SECTION("Constructors and getters - typical")
