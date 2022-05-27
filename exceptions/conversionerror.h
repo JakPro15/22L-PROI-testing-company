@@ -6,7 +6,7 @@
 class ConversionError: public std::invalid_argument
 {
     public:
-        ConversionError(std::string string);
+        ConversionError(std::string string, std::string type);
 };
 
 #endif
