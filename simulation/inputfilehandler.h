@@ -45,6 +45,9 @@ class InputFileHandler
         // Number of all infinite games that were created.
         unsigned int infiniteGames;
 
+        // Number of puzzles that were created.
+        unsigned int puzzles;
+
         // Number of all roleplaying games that were created.
         unsigned int roleplayingGames;
 

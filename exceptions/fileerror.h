@@ -9,6 +9,7 @@ class FileError: public std::invalid_argument
 {
     public:
         FileError(std::string fileName);
+        FileError(char c, std::string msg);
 };
 
 
