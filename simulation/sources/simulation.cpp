@@ -5,6 +5,11 @@ Simulation::Simulation(unsigned int iterations, unsigned int testersAmount, unsi
     iterations(iterations), testersAmount(testersAmount), managersAmount(managersAmount), currentProducerRecordId(13000001)
 {}
 
+TestingCompany& Simulation::getTestingCompany() noexcept
+{
+    return testingCompany;
+}
+
 int Simulation::getProducerRecordId()
 {
     int return_id  = currentProducerRecordId++;

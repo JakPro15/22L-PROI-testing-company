@@ -1,7 +1,8 @@
-#ifndef SIMULATION_H
-#define SIMULATION_H
+#ifndef _SIMULATION_H
+#define _SIMULATION_H
 
 #include "outputhandler.h"
+#include "../testingcompany/testingcompany.h"
 
 
 class AbstractGame;
@@ -11,6 +12,9 @@ class AbstractGame;
 class Simulation
 {
     private:
+        // Testing company whose work is being simulated.
+        TestingCompany testingCompany;
+
         // The next id which may be given to a producer record.
         int currentProducerRecordId;
 
@@ -22,9 +26,13 @@ class Simulation
 
         // Number of managers in the simulation.
         unsigned int managersAmount;
+
     public:
         // Creates an object of class Simulation
         Simulation(unsigned int iterations, unsigned int testersAmount, unsigned int managersAmount);
+
+        // Returns a reference to the testing company whose work is being simulated.
+        TestingCompany& getTestingCompany() noexcept;
 
         // Returns current id a producer would have and increments it to keep id's unique.
         int getProducerRecordId();

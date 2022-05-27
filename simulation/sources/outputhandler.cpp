@@ -9,7 +9,7 @@ OutputHandler::OutputHandler(std::string fileName):
     file.open(fileName);
     if(!file)
     {
-        throw FileError();
+        throw FileError(fileName);
     }
 }
 
