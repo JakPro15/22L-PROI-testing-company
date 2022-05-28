@@ -16,9 +16,16 @@ std::string Worker::getUniqueName() const noexcept
 }
 
 Worker::Worker(char, int id, std::string name, std::string surname):
-    AbstractWorker(id, name, surname)
+    AbstractWorker(id), name(name), surname(surname)
 {
-    
+    if (checkAllWhitespace(name))
+    {
+        throw EmptyNameException();
+    }
+    if (checkAllWhitespace(surname))
+    {
+        throw EmptyNameException("Surname");
+    }   
 }
 
 Worker::Worker(int id, std::string name, std::string surname):

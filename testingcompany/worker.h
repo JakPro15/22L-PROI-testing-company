@@ -11,11 +11,22 @@ class Worker: public AbstractWorker
         void checkId() const;
 
     protected:
+        // Name of the worker.
+        std::string name;
+
+        // Surname of the worker.
+        std::string surname;
+
+        // Productivity of the worker.
+        //(determines how much can he test in an hour if he's a tester or how much effort he puts in per hour if he's manager).
+        unsigned int productivity;
+
         // Returns the unique name of the worker.
         virtual std::string getUniqueName() const noexcept;
         // Protected constructor that doesn't check ID - used in derived classes with different ID sets.
         // First argument (char) used only to differentiate from other constructors.
         Worker(char, int id, std::string name, std::string surname);
+        
     public:
         // These constants define the ID limits for this class.
         static const int minId = 8000001;

@@ -12,31 +12,12 @@ class AbstractWorker
         // Returns the unique name of the worker.
         virtual std::string getUniqueName() const noexcept=0;
         // Protected constructor to initialize ID and producer properly
-        AbstractWorker(int id, std::string name, std::string surname):
-        id(id), name(name), surname(surname)
-        {
-            if (checkAllWhitespace(name))
-            {
-                throw EmptyNameException();
-            }
-            if (checkAllWhitespace(surname))
-            {
-                throw EmptyNameException("Surname");
-            }
-        }
+        AbstractWorker(int id):
+        id(id)
+        {}
     public:
         // Unique ID of the game assigned at creation.
         const int id;
-
-        // Name of the worker.
-        std::string name;
-
-        // Surname of the worker.
-        std::string surname;
-
-        // Productivity of the worker.
-        //(determines how much can he test in an hour if he's a tester or how much effort he puts in per hour if he's manager).
-        unsigned int productivity;
 
         // Copying of AbstractWorker is forbidden (IDs wouldn't be unique).
         AbstractWorker(const AbstractWorker&)=delete;

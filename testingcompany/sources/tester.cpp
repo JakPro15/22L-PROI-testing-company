@@ -23,7 +23,7 @@ Tester::Tester(int id, std::string name, std::string surname):
     checkId();
     unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
     std::mt19937 generator (seed);
-    productivity = (generator() % 9) + 1;
+    productivity = (generator() % 8) + 2;
 }
 
 Tester::~Tester(){}
