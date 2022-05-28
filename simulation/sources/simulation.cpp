@@ -20,16 +20,38 @@ Simulation::Simulation(unsigned int iterations, unsigned int testersAmount, unsi
         {
             break;
         }
+        catch(const std::exception& e)
+        {
+            out << e.what() << '\n';
+            throw ShutdownException();
+        }
     }
 
     for(unsigned int i = 0; i < testersAmount; i++)
     {
-        testers.push_back(in.createTester());
+        try
+        {
+            testers.push_back(in.createTester());
+        }
+        catch(const std::exception& e)
+        {
+            out << e.what() << '\n';
+            throw ShutdownException();
+        }
     }
 
     for(unsigned int i = 0; i < managersAmount; i++)
     {
-        managers.push_back(in.createManager());
+        try
+        {
+            managers.push_back(in.createManager());
+        }
+        catch(const std::exception& e)
+        {
+            out << e.what() << '\n';
+            throw ShutdownException();
+        }
+        
     }
 }
 

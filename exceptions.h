@@ -23,5 +23,6 @@
 #include "exceptions/fileerror.h"
 #include "exceptions/conversionerror.h"
 #include "exceptions/endoffileerror.h"
+#include "exceptions/shutdownexception.h"
 
 #endif
