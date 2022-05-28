@@ -237,7 +237,7 @@ std::shared_ptr<AbstractGame> InputFileHandler::createGame(Producer& producer)
     }
     else if (strcodeAvailable == "false")
     {
-        codeAvailable == false;
+        codeAvailable = false;
     }
     else
     {

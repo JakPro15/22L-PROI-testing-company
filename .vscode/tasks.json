@@ -17,6 +17,8 @@
                 "${workspaceFolder}/games/sources/*.cpp",
                 "${workspaceFolder}/testingcompany/sources/*.cpp",
                 "${workspaceFolder}/exceptions/*.cpp",
+                "${workspaceFolder}/simulation/sources/*.cpp",
+                "${workspaceFolder}/main.cpp",
                 "-o",
                 "${workspaceFolder}/${workspaceFolderBasename}",
                 "-Wall"

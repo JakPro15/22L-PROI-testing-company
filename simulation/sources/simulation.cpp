@@ -2,7 +2,7 @@
 #include "../../exceptions.h"
 
 Simulation::Simulation(unsigned int iterations, unsigned int testersAmount, unsigned int managersAmount):
-    iterations(iterations), testersAmount(testersAmount), managersAmount(managersAmount), currentProducerRecordId(13000001)
+    currentProducerRecordId(13000001), iterations(iterations), testersAmount(testersAmount), managersAmount(managersAmount)
 {}
 
 TestingCompany& Simulation::getTestingCompany() noexcept
@@ -33,4 +33,5 @@ bool Simulation::operator!=(const Simulation &simulation) const noexcept
 std::ostream& operator<<(std::ostream& os, const Simulation& simulation) noexcept
 {
     os << "simulation";
+    return os;
 }
