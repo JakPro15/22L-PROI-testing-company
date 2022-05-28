@@ -22,5 +22,6 @@
 #include "exceptions/gamenotrequestederror.h"
 #include "exceptions/fileerror.h"
 #include "exceptions/conversionerror.h"
+#include "exceptions/endoffileerror.h"
 
 #endif

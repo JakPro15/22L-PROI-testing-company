@@ -8,7 +8,9 @@
 #include "../testingcompany/tester.h"
 #include "../testingcompany/manager.h"
 #include "outputhandler.h"
-#include "simulation.h"
+
+class Simulation;
+
 
 // This class handles the input of the simulation
 
@@ -56,6 +58,9 @@ class InputFileHandler
 
         // Number of all managers that were created.
         unsigned int managers;
+
+        // Works like simple std::getline, but checks for end of file before getting the line and throws an appropriate exception
+        static void getlineWithEOFCheck(std::ifstream& file, std::string& string);
 
     public:
         // Throws exception when file can't be opened.

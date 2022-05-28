@@ -3,7 +3,16 @@
 #include "../../games/competitivegame.h"
 #include "../../games/puzzle.h"
 #include "../../games/roleplayinggame.h"
+#include "../simulation.h"
 
+void InputFileHandler::getlineWithEOFCheck(std::ifstream& file, std::string& string)
+{
+    if(file.eof())
+    {
+        throw EndOfFileError();
+    }
+    std::getline(file, string);
+}
 
 InputFileHandler::InputFileHandler(
     Simulation& sim, OutputHandler& out,
@@ -51,13 +60,13 @@ std::shared_ptr<Producer> InputFileHandler::createProducer()
     producers++;
 
     std::string name;
-    std::getline(producersFile, name);
+    getlineWithEOFCheck(producersFile, name);
 
     std::string streetName;
-    std::getline(producersFile, streetName);
+    getlineWithEOFCheck(producersFile, streetName);
 
     std::string strhouseNumber;
-    std::getline(producersFile, strhouseNumber);
+    getlineWithEOFCheck(producersFile, strhouseNumber);
     unsigned int houseNumber;
     try
     {
@@ -69,7 +78,7 @@ std::shared_ptr<Producer> InputFileHandler::createProducer()
     }
 
     std::string strapartmentNumber;
-    std::getline(producersFile, strapartmentNumber);
+    getlineWithEOFCheck(producersFile, strapartmentNumber);
     unsigned int apartmentNumber;
     try
     {
@@ -82,10 +91,10 @@ std::shared_ptr<Producer> InputFileHandler::createProducer()
     
 
     std::string cityName;
-    std::getline(producersFile, cityName);
+    getlineWithEOFCheck(producersFile, cityName);
 
     std::string postCode;
-    std::getline(producersFile, postCode);
+    getlineWithEOFCheck(producersFile, postCode);
 
     TestingCompany& testingCompany = sim.getTestingCompany();
 
@@ -96,7 +105,7 @@ std::shared_ptr<Producer> InputFileHandler::createProducer()
 std::shared_ptr<AbstractGame> InputFileHandler::createGame(Producer& producer)
 {
     std::string gameType;
-    std::getline(gamesFile, gameType);
+    getlineWithEOFCheck(gamesFile, gameType);
 
     int id;
     std::string title;
@@ -126,9 +135,9 @@ std::shared_ptr<AbstractGame> InputFileHandler::createGame(Producer& producer)
     std::string strfullLength;
     unsigned int fullLength;
 
-    std::getline(gamesFile, title);
+    getlineWithEOFCheck(gamesFile, title);
 
-    std::getline(gamesFile, strfilesSize);
+    getlineWithEOFCheck(gamesFile, strfilesSize);
     try
     {
         filesSize = std::stoi(strfilesSize);
@@ -138,7 +147,7 @@ std::shared_ptr<AbstractGame> InputFileHandler::createGame(Producer& producer)
         throw ConversionError(strfilesSize, "int");
     }
 
-    std::getline(gamesFile, strcomplexity);
+    getlineWithEOFCheck(gamesFile, strcomplexity);
     try
     {
         intcomplexity = std::stoi(strcomplexity);
@@ -149,7 +158,7 @@ std::shared_ptr<AbstractGame> InputFileHandler::createGame(Producer& producer)
         throw ConversionError(strcomplexity, "AbstractGame::Complexity");
     }
 
-    std::getline(gamesFile, strminTestersAmount);
+    getlineWithEOFCheck(gamesFile, strminTestersAmount);
     try
     {
         minTestersAmount = std::stoi(strminTestersAmount);
@@ -161,7 +170,7 @@ std::shared_ptr<AbstractGame> InputFileHandler::createGame(Producer& producer)
 
     if ((gameType == "infinite") || (gameType == "competitive"))
     {
-        std::getline(gamesFile, strdepth);
+        getlineWithEOFCheck(gamesFile, strdepth);
         try
         {
             intdepth = std::stoi(strdepth);
@@ -174,7 +183,7 @@ std::shared_ptr<AbstractGame> InputFileHandler::createGame(Producer& producer)
     }
     if (gameType == "competitive")
     {
-        std::getline(gamesFile, strserverSize);
+        getlineWithEOFCheck(gamesFile, strserverSize);
         try
         {
             serverSize = std::stoi(strserverSize);
@@ -186,7 +195,7 @@ std::shared_ptr<AbstractGame> InputFileHandler::createGame(Producer& producer)
     }
     else if (gameType == "puzzle")
     {
-        std::getline(gamesFile, strdifficulty);
+        getlineWithEOFCheck(gamesFile, strdifficulty);
         try
         {
             intdifficulty = std::stoi(strdifficulty);
@@ -197,7 +206,7 @@ std::shared_ptr<AbstractGame> InputFileHandler::createGame(Producer& producer)
             throw ConversionError(strdifficulty, "Puzzle::Difficulty");
         }
 
-        std::getline(gamesFile, strlength);
+        getlineWithEOFCheck(gamesFile, strlength);
         try
         {
             length = std::stoi(strlength);
@@ -209,7 +218,7 @@ std::shared_ptr<AbstractGame> InputFileHandler::createGame(Producer& producer)
     }
     else if (gameType == "roleplaying")
     {
-        std::getline(gamesFile, strlength);
+        getlineWithEOFCheck(gamesFile, strlength);
         try
         {
             length = std::stoi(strlength);
@@ -219,7 +228,7 @@ std::shared_ptr<AbstractGame> InputFileHandler::createGame(Producer& producer)
             throw ConversionError(strlength, "int");
         }
 
-        std::getline(gamesFile, strfullLength);
+        getlineWithEOFCheck(gamesFile, strfullLength);
         try
         {
             fullLength = std::stoi(strfullLength);
@@ -230,7 +239,7 @@ std::shared_ptr<AbstractGame> InputFileHandler::createGame(Producer& producer)
         }
     }
 
-    std::getline(gamesFile, strcodeAvailable);
+    getlineWithEOFCheck(gamesFile, strcodeAvailable);
     if (strcodeAvailable == "true")
     {
         codeAvailable = true;
@@ -244,7 +253,7 @@ std::shared_ptr<AbstractGame> InputFileHandler::createGame(Producer& producer)
         throw ConversionError(strcodeAvailable, "bool");
     }
 
-    std::getline(gamesFile, strpriceZl);
+    getlineWithEOFCheck(gamesFile, strpriceZl);
     try
     {
         priceZl = std::stoi(strpriceZl);
@@ -254,7 +263,7 @@ std::shared_ptr<AbstractGame> InputFileHandler::createGame(Producer& producer)
         throw ConversionError(strpriceZl, "int");
     }
 
-    std::getline(gamesFile, strpriceGr);
+    getlineWithEOFCheck(gamesFile, strpriceGr);
     try
     {
         priceZl = std::stoi(strpriceGr);
@@ -315,10 +324,12 @@ std::shared_ptr<Tester> InputFileHandler::createTester()
     testers++;
     
     std::string name;
-    std::getline(testersFile, name);
+ 
+    getlineWithEOFCheck(testersFile, name);
 
     std::string surname;
-    std::getline(testersFile, surname);
+
+    getlineWithEOFCheck(testersFile, surname);
 
     return std::make_unique<Tester>(id, name, surname);
 }
@@ -329,10 +340,10 @@ std::shared_ptr<Manager> InputFileHandler::createManager()
     managers++;
     
     std::string name;
-    std::getline(testersFile, name);
+    getlineWithEOFCheck(testersFile, name);
 
     std::string surname;
-    std::getline(testersFile, surname);
+    getlineWithEOFCheck(testersFile, surname);
 
     TestingCompany& company = sim.getTestingCompany();
 

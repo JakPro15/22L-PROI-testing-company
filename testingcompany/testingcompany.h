@@ -20,7 +20,7 @@ public:
     ~TestingCompany() {}
     int getRequestId() { return 11000001; }
 
-    // Adds increases effort held by the company by specified amount.
+    // Adding increases effort held by the company by specified amount.
     void addEffort(unsigned int effort) {this->effort += effort;}
 
     void testingFinished(const AbstractGame &game) {}

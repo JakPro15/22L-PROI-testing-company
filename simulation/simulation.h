@@ -2,6 +2,7 @@
 #define _SIMULATION_H
 
 #include "outputhandler.h"
+#include "inputfilehandler.h"
 #include "../testingcompany/testingcompany.h"
 
 
@@ -12,6 +13,12 @@ class AbstractGame;
 class Simulation
 {
     private:
+        // Object of class handling the inputs to the simulation.
+        InputFileHandler in;
+
+        //Object of class handling the outputs of the simulation
+        OutputHandler out;
+
         // Testing company whose work is being simulated.
         TestingCompany testingCompany;
 
@@ -27,9 +34,25 @@ class Simulation
         // Number of managers in the simulation.
         unsigned int managersAmount;
 
+        // Vector of shared pointers to producers
+        std::vector<std::shared_ptr<Producer>> producers;
+
+        // Vector of shared pointers to games
+        std::vector<std::shared_ptr<AbstractGame>> games;
+
+        // Vector of shared pointers to testers
+        std::vector<std::shared_ptr<Tester>> testers;
+
+        // Vector of shared pointers to managers
+        std::vector<std::shared_ptr<Manager>> managers;
+
     public:
         // Creates an object of class Simulation
-        Simulation(unsigned int iterations, unsigned int testersAmount, unsigned int managersAmount);
+        Simulation(
+            unsigned int iterations, unsigned int testersAmount, unsigned int managersAmount,
+            std::string producersFileName, std::string gamesFileName,
+            std::string testersFileName, std::string managersFileName,
+            std::string outFileName);
 
         // Returns a reference to the testing company whose work is being simulated.
         TestingCompany& getTestingCompany() noexcept;
