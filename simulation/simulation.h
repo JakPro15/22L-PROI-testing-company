@@ -19,9 +19,6 @@ class Simulation
         //Object of class handling the outputs of the simulation
         OutputHandler out;
 
-        // Testing company whose work is being simulated.
-        TestingCompany testingCompany;
-
         // The next id which may be given to a producer record.
         int currentProducerRecordId;
 
@@ -33,6 +30,9 @@ class Simulation
 
         // Number of managers in the simulation.
         unsigned int managersAmount;
+
+        // Testing company whose work is being simulated.
+        TestingCompany testingCompany;
 
         // Vector of shared pointers to producers
         std::vector<std::shared_ptr<Producer>> producers;

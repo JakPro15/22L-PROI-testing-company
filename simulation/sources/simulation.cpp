@@ -6,9 +6,8 @@ Simulation::Simulation(unsigned int iterations, unsigned int testersAmount, unsi
                         std::string testersFileName, std::string managersFileName,
                         std::string outFileName):
     in(*this, out, producersFileName, gamesFileName, testersFileName, managersFileName),
-    out(outFileName),
-    currentProducerRecordId(13000001), iterations(iterations),
-    testersAmount(testersAmount), managersAmount(managersAmount),
+    out(outFileName), currentProducerRecordId(13000001),
+    iterations(iterations), testersAmount(testersAmount), managersAmount(managersAmount),
     producers{}, games{}, testers{}, managers{}
 {
     while(true)
