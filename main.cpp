@@ -9,4 +9,6 @@ int main()
     std::vector<std::shared_ptr<Tester>> testers;
 
     testers.push_back(handler.createTester());
+    testers.push_back(handler.createTester());
+    testers.push_back(handler.createTester());
 }

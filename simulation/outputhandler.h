@@ -3,6 +3,8 @@
 
 #include <iostream>
 #include <fstream>
+#include <thread>
+#include <chrono>
 
 // This class handles the output of the simulation.
 
@@ -25,7 +27,13 @@ class OutputHandler
 
         // Operator which allows to put any object into both the output file and the output stream.
         template<typename T>
-        OutputHandler& operator<<(const T& object);
+        OutputHandler& operator<<(const T& object)
+        {
+            file << object << std::endl;
+            outputStream << object << std::endl;
+            std::this_thread::sleep_for(std::chrono::milliseconds(3000));
+            return *this;
+        }
 };
 
 #endif
