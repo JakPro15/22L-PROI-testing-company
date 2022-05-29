@@ -85,7 +85,7 @@ void Producer::advanceTime()
     // 1% chance per hour for the producer to make a new game.
     if(double(generator()) / generator.max() < 0.01)
     {
-        AbstractGame &game = simulation.getNewGame();
+        AbstractGame &game = simulation.getNewGame(*this);
         database.addGame(game);
         std::stringstream stringstr;
         stringstr << *this << " creates " << game << " (requested from " << simulation << ")";

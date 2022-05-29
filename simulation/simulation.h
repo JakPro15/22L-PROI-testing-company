@@ -13,11 +13,12 @@ class AbstractGame;
 class Simulation
 {
     private:
-        // Object of class handling the inputs to the simulation.
-        InputFileHandler in;
 
         //Object of class handling the outputs of the simulation
         OutputHandler out;
+
+        // Object of class handling the inputs to the simulation.
+        InputFileHandler in;
 
         // The next id which may be given to a producer record.
         int currentProducerRecordId;
@@ -61,7 +62,7 @@ class Simulation
         int getProducerRecordId();
 
         // Returns a reference to a game taken from the input file.
-        AbstractGame& getNewGame() {}
+        AbstractGame& getNewGame(Producer& producer);
 
         // Compares two Simulation objects.
         bool operator==(const Simulation &simulation) const noexcept;

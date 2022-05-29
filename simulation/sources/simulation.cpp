@@ -1,12 +1,14 @@
 #include "../simulation.h"
 #include "../../exceptions.h"
+#include <iostream>
 
 Simulation::Simulation(unsigned int iterations, unsigned int testersAmount, unsigned int managersAmount,
                         std::string producersFileName, std::string gamesFileName,
                         std::string testersFileName, std::string managersFileName,
-                        std::string outFileName):
+                        std::string outFileName) try:
+    out(outFileName),
     in(*this, out, producersFileName, gamesFileName, testersFileName, managersFileName),
-    out(outFileName), currentProducerRecordId(13000001),
+    currentProducerRecordId(13000001),
     iterations(iterations), testersAmount(testersAmount), managersAmount(managersAmount),
     producers{}, games{}, testers{}, managers{}
 {
@@ -20,39 +22,22 @@ Simulation::Simulation(unsigned int iterations, unsigned int testersAmount, unsi
         {
             break;
         }
-        catch(const std::exception& e)
-        {
-            out << e.what() << '\n';
-            throw ShutdownException();
-        }
     }
 
     for(unsigned int i = 0; i < testersAmount; i++)
     {
-        try
-        {
-            testers.push_back(in.createTester());
-        }
-        catch(const std::exception& e)
-        {
-            out << e.what() << '\n';
-            throw ShutdownException();
-        }
+        testers.push_back(in.createTester());
     }
 
     for(unsigned int i = 0; i < managersAmount; i++)
     {
-        try
-        {
-            managers.push_back(in.createManager());
-        }
-        catch(const std::exception& e)
-        {
-            out << e.what() << '\n';
-            throw ShutdownException();
-        }
-        
+        managers.push_back(in.createManager());
     }
+}
+catch(const std::exception& e)
+{
+    out << e.what();
+    throw ShutdownException();
 }
 
 TestingCompany& Simulation::getTestingCompany() noexcept
@@ -68,6 +53,22 @@ int Simulation::getProducerRecordId()
         throw InvalidId("producer record", return_id);
     }
     return return_id;
+}
+
+AbstractGame& Simulation::getNewGame(Producer& producer)
+{
+    try
+    {
+        std::shared_ptr<AbstractGame> game = in.createGame(producer);
+        games.push_back(game);
+        return *game;
+    }
+    catch(const std::exception& e)
+    {
+        out << e.what();
+        throw ShutdownException();
+    }
+    
 }
 
 bool Simulation::operator==(const Simulation &simulation) const noexcept
