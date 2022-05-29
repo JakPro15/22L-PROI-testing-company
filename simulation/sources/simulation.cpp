@@ -40,6 +40,11 @@ catch(const std::exception& e)
     throw ShutdownException();
 }
 
+void Simulation::simulate()
+{
+    out << "Simulation ended succesfully";
+}
+
 TestingCompany& Simulation::getTestingCompany() noexcept
 {
     return testingCompany;

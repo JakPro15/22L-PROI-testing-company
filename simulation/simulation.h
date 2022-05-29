@@ -55,6 +55,9 @@ class Simulation
             std::string testersFileName, std::string managersFileName,
             std::string outFileName);
 
+        // Activates the simulation.
+        void simulate();
+
         // Returns a reference to the testing company whose work is being simulated.
         TestingCompany& getTestingCompany() noexcept;
 
