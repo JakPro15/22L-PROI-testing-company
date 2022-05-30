@@ -42,7 +42,7 @@ catch(const std::exception& e)
 
 void Simulation::simulate()
 {
-    out << "Simulation ended succesfully";
+    out << "Simulation ended succesfully" << OutputHandler::endlWait;
 }
 
 TestingCompany& Simulation::getTestingCompany() noexcept

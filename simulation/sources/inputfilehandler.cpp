@@ -331,7 +331,9 @@ std::shared_ptr<Tester> InputFileHandler::createTester()
 
     getlineWithEOFCheck(testersFile, surname);
 
-    return std::make_unique<Tester>(id, name, surname);
+    TestingCompany& testingCompany = sim.getTestingCompany();
+
+    return std::make_unique<Tester>(id, name, surname, testingCompany);
 }
 
 std::shared_ptr<Manager> InputFileHandler::createManager()
