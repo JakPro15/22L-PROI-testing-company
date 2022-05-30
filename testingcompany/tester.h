@@ -2,11 +2,8 @@
 #define TESTER_H
 
 #include "worker.h"
+#include "testingrecord.h"
 #include <memory>
-
-
-class TestingRecord;
-
 
 class Tester: public Worker
 {
@@ -30,7 +27,7 @@ class Tester: public Worker
         static const int maxId = 10999999;
 
         // Creates an object of class Tester with busyness set to false and game record pointer set to nullptr
-        Tester(int id, std::string name, std::string surname);
+        Tester(int id, std::string name, std::string surname, TestingCompany& company);
 
         // Copying of Tester is forbidden (IDs wouldn't be unique).
         Tester(const Tester&)=delete;
@@ -53,6 +50,9 @@ class Tester: public Worker
 
         //Returns pointer to the game record of the game that is currently being tested by the tester
         TestingRecord* getTestedGameRecord() const noexcept;
+
+        // Advances testing of the testing record they have assigned.
+        void doWork() noexcept override;
 
         // Compares only the unique IDs of the testers.
         bool operator==(const Tester& tester) const noexcept;

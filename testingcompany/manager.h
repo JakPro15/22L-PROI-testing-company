@@ -4,9 +4,6 @@
 #include "worker.h"
 
 
-class TestingCompany;
-
-
 class Manager: public Worker
 {
     private:
@@ -26,9 +23,6 @@ class Manager: public Worker
         Manager(const Manager&)=delete;
         Manager& operator=(const Manager&)=delete;
 
-        // Pointer to the database of the company in which a manager is employed
-        TestingCompany& company;
-
         // Creates an object of class Manager.
         Manager(int id, std::string name, std::string surname, TestingCompany& company);
 
@@ -39,7 +33,7 @@ class Manager: public Worker
         unsigned int getProductivity() const noexcept;
 
         // Adds effort equal to productivity to the company.
-        void produceEffort();
+        void doWork() noexcept override;
 
         // Compares only the unique IDs of the managers.
         bool operator==(const Manager& manager) const noexcept;

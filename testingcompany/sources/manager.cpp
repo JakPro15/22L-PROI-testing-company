@@ -18,7 +18,7 @@ std::string Manager::getUniqueName() const noexcept
 }
 
 Manager::Manager(int id, std::string name, std::string surname, TestingCompany& company):
-    Worker('a', id, name, surname), company(company)
+    Worker('a', id, name, surname, company)
 {
     checkId();
     unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
@@ -45,7 +45,7 @@ unsigned int Manager::getProductivity() const noexcept
     return productivity;
 }
 
-void Manager::produceEffort()
+void Manager::doWork() noexcept
 {
     company.addEffort(productivity);
 }

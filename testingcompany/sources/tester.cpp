@@ -17,8 +17,8 @@ std::string Tester::getUniqueName() const noexcept
     return "Tester " + std::to_string(id - minId + 1);
 }
 
-Tester::Tester(int id, std::string name, std::string surname):
-    Worker('a', id, name, surname), busyness(false), gameRecord(nullptr)
+Tester::Tester(int id, std::string name, std::string surname, TestingCompany& company):
+    Worker('a', id, name, surname, company), busyness(false), gameRecord(nullptr)
 {
     checkId();
     unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
@@ -51,6 +51,11 @@ void Tester::setTestedGameRecord(TestingRecord* record)
 TestingRecord* Tester::getTestedGameRecord() const noexcept
 {
     return gameRecord;
+}
+
+void Tester::doWork() noexcept
+{
+    gameRecord->advanceTesting(productivity);
 }
 
 bool Tester::operator==(const Tester& tester) const noexcept

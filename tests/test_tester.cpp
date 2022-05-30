@@ -10,11 +10,12 @@
 
 TEST_CASE("Tester methods", "[Tester]")
 {
-    Tester piekarz(10000001, "Paweł", "Piekarski");
+    TestingCompany company;
+    Tester piekarz(10000001, "Paweł", "Piekarski", company);
 
     SECTION("Constructor and getters")
     {
-        Tester butcher(10000002, "Jan", "Rzeźnicki");
+        Tester butcher(10000002, "Jan", "Rzeźnicki", company);
 
         CHECK(butcher.getId() == 10000002);
         CHECK(butcher.getName() == "Jan");
@@ -25,9 +26,9 @@ TEST_CASE("Tester methods", "[Tester]")
 
     SECTION("Constructor-exceptions")
     {
-        CHECK_THROWS_AS(Tester(1, "Jan", "Kowalski"), InvalidId);
-        CHECK_THROWS_AS(Tester(10000002, "\n", "Kowalski"), EmptyNameException);
-        CHECK_THROWS_AS(Tester(10000002, "Jan", "   "), EmptyNameException);
+        CHECK_THROWS_AS(Tester(1, "Jan", "Kowalski", company), InvalidId);
+        CHECK_THROWS_AS(Tester(10000002, "\n", "Kowalski", company), EmptyNameException);
+        CHECK_THROWS_AS(Tester(10000002, "Jan", "   ", company), EmptyNameException);
     }
 
     SECTION("Setters")
@@ -42,7 +43,7 @@ TEST_CASE("Tester methods", "[Tester]")
         CHECK(piekarz.getBusy() == true);
 
     OutputHandler out("../simulationlog.txt");
-    Simulation sim;
+    Simulation sim(200, 3, 0, "producers.txt", "games.txt", "testers.txt", "managers.txt", "simulationlog.txt");
     TestingCompany tcom;
 
     Producer pr(out, 14000001, "Pr", Address("SN", 2, 5, "SNville", "12-345"), sim, tcom);
@@ -60,8 +61,8 @@ TEST_CASE("Tester methods", "[Tester]")
 
     SECTION("Comparison operators")
     {
-        Tester evil_clone(10000001, "Graweł", "Piekarski");
-        Tester random(10000002, "Losowy", "Typ");
+        Tester evil_clone(10000001, "Graweł", "Piekarski", company);
+        Tester random(10000002, "Losowy", "Typ", company);
 
         CHECK((piekarz == evil_clone) == true);
         CHECK((piekarz != evil_clone) == false);
@@ -84,7 +85,7 @@ TEST_CASE("Tester methods", "[Tester]")
         stream2.str("");
         stream2.clear();
 
-        Tester random(10000002, "Losowy", "Typ");
+        Tester random(10000002, "Losowy", "Typ", company);
 
         stream1 << random;
         stream2 << "Tester 2";

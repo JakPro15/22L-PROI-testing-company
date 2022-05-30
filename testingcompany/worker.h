@@ -3,6 +3,8 @@
 
 #include "abstractworker.h"
 
+class TestingCompany;
+
 
 class Worker: public AbstractWorker
 {
@@ -21,11 +23,14 @@ class Worker: public AbstractWorker
         //(determines how much can he test in an hour if he's a tester or how much effort he puts in per hour if he's manager).
         unsigned int productivity;
 
+        // Reference to the company in which the worker is employed.
+        TestingCompany& company;
+
         // Returns the unique name of the worker.
         virtual std::string getUniqueName() const noexcept;
         // Protected constructor that doesn't check ID - used in derived classes with different ID sets.
         // First argument (char) used only to differentiate from other constructors.
-        Worker(char, int id, std::string name, std::string surname);
+        Worker(char, int id, std::string name, std::string surname, TestingCompany& company);
         
     public:
         // These constants define the ID limits for this class.
@@ -33,7 +38,7 @@ class Worker: public AbstractWorker
         static const int maxId = 8999999;
 
         // Creates an object of class Worker.
-        Worker(int id, std::string name, std::string surname);
+        Worker(int id, std::string name, std::string surname, TestingCompany& company);
 
         // Empty virtual destructor - for inheritance.
         ~Worker() override;
@@ -55,6 +60,9 @@ class Worker: public AbstractWorker
         void setSurname(std::string surname) override;
         // Returns the surname of the worker.
         std::string getSurname() const noexcept override;
+
+        // Does nothing, used only in derived classes.
+        void doWork() noexcept override {}
 
         //Returns true xor false if objects are equal or not accordingly comparing only their ids.
         bool operator==(const AbstractWorker& worker) const noexcept override;

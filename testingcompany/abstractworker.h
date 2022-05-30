@@ -37,6 +37,9 @@ class AbstractWorker
         // Returns the surname of the worker.
         virtual std::string getSurname() const noexcept=0;
 
+        // Does work according to worker type.
+        virtual void doWork() noexcept=0;
+
         // Compares the given workers.
         virtual bool operator==(const AbstractWorker &worker) const noexcept=0;
         virtual bool operator!=(const AbstractWorker &worker) const noexcept=0;
