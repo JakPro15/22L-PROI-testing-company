@@ -12,9 +12,7 @@ class AbstractWorker
         // Returns the unique name of the worker.
         virtual std::string getUniqueName() const noexcept=0;
         // Protected constructor to initialize ID and producer properly
-        AbstractWorker(int id):
-        id(id)
-        {}
+        AbstractWorker(int id): id(id) {}
     public:
         // Unique ID of the game assigned at creation.
         const int id;

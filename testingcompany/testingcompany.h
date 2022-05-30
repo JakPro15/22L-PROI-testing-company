@@ -27,6 +27,8 @@ public:
     void paymentDone(const AbstractGame &game) {}
     void sendTestingRequest(const AbstractGame &game) {}
 
+    void advanceTime();
+
     bool operator==(const TestingCompany &company) const noexcept { return this == &company; }
     bool operator!=(const TestingCompany &company) const noexcept { return not (*this == company); };
 

@@ -95,7 +95,7 @@ void Producer::advanceTime()
     // 5% chance per hour for the producer to send a testing request.
     if(database.getUntestedGamesAmount() > 0)
     {
-        if(double(generator()) / generator.max() < 0.01)
+        if(double(generator()) / generator.max() < 0.2)
         {
             AbstractGame &gameToTest = database.getGameToBeTested();
             testingCompany.sendTestingRequest(gameToTest);
