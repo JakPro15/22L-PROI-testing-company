@@ -2,7 +2,6 @@
 #define PRODUCER_H
 
 #include "../testingcompany/address.h"
-#include "../testingcompany/testingcompany.h"
 #include "producerdatabase.h"
 #include <string>
 

@@ -23,9 +23,6 @@ class Simulation
         // The next id which may be given to a producer record.
         int currentProducerRecordId;
 
-        // Number of iterations through which the simulation will go.
-        unsigned int iterations;
-
         // Number of testers in the simulation.
         unsigned int testersAmount;
 
@@ -50,13 +47,13 @@ class Simulation
     public:
         // Creates an object of class Simulation
         Simulation(
-            unsigned int iterations, unsigned int testersAmount, unsigned int managersAmount,
+            unsigned int testersAmount, unsigned int managersAmount,
             std::string producersFileName, std::string gamesFileName,
             std::string testersFileName, std::string managersFileName,
             std::string outFileName);
 
-        // Activates the simulation.
-        void simulate();
+        // Activates the simulation for a given number of iterations.
+        void simulate(unsigned int iterations);
 
         // Returns a reference to the testing company whose work is being simulated.
         TestingCompany& getTestingCompany() noexcept;

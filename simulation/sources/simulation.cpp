@@ -2,14 +2,14 @@
 #include "../../exceptions.h"
 #include <iostream>
 
-Simulation::Simulation(unsigned int iterations, unsigned int testersAmount, unsigned int managersAmount,
+Simulation::Simulation(unsigned int testersAmount, unsigned int managersAmount,
                         std::string producersFileName, std::string gamesFileName,
                         std::string testersFileName, std::string managersFileName,
                         std::string outFileName) try:
     out(outFileName),
     in(*this, out, producersFileName, gamesFileName, testersFileName, managersFileName),
     currentProducerRecordId(13000001),
-    iterations(iterations), testersAmount(testersAmount), managersAmount(managersAmount),
+    testersAmount(testersAmount), managersAmount(managersAmount), testingCompany(out, {}, {}),
     producers{}, games{}, testers{}, managers{}
 {
     while(true)
@@ -26,12 +26,16 @@ Simulation::Simulation(unsigned int iterations, unsigned int testersAmount, unsi
 
     for(unsigned int i = 0; i < testersAmount; i++)
     {
-        testers.push_back(in.createTester());
+        std::shared_ptr<Tester> newTester = in.createTester();
+        testers.push_back(newTester);
+        testingCompany.addTester(newTester);
     }
 
     for(unsigned int i = 0; i < managersAmount; i++)
     {
-        managers.push_back(in.createManager());
+        std::shared_ptr<Manager> newManager = in.createManager();
+        managers.push_back(newManager);
+        testingCompany.addManager(newManager);
     }
 }
 catch(const std::exception& e)
@@ -40,7 +44,7 @@ catch(const std::exception& e)
     throw ShutdownException();
 }
 
-void Simulation::simulate()
+void Simulation::simulate(unsigned int iterations)
 {
     out << "Simulation ended succesfully" << OutputHandler::endlWait;
 }

@@ -2,6 +2,7 @@
 #include <random>
 #include "../manager.h"
 #include "../testingcompany.h"
+#include "../testingrecord.h"
 #include "../../simulation/outputhandler.h"
 #include "../../exceptions.h"
 

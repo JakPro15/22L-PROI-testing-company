@@ -1,5 +1,6 @@
 #include "../producerdatabase.h"
 #include "../producer.h"
+#include "../../testingcompany/testingrecord.h"
 #include "../../exceptions.h"
 #include "../../games/abstractgame.h"
 #include "../../simulation/outputhandler.h"

@@ -8,6 +8,7 @@
 
 class AbstractGame;
 class AbstractWorker;
+class Manager;
 
 
 class TestingCompany
@@ -20,7 +21,7 @@ private:
     int currentRequestId;
 
     // Reference to the database of the given company.
-    TestingDatabase& database;
+    TestingDatabase database;
 
     // Structure representing record of tested games.
     struct Record
@@ -45,7 +46,7 @@ private:
     OutputHandler& out;
 
 public:
-    TestingCompany(TestingDatabase& database, OutputHandler& out,
+    TestingCompany(OutputHandler& out,
         std::vector<std::shared_ptr<AbstractWorker>> workers,
         std::vector<std::shared_ptr<Tester>> testers);
 
@@ -60,6 +61,12 @@ public:
 
     // Adding increases effort held by the company by specified amount.
     void addEffort(unsigned int effort) noexcept;
+
+    // Adds a pointer to tester to workers collection and testers collection.
+    void addTester(std::shared_ptr<Tester> tester);
+
+    // Adds a pointer to manager to workers collection.
+    void addManager(std::shared_ptr<Manager> manager);
 
     // Creates a record of the tested game and adds it to tested records
     void testingFinished(const AbstractGame& game);
