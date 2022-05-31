@@ -27,7 +27,7 @@ class Tester: public Worker
         static const int maxId = 10999999;
 
         // Creates an object of class Tester with busyness set to false and game record pointer set to nullptr
-        Tester(int id, std::string name, std::string surname, TestingCompany& company);
+        Tester(int id, std::string name, std::string surname, TestingCompany& company, OutputHandler& out);
 
         // Copying of Tester is forbidden (IDs wouldn't be unique).
         Tester(const Tester&)=delete;

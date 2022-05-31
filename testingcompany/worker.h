@@ -4,6 +4,7 @@
 #include "abstractworker.h"
 
 class TestingCompany;
+class OutputHandler;
 
 
 class Worker: public AbstractWorker
@@ -26,11 +27,14 @@ class Worker: public AbstractWorker
         // Reference to the company in which the worker is employed.
         TestingCompany& company;
 
+        // Reference to the output handler.
+        OutputHandler& out;
+
         // Returns the unique name of the worker.
         virtual std::string getUniqueName() const noexcept;
         // Protected constructor that doesn't check ID - used in derived classes with different ID sets.
         // First argument (char) used only to differentiate from other constructors.
-        Worker(char, int id, std::string name, std::string surname, TestingCompany& company);
+        Worker(char, int id, std::string name, std::string surname, TestingCompany& company, OutputHandler& out);
         
     public:
         // These constants define the ID limits for this class.
@@ -38,7 +42,7 @@ class Worker: public AbstractWorker
         static const int maxId = 8999999;
 
         // Creates an object of class Worker.
-        Worker(int id, std::string name, std::string surname, TestingCompany& company);
+        Worker(int id, std::string name, std::string surname, TestingCompany& company, OutputHandler& out);
 
         // Empty virtual destructor - for inheritance.
         ~Worker() override;

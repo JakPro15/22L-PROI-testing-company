@@ -4,6 +4,8 @@
 #include <iostream>
 #include <fstream>
 
+#define debug true
+
 // This class handles the output of the simulation.
 
 class OutputHandler
@@ -27,8 +29,11 @@ class OutputHandler
         template<typename T>
         OutputHandler& operator<<(const T& object)
         {
+            if (debug)
+            {
             file << object;
             outputStream << object;
+            }
             return *this;
         }
 

@@ -24,7 +24,7 @@ class Manager: public Worker
         Manager& operator=(const Manager&)=delete;
 
         // Creates an object of class Manager.
-        Manager(int id, std::string name, std::string surname, TestingCompany& company);
+        Manager(int id, std::string name, std::string surname, TestingCompany& company, OutputHandler& out);
 
         // Empty virtual destructor - overwritten from Worker.
         ~Manager() override;

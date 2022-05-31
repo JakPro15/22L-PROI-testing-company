@@ -99,7 +99,9 @@ std::shared_ptr<Producer> InputFileHandler::createProducer()
     TestingCompany& testingCompany = sim.getTestingCompany();
 
     Address address(streetName, houseNumber, apartmentNumber, cityName, postCode);
-    return std::make_shared<Producer>(out, id, name, address, sim, testingCompany);
+    std::shared_ptr<Producer> producer = std::make_shared<Producer>(out, id, name, address, sim, testingCompany);
+    out << "Created " << *producer << OutputHandler::endlWait; 
+    return producer;
 }
 
 std::shared_ptr<AbstractGame> InputFileHandler::createGame(Producer& producer)
@@ -277,40 +279,50 @@ std::shared_ptr<AbstractGame> InputFileHandler::createGame(Producer& producer)
     {
         id = CompetitiveGame::minId + competetiveGames;
         competetiveGames++;
-        return std::make_shared<CompetitiveGame>(
+        std::shared_ptr<AbstractGame> game = std::make_shared<CompetitiveGame>(
             id, title, producer, filesSize, complexity, minTestersAmount, depth, serverSize, codeAvailable, priceZl, priceGr
             );
+        out << "Created " << *game << OutputHandler::endlWait; 
+        return game;
     }
     else if(gameType == "normal")
     {
         id = Game::minId + games;
         games++;
-        return std::make_unique<Game>(
+        std::shared_ptr<AbstractGame> game = std::make_unique<Game>(
             id, title, producer, filesSize, complexity, minTestersAmount, codeAvailable, priceZl, priceGr
             );
+        out << "Created " << *game << OutputHandler::endlWait; 
+        return game;
     }
     else if(gameType == "infinite")
     {
         id = InfiniteGame::minId + infiniteGames;
         infiniteGames++;
-        return std::make_unique<InfiniteGame>(
+        std::shared_ptr<AbstractGame> game = std::make_unique<InfiniteGame>(
             id, title, producer, filesSize, complexity, minTestersAmount, depth, codeAvailable, priceZl, priceGr
             );
+        out << "Created " << *game << OutputHandler::endlWait; 
+        return game;
     }
     else if(gameType == "puzzle")
     {
         id = Puzzle::minId + puzzles;
         puzzles++;
-        return std::make_unique<Puzzle>(
+        std::shared_ptr<AbstractGame> game = std::make_unique<Puzzle>(
             id, title, producer, filesSize, complexity, minTestersAmount, difficulty, length, codeAvailable, priceZl, priceGr
             );
+        out << "Created " << *game << OutputHandler::endlWait; 
+        return game;
     }
     else if(gameType == "roleplaying")
     {
         id = RolePlayingGame::minId + roleplayingGames;
         roleplayingGames++;
-        return std::make_unique<RolePlayingGame>(
+        std::shared_ptr<AbstractGame> game = std::make_unique<RolePlayingGame>(
             id, title, producer, filesSize, complexity, minTestersAmount, length, fullLength, codeAvailable, priceZl, priceGr);
+        out << "Created " << *game << OutputHandler::endlWait; 
+        return game;
     }
     else
     {
@@ -333,7 +345,9 @@ std::shared_ptr<Tester> InputFileHandler::createTester()
 
     TestingCompany& testingCompany = sim.getTestingCompany();
 
-    return std::make_unique<Tester>(id, name, surname, testingCompany);
+    std::unique_ptr<Tester> tester = std::make_unique<Tester>(id, name, surname, testingCompany, out);
+    out << "Created " << *tester << OutputHandler::endlWait; 
+    return tester;
 }
 
 std::shared_ptr<Manager> InputFileHandler::createManager()
@@ -349,5 +363,7 @@ std::shared_ptr<Manager> InputFileHandler::createManager()
 
     TestingCompany& company = sim.getTestingCompany();
 
-    return std::make_unique<Manager>(id, name, surname, company);
+    std::unique_ptr<Manager> manager = std::make_unique<Manager>(id, name, surname, company, out);
+    out << "Created " << *manager << OutputHandler::endlWait; 
+    return manager;
 }

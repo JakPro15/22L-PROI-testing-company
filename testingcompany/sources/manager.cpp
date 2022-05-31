@@ -2,6 +2,7 @@
 #include <random>
 #include "../manager.h"
 #include "../testingcompany.h"
+#include "../../simulation/outputhandler.h"
 #include "../../exceptions.h"
 
 void Manager::checkId() const
@@ -17,8 +18,8 @@ std::string Manager::getUniqueName() const noexcept
     return "Manager " + std::to_string(id - minId + 1);
 }
 
-Manager::Manager(int id, std::string name, std::string surname, TestingCompany& company):
-    Worker('a', id, name, surname, company)
+Manager::Manager(int id, std::string name, std::string surname, TestingCompany& company, OutputHandler& out):
+    Worker('a', id, name, surname, company, out)
 {
     checkId();
     unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
@@ -48,6 +49,7 @@ unsigned int Manager::getProductivity() const noexcept
 void Manager::doWork() noexcept
 {
     company.addEffort(productivity);
+    out << *this << "has done their work." << OutputHandler::endlWait;
 }
 
 bool Manager::operator!=(const Manager& manager) const noexcept

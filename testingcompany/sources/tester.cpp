@@ -2,6 +2,7 @@
 #include <random>
 #include "../tester.h"
 #include "../../exceptions.h"
+#include "../../simulation/outputhandler.h"
 
 
 void Tester::checkId() const
@@ -17,8 +18,8 @@ std::string Tester::getUniqueName() const noexcept
     return "Tester " + std::to_string(id - minId + 1);
 }
 
-Tester::Tester(int id, std::string name, std::string surname, TestingCompany& company):
-    Worker('a', id, name, surname, company), busyness(false), gameRecord(nullptr)
+Tester::Tester(int id, std::string name, std::string surname, TestingCompany& company, OutputHandler& out):
+    Worker('a', id, name, surname, company, out), busyness(false), gameRecord(nullptr)
 {
     checkId();
     unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
@@ -56,6 +57,7 @@ TestingRecord* Tester::getTestedGameRecord() const noexcept
 void Tester::doWork() noexcept
 {
     gameRecord->advanceTesting(productivity);
+    out << *this << "has done their work." << OutputHandler::endlWait;
 }
 
 bool Tester::operator==(const Tester& tester) const noexcept

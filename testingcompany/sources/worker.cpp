@@ -15,8 +15,8 @@ std::string Worker::getUniqueName() const noexcept
     return "Worker " + std::to_string(id - minId + 1);
 }
 
-Worker::Worker(char, int id, std::string name, std::string surname, TestingCompany& company):
-    AbstractWorker(id), name(name), surname(surname), company(company)
+Worker::Worker(char, int id, std::string name, std::string surname, TestingCompany& company, OutputHandler& out):
+    AbstractWorker(id), name(name), surname(surname), company(company), out(out)
 {
     if (checkAllWhitespace(name))
     {
@@ -28,8 +28,8 @@ Worker::Worker(char, int id, std::string name, std::string surname, TestingCompa
     }   
 }
 
-Worker::Worker(int id, std::string name, std::string surname, TestingCompany& company):
-    Worker('a', id, name, surname, company)
+Worker::Worker(int id, std::string name, std::string surname, TestingCompany& company, OutputHandler& out):
+    Worker('a', id, name, surname, company, out)
 {
     checkId();
 }
