@@ -402,14 +402,14 @@ std::shared_ptr<Manager> InputFileHandler::createManager()
     managers++;
     
     std::string name;
-    getlineWithEOFCheck(testersFile, name);
+    getlineWithEOFCheck(managersFile, name);
 
     std::string surname;
-    getlineWithEOFCheck(testersFile, surname);
+    getlineWithEOFCheck(managersFile, surname);
 
-    TestingCompany& company = sim.getTestingCompany();
+    TestingCompany& testingCompany = sim.getTestingCompany();
 
-    std::unique_ptr<Manager> manager = std::make_unique<Manager>(id, name, surname, company, out);
+    std::unique_ptr<Manager> manager = std::make_unique<Manager>(id, name, surname, testingCompany, out);
     out << "Created " << *manager << OutputHandler::endlWait; 
     return manager;
 }

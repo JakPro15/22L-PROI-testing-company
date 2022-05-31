@@ -15,15 +15,7 @@ TestingCompany::TestingCompany(OutputHandler& out,
 
 int TestingCompany::getRequestId()
 {
-    int returnId  = currentRequestId++;
-    if (returnId > 11999999)
-    {
-        return returnId;
-    }
-    else
-    {
-        throw InvalidId("request", returnId);
-    }
+    return currentRequestId++;
 }
 
 void TestingCompany::addEffort(unsigned int effort) noexcept
