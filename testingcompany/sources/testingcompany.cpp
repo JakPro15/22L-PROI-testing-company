@@ -3,6 +3,7 @@
 #include "../../games/abstractgame.h"
 #include "../../testingcompany/tester.h"
 #include "../../testingcompany/manager.h"
+#include "../../simulation/outputhandler.h"
 #include <vector>
 
 TestingCompany::TestingCompany(OutputHandler& out,
@@ -45,6 +46,7 @@ void TestingCompany::testingFinished(const AbstractGame &game)
 {
     TestingCompany::Record newRecord {game, false, 0, true};
     records.push_back(newRecord);
+    out << "Finished testing of: " << game << " payment pending."<< OutputHandler::endlWait;
 }
 
 void TestingCompany::paymentDone(const AbstractGame& game)
@@ -58,6 +60,7 @@ void TestingCompany::paymentDone(const AbstractGame& game)
             {
                 record.onTime = false;
             }
+            out << "Confirmed payment of: " << game << OutputHandler::endlWait;
         }
     }
 }
@@ -65,6 +68,7 @@ void TestingCompany::paymentDone(const AbstractGame& game)
 void TestingCompany::obtainTestingRequest(const AbstractGame &game)
 {
     database.newTestingRequest(game);
+    out << "Received testing request for: " << game << OutputHandler::endlWait;
 }
 
 void TestingCompany::advanceTime()
@@ -88,7 +92,10 @@ void TestingCompany::advanceTime()
             database.assignTester(tester);
         }
     }
-    database.advanceRequestHandling(effort);
+    if(database.getTestRequestsAmount() > 0)
+    {
+        database.advanceRequestHandling(effort);
+    }
     effort = 0;
 }
 

@@ -40,13 +40,29 @@ Simulation::Simulation(unsigned int testersAmount, unsigned int managersAmount,
 }
 catch(const std::exception& e)
 {
-    out << e.what();
+    out << e.what() << OutputHandler::endlWait;
     throw ShutdownException();
 }
 
 void Simulation::simulate(unsigned int iterations)
 {
-    out << "Simulation ended succesfully" << OutputHandler::endlWait;
+    try
+    {
+        for(unsigned int i = 0; i < iterations; i++)
+        {
+            for(std::shared_ptr<Producer> producer: producers)
+            {
+                producer->advanceTime();
+            }
+            testingCompany.advanceTime();
+        }
+        out << *this << " ended succesfully" << OutputHandler::endlWait;
+    }
+    catch(const std::exception& e)
+    {
+        out << e.what() << OutputHandler::endlWait;
+        throw ShutdownException();
+    }
 }
 
 TestingCompany& Simulation::getTestingCompany() noexcept
@@ -57,10 +73,6 @@ TestingCompany& Simulation::getTestingCompany() noexcept
 int Simulation::getProducerRecordId()
 {
     int returnId  = currentProducerRecordId++;
-    if (returnId > 13999999)
-    {
-        throw InvalidId("producer record", returnId);
-    }
     return returnId;
 }
 
@@ -68,14 +80,14 @@ AbstractGame& Simulation::getNewGame(Producer& producer)
 {
     try
     {
-        std::shared_ptr<AbstractGame> game = in.createGame(producer);
+        std::shared_ptr<AbstractGame> game = in.createGame(producer, false);
         games.push_back(game);
         return *game;
     }
     catch(const std::exception& e)
     {
-        out << e.what();
-        throw ShutdownException();
+        out << e.what() << OutputHandler::endlWait;
+        throw FileError('a', "Malformed games file.");
     }
     
 }
@@ -92,6 +104,6 @@ bool Simulation::operator!=(const Simulation &simulation) const noexcept
 
 std::ostream& operator<<(std::ostream& os, const Simulation& simulation) noexcept
 {
-    os << "simulation";
+    os << "Simulation";
     return os;
 }

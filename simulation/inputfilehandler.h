@@ -76,7 +76,7 @@ class InputFileHandler
         std::shared_ptr<Producer> createProducer();
 
         // Creates next game from the file and returns a pointer to it
-        std::shared_ptr<AbstractGame> createGame(Producer& producer);
+        std::shared_ptr<AbstractGame> createGame(Producer& producer, bool loop);
 
         // Creates next tester from the file and returns a pointer to it
         std::shared_ptr<Tester> createTester();

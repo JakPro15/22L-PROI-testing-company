@@ -56,8 +56,11 @@ TestingRecord* Tester::getTestedGameRecord() const noexcept
 
 void Tester::doWork() noexcept
 {
-    gameRecord->advanceTesting(productivity);
-    out << *this << "has done their work." << OutputHandler::endlWait;
+    if(gameRecord)
+    {
+        gameRecord->advanceTesting(productivity);
+        out << *this << "has done their work." << OutputHandler::endlWait;
+    }
 }
 
 bool Tester::operator==(const Tester& tester) const noexcept

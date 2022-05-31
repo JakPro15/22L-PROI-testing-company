@@ -5,7 +5,7 @@ int main()
     try
     {
         Simulation sim(3, 0, "producers.txt", "games.txt", "testers.txt", "managers.txt", "simulationlog.txt");
-        sim.simulate(200);
+        sim.simulate(20);
         return 0;
     }
     catch(const ShutdownException& e)

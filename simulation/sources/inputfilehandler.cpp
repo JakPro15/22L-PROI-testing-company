@@ -108,10 +108,9 @@ std::shared_ptr<Producer> InputFileHandler::createProducer()
     return producer;
 }
 
-std::shared_ptr<AbstractGame> InputFileHandler::createGame(Producer& producer)
+std::shared_ptr<AbstractGame> InputFileHandler::createGame(Producer& producer, bool loop)
 {
     std::string gameType;
-    getlineWithEOFCheck(gamesFile, gameType);
 
     int id;
     std::string title;
@@ -141,142 +140,157 @@ std::shared_ptr<AbstractGame> InputFileHandler::createGame(Producer& producer)
     std::string strfullLength;
     unsigned int fullLength;
 
-    getlineWithEOFCheck(gamesFile, title);
-
-    getlineWithEOFCheck(gamesFile, strfilesSize);
     try
     {
-        filesSize = std::stoi(strfilesSize);
-    }
-    catch(const std::exception& e)
-    {
-        throw ConversionError(strfilesSize, "int");
-    }
+        getlineWithEOFCheck(gamesFile, gameType);
 
-    getlineWithEOFCheck(gamesFile, strcomplexity);
-    try
-    {
-        intcomplexity = std::stoi(strcomplexity);
-        complexity = static_cast<AbstractGame::Complexity>(intcomplexity);
-    }
-    catch(const std::exception& e)
-    {
-        throw ConversionError(strcomplexity, "AbstractGame::Complexity");
-    }
+        getlineWithEOFCheck(gamesFile, title);
 
-    getlineWithEOFCheck(gamesFile, strminTestersAmount);
-    try
-    {
-        minTestersAmount = std::stoi(strminTestersAmount);
-    }
-    catch(const std::exception& e)
-    {
-        throw ConversionError(strminTestersAmount, "int");
-    }
-
-    if ((gameType == "infinite") || (gameType == "competitive"))
-    {
-        getlineWithEOFCheck(gamesFile, strdepth);
+        getlineWithEOFCheck(gamesFile, strfilesSize);
         try
         {
-            intdepth = std::stoi(strdepth);
-            depth = static_cast<InfiniteGame::Depth>(intdepth);
+            filesSize = std::stoi(strfilesSize);
         }
         catch(const std::exception& e)
         {
-            throw ConversionError(strdepth, "InfiniteGame::Depth");
+            throw ConversionError(strfilesSize, "int");
         }
-    }
-    if (gameType == "competitive")
-    {
-        getlineWithEOFCheck(gamesFile, strserverSize);
+
+        getlineWithEOFCheck(gamesFile, strcomplexity);
         try
         {
-            serverSize = std::stoi(strserverSize);
+            intcomplexity = std::stoi(strcomplexity);
+            complexity = static_cast<AbstractGame::Complexity>(intcomplexity);
         }
         catch(const std::exception& e)
         {
-            throw ConversionError(strserverSize, "int");
+            throw ConversionError(strcomplexity, "AbstractGame::Complexity");
         }
-    }
-    else if (gameType == "puzzle")
-    {
-        getlineWithEOFCheck(gamesFile, strdifficulty);
+
+        getlineWithEOFCheck(gamesFile, strminTestersAmount);
         try
         {
-            intdifficulty = std::stoi(strdifficulty);
-            difficulty = static_cast<Puzzle::Difficulty>(intdifficulty);
+            minTestersAmount = std::stoi(strminTestersAmount);
         }
         catch(const std::exception& e)
         {
-            throw ConversionError(strdifficulty, "Puzzle::Difficulty");
+            throw ConversionError(strminTestersAmount, "int");
         }
 
-        getlineWithEOFCheck(gamesFile, strlength);
+        if ((gameType == "infinite") || (gameType == "competitive"))
+        {
+            getlineWithEOFCheck(gamesFile, strdepth);
+            try
+            {
+                intdepth = std::stoi(strdepth);
+                depth = static_cast<InfiniteGame::Depth>(intdepth);
+            }
+            catch(const std::exception& e)
+            {
+                throw ConversionError(strdepth, "InfiniteGame::Depth");
+            }
+        }
+        if (gameType == "competitive")
+        {
+            getlineWithEOFCheck(gamesFile, strserverSize);
+            try
+            {
+                serverSize = std::stoi(strserverSize);
+            }
+            catch(const std::exception& e)
+            {
+                throw ConversionError(strserverSize, "int");
+            }
+        }
+        else if (gameType == "puzzle")
+        {
+            getlineWithEOFCheck(gamesFile, strdifficulty);
+            try
+            {
+                intdifficulty = std::stoi(strdifficulty);
+                difficulty = static_cast<Puzzle::Difficulty>(intdifficulty);
+            }
+            catch(const std::exception& e)
+            {
+                throw ConversionError(strdifficulty, "Puzzle::Difficulty");
+            }
+
+            getlineWithEOFCheck(gamesFile, strlength);
+            try
+            {
+                length = std::stoi(strlength);
+            }
+            catch(const std::exception& e)
+            {
+                throw ConversionError(strlength, "int");
+            }
+        }
+        else if (gameType == "roleplaying")
+        {
+            getlineWithEOFCheck(gamesFile, strlength);
+            try
+            {
+                length = std::stoi(strlength);
+            }
+            catch(const std::exception& e)
+            {
+                throw ConversionError(strlength, "int");
+            }
+
+            getlineWithEOFCheck(gamesFile, strfullLength);
+            try
+            {
+                fullLength = std::stoi(strfullLength);
+            }
+            catch(const std::exception& e)
+            {
+                throw ConversionError(strfullLength, "int");
+            }
+        }
+
+        getlineWithEOFCheck(gamesFile, strcodeAvailable);
+        if (strcodeAvailable == "true")
+        {
+            codeAvailable = true;
+        }
+        else if (strcodeAvailable == "false")
+        {
+            codeAvailable = false;
+        }
+        else
+        {
+            throw ConversionError(strcodeAvailable, "bool");
+        }
+
+        getlineWithEOFCheck(gamesFile, strpriceZl);
         try
         {
-            length = std::stoi(strlength);
+            priceZl = std::stoi(strpriceZl);
         }
         catch(const std::exception& e)
         {
-            throw ConversionError(strlength, "int");
+            throw ConversionError(strpriceZl, "int");
         }
-    }
-    else if (gameType == "roleplaying")
-    {
-        getlineWithEOFCheck(gamesFile, strlength);
+
+        getlineWithEOFCheck(gamesFile, strpriceGr);
         try
         {
-            length = std::stoi(strlength);
+            priceZl = std::stoi(strpriceGr);
         }
         catch(const std::exception& e)
         {
-            throw ConversionError(strlength, "int");
+            throw ConversionError(strpriceGr, "int");
         }
-
-        getlineWithEOFCheck(gamesFile, strfullLength);
-        try
+    }
+    catch(const EndOfFileError& eof)
+    {
+        if(loop)
         {
-            fullLength = std::stoi(strfullLength);
+            throw EndOfFileError();
         }
-        catch(const std::exception& e)
-        {
-            throw ConversionError(strfullLength, "int");
-        }
-    }
-
-    getlineWithEOFCheck(gamesFile, strcodeAvailable);
-    if (strcodeAvailable == "true")
-    {
-        codeAvailable = true;
-    }
-    else if (strcodeAvailable == "false")
-    {
-        codeAvailable = false;
-    }
-    else
-    {
-        throw ConversionError(strcodeAvailable, "bool");
-    }
-
-    getlineWithEOFCheck(gamesFile, strpriceZl);
-    try
-    {
-        priceZl = std::stoi(strpriceZl);
-    }
-    catch(const std::exception& e)
-    {
-        throw ConversionError(strpriceZl, "int");
-    }
-
-    getlineWithEOFCheck(gamesFile, strpriceGr);
-    try
-    {
-        priceZl = std::stoi(strpriceGr);
-    }
-    catch(const std::exception& e)
-    {
-        throw ConversionError(strpriceGr, "int");
+        gamesFile.clear();
+        gamesFile.seekg(0);
+        return createGame(producer, true);
     }
 
     if(gameType == "competitive")

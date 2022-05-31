@@ -83,7 +83,8 @@ void Producer::advanceTime()
     unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
     std::mt19937 generator (seed);
     // 1% chance per hour for the producer to make a new game.
-    if(double(generator()) / generator.max() < 0.01)
+    // if(double(generator()) / generator.max() < 0.01)
+    if(true)
     {
         AbstractGame &game = simulation.getNewGame(*this);
         database.addGame(game);

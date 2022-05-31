@@ -1,4 +1,6 @@
+Created Producer 1
 Created Tester 1
 Created Tester 2
 Created Tester 3
-Simulation ended succesfully
+End of file has been reached while trying to read data from file
+Malformed games file.
