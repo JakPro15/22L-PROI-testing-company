@@ -52,12 +52,12 @@ TestingCompany& Simulation::getTestingCompany() noexcept
 
 int Simulation::getProducerRecordId()
 {
-    int return_id  = currentProducerRecordId++;
-    if (return_id > 13999999)
+    int returnId  = currentProducerRecordId++;
+    if (returnId > 13999999)
     {
-        throw InvalidId("producer record", return_id);
+        throw InvalidId("producer record", returnId);
     }
-    return return_id;
+    return returnId;
 }
 
 AbstractGame& Simulation::getNewGame(Producer& producer)

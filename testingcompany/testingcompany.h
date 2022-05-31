@@ -2,6 +2,9 @@
 #define TESTINGCOMPANY_H
 
 
+#include <iostream>
+
+
 class AbstractGame;
 
 
@@ -10,15 +13,21 @@ class TestingCompany
 private:
     // Current amount of effort the company can use.
     unsigned int effort;
+
+    // Next request id possible to be given.
+    int currentRequestId = 11000001;
+
 public:
-    TestingCompany(...) {}
+    TestingCompany(...);
 
     // Copying of TestingCompany is forbidden (IDs wouldn't be unique).
     TestingCompany(const TestingCompany&)=delete;
     TestingCompany& operator=(const TestingCompany&)=delete;
 
     ~TestingCompany() {}
-    int getRequestId() { return 11000001; }
+
+    // Returns the request id and increments the counter.
+    int getRequestId();
 
     // Adding increases effort held by the company by specified amount.
     void addEffort(unsigned int effort) {this->effort += effort;}

@@ -57,6 +57,10 @@ InputFileHandler::~InputFileHandler()
 std::shared_ptr<Producer> InputFileHandler::createProducer()
 {
     int id = Producer::minId + producers;
+    if(id > Producer::maxId)
+    {
+        throw InvalidId("producer", id);
+    }
     producers++;
 
     std::string name;
@@ -278,6 +282,10 @@ std::shared_ptr<AbstractGame> InputFileHandler::createGame(Producer& producer)
     if(gameType == "competitive")
     {
         id = CompetitiveGame::minId + competetiveGames;
+        if(id > CompetitiveGame::maxId)
+        {
+            throw InvalidId("competitive game", id);
+        }
         competetiveGames++;
         std::shared_ptr<AbstractGame> game = std::make_shared<CompetitiveGame>(
             id, title, producer, filesSize, complexity, minTestersAmount, depth, serverSize, codeAvailable, priceZl, priceGr
@@ -288,6 +296,10 @@ std::shared_ptr<AbstractGame> InputFileHandler::createGame(Producer& producer)
     else if(gameType == "normal")
     {
         id = Game::minId + games;
+        if(id > Game::maxId)
+        {
+            throw InvalidId("game", id);
+        }
         games++;
         std::shared_ptr<AbstractGame> game = std::make_unique<Game>(
             id, title, producer, filesSize, complexity, minTestersAmount, codeAvailable, priceZl, priceGr
@@ -298,6 +310,10 @@ std::shared_ptr<AbstractGame> InputFileHandler::createGame(Producer& producer)
     else if(gameType == "infinite")
     {
         id = InfiniteGame::minId + infiniteGames;
+        if(id > InfiniteGame::maxId)
+        {
+            throw InvalidId("infinite game", id);
+        }
         infiniteGames++;
         std::shared_ptr<AbstractGame> game = std::make_unique<InfiniteGame>(
             id, title, producer, filesSize, complexity, minTestersAmount, depth, codeAvailable, priceZl, priceGr
@@ -308,6 +324,10 @@ std::shared_ptr<AbstractGame> InputFileHandler::createGame(Producer& producer)
     else if(gameType == "puzzle")
     {
         id = Puzzle::minId + puzzles;
+        if(id > Puzzle::maxId)
+        {
+            throw InvalidId("puzzle", id);
+        }
         puzzles++;
         std::shared_ptr<AbstractGame> game = std::make_unique<Puzzle>(
             id, title, producer, filesSize, complexity, minTestersAmount, difficulty, length, codeAvailable, priceZl, priceGr
@@ -318,6 +338,10 @@ std::shared_ptr<AbstractGame> InputFileHandler::createGame(Producer& producer)
     else if(gameType == "roleplaying")
     {
         id = RolePlayingGame::minId + roleplayingGames;
+        if(id > RolePlayingGame::maxId)
+        {
+            throw InvalidId("roleplaying game", id);
+        }
         roleplayingGames++;
         std::shared_ptr<AbstractGame> game = std::make_unique<RolePlayingGame>(
             id, title, producer, filesSize, complexity, minTestersAmount, length, fullLength, codeAvailable, priceZl, priceGr);
@@ -333,6 +357,10 @@ std::shared_ptr<AbstractGame> InputFileHandler::createGame(Producer& producer)
 std::shared_ptr<Tester> InputFileHandler::createTester()
 {
     int id = Tester::minId + testers;
+    if(id > Tester::maxId)
+    {
+        throw InvalidId("tester", id);
+    }
     testers++;
     
     std::string name;
@@ -353,6 +381,10 @@ std::shared_ptr<Tester> InputFileHandler::createTester()
 std::shared_ptr<Manager> InputFileHandler::createManager()
 {
     int id = Manager::minId + managers;
+    if(id > Manager::maxId)
+    {
+        throw InvalidId("manager", id);
+    }
     managers++;
     
     std::string name;
