@@ -2,10 +2,12 @@
 #define TESTINGCOMPANY_H
 
 
+#include "testingdatabase.h"
 #include <iostream>
 
 
 class AbstractGame;
+class AbstractWorker;
 
 
 class TestingCompany
@@ -15,10 +17,37 @@ private:
     unsigned int effort;
 
     // Next request id possible to be given.
-    int currentRequestId = 11000001;
+    int currentRequestId;
+
+    // Reference to the database of the given company.
+    TestingDatabase& database;
+
+    // Structure representing record of tested games.
+    struct Record
+    {
+        const AbstractGame& testedGame;
+        bool paid;
+        // Delay in hours since planned payment time.
+        unsigned int delay;
+        bool onTime;
+    };
+
+    // Collection of records of tested games.
+    std::vector<TestingCompany::Record> records;
+
+    // Collection of all pointers to workers working in the company.
+    std::vector<std::shared_ptr<AbstractWorker>> workers;
+
+    // Collection of all pointers to testers working in the company.
+    std::vector<std::shared_ptr<Tester>> testers;
+
+    // Reference to the output handler.
+    OutputHandler& out;
 
 public:
-    TestingCompany(...);
+    TestingCompany(TestingDatabase& database, OutputHandler& out,
+        std::vector<std::shared_ptr<AbstractWorker>> workers,
+        std::vector<std::shared_ptr<Tester>> testers);
 
     // Copying of TestingCompany is forbidden (IDs wouldn't be unique).
     TestingCompany(const TestingCompany&)=delete;
@@ -26,22 +55,28 @@ public:
 
     ~TestingCompany() {}
 
-    // Returns the request id and increments the counter.
+    // Returns the request id and increments the request counter.
     int getRequestId();
 
     // Adding increases effort held by the company by specified amount.
-    void addEffort(unsigned int effort) {this->effort += effort;}
+    void addEffort(unsigned int effort) noexcept;
 
-    void testingFinished(const AbstractGame &game) {}
-    void paymentDone(const AbstractGame &game) {}
-    void sendTestingRequest(const AbstractGame &game) {}
+    // Creates a record of the tested game and adds it to tested records
+    void testingFinished(const AbstractGame& game);
 
+    // Sets game's record as paid and marks if it was done on time (if not writes down delay).
+    void paymentDone(const AbstractGame& game);
+
+    // Adds a new game to the testing database.
+    void obtainTestingRequest(const AbstractGame &game);
+
+    // Calling this method signals the Testing Company that one hour has passed.
     void advanceTime();
 
-    bool operator==(const TestingCompany &company) const noexcept { return this == &company; }
-    bool operator!=(const TestingCompany &company) const noexcept { return not (*this == company); };
+    bool operator==(const TestingCompany& company) const noexcept;
+    bool operator!=(const TestingCompany& company) const noexcept;
 
-    friend std::ostream& operator<<(std::ostream &stream, const TestingCompany &company) noexcept { return stream; }
+    friend std::ostream& operator<<(std::ostream& os, const TestingCompany& company) noexcept;
 };
 
 

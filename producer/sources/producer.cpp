@@ -98,7 +98,7 @@ void Producer::advanceTime()
         if(double(generator()) / generator.max() < 0.2)
         {
             AbstractGame &gameToTest = database.getGameToBeTested();
-            testingCompany.sendTestingRequest(gameToTest);
+            testingCompany.obtainTestingRequest(gameToTest);
             std::stringstream stringstr;
             stringstr << *this << " requests testing of " << gameToTest << " by " << testingCompany;
             out << stringstr.str();
