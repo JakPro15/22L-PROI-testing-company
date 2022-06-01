@@ -374,7 +374,7 @@ std::shared_ptr<Tester> InputFileHandler::createTester()
 
     TestingCompany& testingCompany = sim.getTestingCompany();
 
-    std::unique_ptr<Tester> tester = std::make_unique<Tester>(id, name, surname, testingCompany, out);
+    std::shared_ptr<Tester> tester = std::make_shared<Tester>(id, name, surname, testingCompany, out);
     out << *this << " creates " << *tester << OutputHandler::endlWait;
     return tester;
 }
@@ -392,7 +392,7 @@ std::shared_ptr<Manager> InputFileHandler::createManager()
 
     TestingCompany& testingCompany = sim.getTestingCompany();
 
-    std::unique_ptr<Manager> manager = std::make_unique<Manager>(id, name, surname, testingCompany, out);
+    std::shared_ptr<Manager> manager = std::make_shared<Manager>(id, name, surname, testingCompany, out);
     out << *this << " creates " << *manager << OutputHandler::endlWait;
     return manager;
 }
