@@ -4,7 +4,7 @@
 
 
 /*
-Thrown when attempting to modify the record of a fully tested Game.
+Thrown when attempting to obtain the final parameters of a not fully tested game from testing record.
 */
 class TestingNotEndedError: public std::logic_error
 {
