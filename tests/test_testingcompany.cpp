@@ -72,11 +72,11 @@ TEST_CASE("Testing company methods", "[TestingCompany]")
     {
         std::stringstream stream1, stream2;
         stream1 << testingCompany;
-        stream2 << "TestingCompany";
+        stream2 << "TestingCompany 1";
 
         CHECK(stream1.str() == stream2.str());
 
-        TestingCompany testingCompany2(15000001, out);
+        TestingCompany testingCompany2(15009000, out);
 
         stream1.str("");
         stream1.clear();
@@ -84,7 +84,7 @@ TEST_CASE("Testing company methods", "[TestingCompany]")
         stream2.clear();
 
         stream1 << testingCompany2;
-        stream2 << "TestingCompany";
+        stream2 << "TestingCompany 9000";
 
         CHECK(stream1.str() == stream2.str());
     }

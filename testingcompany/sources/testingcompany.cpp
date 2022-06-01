@@ -33,8 +33,9 @@ void TestingCompany::checkId() const
 TestingCompany::TestingCompany(int id, OutputHandler& out,
     std::vector<std::shared_ptr<AbstractWorker>> workers,
     std::vector<std::shared_ptr<Tester>> testers):
-    id(id), effort(0), currentRequestId(11000001), currentRecordId(16000001), database(out, id - 8000, *this),
-    records{}, workers{workers}, testers{testers}, out(out)
+    id(id), effort(0), currentRequestId(11000001), currentRecordId(16000001),
+    database(out, id - minId + TestingDatabase::minId, *this), records{}, workers{workers},
+    testers{testers}, out(out)
 {
     checkId();
 }
@@ -188,6 +189,6 @@ bool TestingCompany::operator!=(const TestingCompany& company) const noexcept
 
 std::ostream& operator<<(std::ostream& os, const TestingCompany& company) noexcept
 {
-    os << "TestingCompany" << company.id - company.minId + 1;
+    os << "TestingCompany " << company.id - company.minId + 1;
     return os;
 }

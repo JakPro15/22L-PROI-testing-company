@@ -6,6 +6,7 @@
 #include "../exceptions.h"
 #include <sstream>
 
+
 TEST_CASE("Worker methods", "[Worker]")
 {
     OutputHandler out(18000001, "../simulationlog.txt");

@@ -400,6 +400,6 @@ std::shared_ptr<Manager> InputFileHandler::createManager()
 
 std::ostream& operator<<(std::ostream& os, const InputFileHandler& handler) noexcept
 {
-    os << "InputFileHandler" << handler.id - handler.minId + 1;
+    os << "InputFileHandler " << handler.id - handler.minId + 1;
     return os;
 }

@@ -1,10 +1,10 @@
 #ifndef _OUTPUTHANDLER_H
 #define _OUTPUTHANDLER_H
 
+//#define PROI_Projekt_tests
+
 #include <iostream>
 #include <fstream>
-
-#define debug false
 
 // This class handles the output of the simulation.
 
@@ -44,11 +44,10 @@ class OutputHandler
         template<typename T>
         OutputHandler& operator<<(const T& object)
         {
-            if (debug)
-            {
+#ifndef PROI_Projekt_tests  // no printing in tests
             file << object;
             outputStream << object;
-            }
+#endif
             return *this;
         }
 

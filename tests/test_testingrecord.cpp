@@ -12,8 +12,8 @@
 TEST_CASE("TestingRecord constructor and setters", "[TestingRecord]")
 {
     Simulation sim(3, 0, "../producers.txt", "../games.txt", "../testers.txt", "../managers.txt", "../simulationlog.txt");
-    OutputHandler out("../simulationlog.txt");
-    TestingCompany tcom(out);
+    OutputHandler out(18000001, "../simulationlog.txt");
+    TestingCompany tcom(15000001, out);
     Producer pr(out, 14000001, "Pr", Address("SN", 2, 5, "SNville", "12-345"), sim, tcom);
     Game game(1000001, "G", pr, 100000, AbstractGame::Average, 3, true, Price(500));
     TestingRecord record(out, 6000001, game, 5);
@@ -160,8 +160,8 @@ TEST_CASE("TestingRecord constructor and setters", "[TestingRecord]")
 TEST_CASE("TestingRecord time advancing methods", "[TestingRecord]")
 {
     Simulation sim(3, 0, "../producers.txt", "../games.txt", "../testers.txt", "../managers.txt", "../simulationlog.txt");
-    OutputHandler out("../simulationlog.txt");
-    TestingCompany tcom(out);
+    OutputHandler out(18000001, "../simulationlog.txt");
+    TestingCompany tcom(15000001, out);
     Producer pr(out, 14000001, "Pr", Address("SN", 2, 5, "SNville", "12-345"), sim, tcom);
 
     SECTION("Case 1 - total effort == 15")
@@ -299,8 +299,8 @@ TEST_CASE("TestingRecord time advancing methods", "[TestingRecord]")
 TEST_CASE("TestingRecord total time and price methods", "[TestingRecord]")
 {
     Simulation sim(3, 0, "../producers.txt", "../games.txt", "../testers.txt", "../managers.txt", "../simulationlog.txt");
-    OutputHandler out("../simulationlog.txt");
-    TestingCompany tcom(out);
+    OutputHandler out(18000001, "../simulationlog.txt");
+    TestingCompany tcom(15000001, out);
     Producer pr(out, 14000001, "Pr", Address("SN", 2, 5, "SNville", "12-345"), sim, tcom);
     SECTION("Case 1 - total effort == 30, real time == 1")
     {
@@ -350,8 +350,8 @@ TEST_CASE("TestingRecord total time and price methods", "[TestingRecord]")
 TEST_CASE("Minor methods")
 {
     Simulation sim(3, 0, "../producers.txt", "../games.txt", "../testers.txt", "../managers.txt", "../simulationlog.txt");
-    OutputHandler out("../simulationlog.txt");
-    TestingCompany tcom(out);
+    OutputHandler out(18000001, "../simulationlog.txt");
+    TestingCompany tcom(15000001, out);
     Producer pr(out, 14000001, "Pr", Address("SN", 2, 5, "SNville", "12-345"), sim, tcom);
     Game game(1000001, "G", pr, 100, AbstractGame::Average, 3, true, Price(500));
     TestingRecord record(out, 6000001, game, 5, true);

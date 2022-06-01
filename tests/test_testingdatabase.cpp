@@ -1,3 +1,4 @@
+#include "catch.hpp"
 #include "../testingcompany/testingdatabase.h"
 #include "../testingcompany/testingrecord.h"
 #include "../testingcompany/tester.h"
@@ -6,17 +7,16 @@
 #include "../testingcompany/testingcompany.h"
 #include "../simulation/simulation.h"
 #include "../exceptions.h"
-#include "catch.hpp"
 #include <sstream>
 
 
 TEST_CASE("TestingDatabase constructor and request processing", "[TestingDatabase]")
 {
-    OutputHandler out("../simulationlog.txt");
-    TestingCompany company(out);
+    OutputHandler out(18000001, "../simulationlog.txt");
+    TestingCompany company(15000001, out);
     TestingDatabase database(out, 7000001, company);
     Simulation sim(3, 0, "../producers.txt", "../games.txt", "../testers.txt", "../managers.txt", "../simulationlog.txt");
-    TestingCompany tcom(out);
+    TestingCompany tcom(15000001, out);
     Producer pr(out, 14000001, "Pr", Address("SN", 2, 5, "SNville", "12-345"), sim, tcom);
     Game game1(1000001, "G", pr, 100, AbstractGame::Average, 3, true, Price(500));
     RolePlayingGame game2(3000001, "G2", pr, 100, AbstractGame::Complex, 5, 120, 240, true, Price(4000));
@@ -28,7 +28,7 @@ TEST_CASE("TestingDatabase constructor and request processing", "[TestingDatabas
         CHECK(database.getGamesWaitingForTestersAmount() == 0);
         CHECK(database.getTestRequestsAmount() == 0);
 
-        TestingCompany company2(out);
+        TestingCompany company2(15000001, out);
         TestingDatabase database(out, 7005001, company2);
         CHECK(database.id == 7005001);
         CHECK(database.company == company2);
@@ -100,11 +100,11 @@ TEST_CASE("TestingDatabase constructor and request processing", "[TestingDatabas
 
 TEST_CASE("Assigning testers and removing testers to and from games", "[TestingDatabase]")
 {
-    OutputHandler out("../simulationlog.txt");
-    TestingCompany company(out);
+    OutputHandler out(18000001, "../simulationlog.txt");
+    TestingCompany company(15000001, out);
     TestingDatabase database(out, 7000001, company);
     Simulation sim(3, 0, "../producers.txt", "../games.txt", "../testers.txt", "../managers.txt", "../simulationlog.txt");
-    TestingCompany tcom(out);
+    TestingCompany tcom(15000001, out);
     Producer pr(out, 14000001, "Pr", Address("SN", 2, 5, "SNville", "12-345"), sim, tcom);
     Game game1(1000001, "G", pr, 100, AbstractGame::Average, 1, true, Price(500));
     RolePlayingGame game2(3000001, "G2", pr, 100, AbstractGame::Complex, 2, 120, 240, true, Price(4000));
