@@ -6,10 +6,10 @@ Simulation::Simulation(unsigned int testersAmount, unsigned int managersAmount,
                         std::string producersFileName, std::string gamesFileName,
                         std::string testersFileName, std::string managersFileName,
                         std::string outFileName) try:
-    out(outFileName),
-    in(*this, out, producersFileName, gamesFileName, testersFileName, managersFileName),
+    out(18000001, outFileName),
+    in(17000001, *this, out, producersFileName, gamesFileName, testersFileName, managersFileName),
     currentProducerRecordId(13000001),
-    testersAmount(testersAmount), managersAmount(managersAmount), testingCompany(out),
+    testersAmount(testersAmount), managersAmount(managersAmount), testingCompany(15000001, out),
     producers{}, games{}, testers{}, managers{}
 {}
 catch(const std::exception& e)

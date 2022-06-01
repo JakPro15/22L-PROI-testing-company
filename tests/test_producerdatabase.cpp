@@ -89,23 +89,23 @@ TEST_CASE("ProducerDatabase methods", "[ProducerDatabase]")
     SECTION("gameFinishedTesting")
     {
         database.addGame(game);
-        CHECK_THROWS_AS(database.gameFinishedTesting(game), GameNotRequestedError);
+        CHECK_THROWS_AS(database.gameFinishedTesting(game, 0), GameNotRequestedError);
 
         database.getGameToBeTested();
-        CHECK_NOTHROW(database.gameFinishedTesting(game));
+        CHECK_NOTHROW(database.gameFinishedTesting(game, 0));
 
-        CHECK_THROWS_AS(database.gameFinishedTesting(game), GameAlreadyTestedError);
+        CHECK_THROWS_AS(database.gameFinishedTesting(game, 0), GameAlreadyTestedError);
 
         Game game2(1000003, "Game", pr, 100, AbstractGame::Average, 3);
-        CHECK_THROWS_AS(database.gameFinishedTesting(game2), GameNotPresentError);
+        CHECK_THROWS_AS(database.gameFinishedTesting(game2, 0), GameNotPresentError);
 
         database.addGame(game2);
-        CHECK_THROWS_AS(database.gameFinishedTesting(game2), GameNotRequestedError);
+        CHECK_THROWS_AS(database.gameFinishedTesting(game2, 0), GameNotRequestedError);
 
         database.getGameToBeTested();
-        CHECK_NOTHROW(database.gameFinishedTesting(game2));
+        CHECK_NOTHROW(database.gameFinishedTesting(game2, 0));
 
-        CHECK_THROWS_AS(database.gameFinishedTesting(game2), GameAlreadyTestedError);
+        CHECK_THROWS_AS(database.gameFinishedTesting(game2, 0), GameAlreadyTestedError);
     }
     SECTION("<< operator")
     {

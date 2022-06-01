@@ -5,6 +5,15 @@
 #include "../../games/roleplayinggame.h"
 #include "../simulation.h"
 
+
+void InputFileHandler::checkId() const
+{
+    if(id < minId or id > maxId)
+    {
+        throw InvalidId("InputFileHandler", id);
+    }
+}
+
 void InputFileHandler::getlineWithEOFCheck(std::ifstream& file, std::string& string)
 {
     if(file.eof())
@@ -14,13 +23,15 @@ void InputFileHandler::getlineWithEOFCheck(std::ifstream& file, std::string& str
     std::getline(file, string);
 }
 
-InputFileHandler::InputFileHandler(
+InputFileHandler::InputFileHandler(int id,
     Simulation& sim, OutputHandler& out,
     std::string producersFileName, std::string gamesFileName,
     std::string testersFileName, std::string managersFileName):
-        sim(sim), out(out), producers(0), games(0), competetiveGames(0),
+        id(id), sim(sim), out(out), producers(0), games(0), competetiveGames(0),
         infiniteGames(0), puzzles(0), roleplayingGames(0), testers(0), managers(0)
 {
+    checkId();
+
     producersFile.open(producersFileName);
     if(!producersFile)
     {
@@ -387,8 +398,8 @@ std::shared_ptr<Manager> InputFileHandler::createManager()
 }
 
 
-std::ostream& operator<<(std::ostream &stream, const InputFileHandler &record) noexcept
+std::ostream& operator<<(std::ostream& os, const InputFileHandler& handler) noexcept
 {
-    stream << "InputFileHandler";
-    return stream;
+    os << "InputFileHandler" << handler.id - handler.minId + 1;
+    return os;
 }

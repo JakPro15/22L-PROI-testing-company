@@ -4,13 +4,20 @@
 #include <iostream>
 #include <fstream>
 
-#define debug true
+#define debug false
 
 // This class handles the output of the simulation.
 
 class OutputHandler
 {
+    public:
+        // Unique ID of the output handler assigned at creation.
+        const int id;
+
     private:
+        // Throws InvalidId if the object's id is invalid for a OutputHandler object.
+        void checkId() const;
+
         // File to which informations will be saved.
         std::ofstream file;
 
@@ -18,12 +25,20 @@ class OutputHandler
         std::ostream& outputStream;
 
     public:
+        // These constants define the ID limits for this class.
+        static const int minId = 18000001;
+        static const int maxId = 18999999;
+
         // Constructor allowing for choice of output file. Output stream will always be std::cout.
         // Throws exception when file can't be opened.
-        OutputHandler(std::string fileName);
+        OutputHandler(int id, std::string fileName);
 
         // File is closed when object is destroyed.
         ~OutputHandler();
+
+        // Copying of OutputHandler is forbidden (IDs wouldn't be unique).
+        OutputHandler(const OutputHandler&)=delete;
+        OutputHandler& operator=(const OutputHandler&)=delete;
 
         // Operator which allows to put any object into both the output file and the output stream.
         template<typename T>

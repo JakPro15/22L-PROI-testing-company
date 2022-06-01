@@ -10,15 +10,15 @@
 
 TEST_CASE("Tester methods", "[Tester]")
 {
-    OutputHandler out("../simulationlog.txt");
-    TestingCompany company(out);
+    OutputHandler out(18000001, "../simulationlog.txt");
+    TestingCompany company(15000001, out);
     Tester piekarz(10000001, "Paweł", "Piekarski", company, out);
 
     SECTION("Constructor and getters")
     {
         Tester butcher(10000002, "Jan", "Rzeźnicki", company, out);
 
-        CHECK(butcher.getId() == 10000002);
+        CHECK(butcher.id == 10000002);
         CHECK(butcher.getName() == "Jan");
         CHECK(butcher.getSurname() == "Rzeźnicki");
         CHECK(butcher.getBusy() == false);

@@ -193,19 +193,6 @@ TEST_CASE("Assigning testers and removing testers to and from games", "[TestingD
         CHECK(database.getTestRequestsAmount() == 0);
     }
 
-    SECTION("Check ending of testing")
-    {
-        tester1->getTestedGameRecord()->advanceTesting(400);
-        database.checkRecords();
-        CHECK_FALSE(tester1->getBusy());
-        CHECK(tester1->getTestedGameRecord() == nullptr);
-        CHECK_FALSE(tester4->getBusy());
-        CHECK(tester4->getTestedGameRecord() == nullptr);
-        CHECK(database.getGamesBeingTestedAmount() == 1);
-        CHECK(database.getGamesWaitingForTestersAmount() == 0);
-        CHECK(database.getTestRequestsAmount() == 0);
-    }
-
     SECTION("<< operator")
     {
         std::stringstream stream1, stream2;

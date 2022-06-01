@@ -70,7 +70,7 @@ void Tester::doWork() noexcept
 
 bool Tester::operator==(const Tester& tester) const noexcept
 {
-    if (id == tester.getId())
+    if (id == tester.id)
     {
         return true;
     }

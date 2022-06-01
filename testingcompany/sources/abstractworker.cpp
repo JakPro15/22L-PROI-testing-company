@@ -1,4 +1,4 @@
-#include "abstractworker.h"
+#include "../abstractworker.h"
 
 
 AbstractWorker::~AbstractWorker()

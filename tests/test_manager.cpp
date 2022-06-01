@@ -5,19 +5,20 @@
 #include "../testingcompany/testingcompany.h"
 #include "../testingcompany/testingrecord.h"
 #include "../simulation/outputhandler.h"
+#include "../simulation/simulation.h"
 #include <sstream>
 
 TEST_CASE("Manager methods", "[Manager]")
 {
-    OutputHandler out("../simulationlog.txt");
-    TestingCompany company(out);
+    OutputHandler out(18000001, "../simulationlog.txt");
+    TestingCompany company(15000001, out);
     Manager piekarz(9000001, "Paweł", "Piekarski", company, out);
 
     SECTION("Constructor and getters")
     {
         Manager butcher(9000002, "Jan", "Rzeźnicki", company, out);
 
-        CHECK(butcher.getId() == 9000002);
+        CHECK(butcher.id == 9000002);
         CHECK(butcher.getName() == "Jan");
         CHECK(butcher.getSurname() == "Rzeźnicki");
 
@@ -47,6 +48,10 @@ TEST_CASE("Manager methods", "[Manager]")
 
     SECTION("Do work")
     {
+        Simulation sim(3, 0, "../producers.txt", "../games.txt", "../testers.txt", "../managers.txt", "../simulationlog.txt");
+        Producer pr(out, 14000001, "Pr", Address("SN", 2, 5, "SNville", "12-345"), sim, company);
+        Game game(1000001, "Bruh", pr, 1000, AbstractGame::Simple, 5);
+        company.obtainTestingRequest(game);
         unsigned int effort = company.getEffort();
         piekarz.doWork();
         assert(company.getEffort() == effort + piekarz.getProductivity());

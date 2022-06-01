@@ -7,12 +7,37 @@
 #include "../../simulation/outputhandler.h"
 #include <vector>
 
-TestingCompany::TestingCompany(OutputHandler& out,
+
+void TestingCompany::Record::checkId() const
+{
+    if(id < minId or id > maxId)
+    {
+        throw InvalidId("TestingCompany::Record", id);
+    }
+}
+
+TestingCompany::Record::Record(int id, const AbstractGame& testedGame):
+    id(id), testedGame(testedGame), paid(false), delay(0), onTime(true)
+{
+    checkId();
+}
+
+void TestingCompany::checkId() const
+{
+    if(id < minId or id > maxId)
+    {
+        throw InvalidId("TestingCompany", id);
+    }
+}
+
+TestingCompany::TestingCompany(int id, OutputHandler& out,
     std::vector<std::shared_ptr<AbstractWorker>> workers,
     std::vector<std::shared_ptr<Tester>> testers):
-    effort(0), currentRequestId(11000001), database(out, 7000001, *this),
+    id(id), effort(0), currentRequestId(11000001), currentRecordId(16000001), database(out, id - 8000, *this),
     records{}, workers{workers}, testers{testers}, out(out)
-{}
+{
+    checkId();
+}
 
 int TestingCompany::getRequestId()
 {
@@ -39,9 +64,9 @@ int TestingCompany::getTesters() const noexcept
     return testers.size();
 }
 
-std::vector<TestingCompany::Record> TestingCompany::showRecords() const noexcept
+const std::vector<TestingCompany::Record>& TestingCompany::showRecords() const noexcept
 {
-    std::vector<TestingCompany::Record> recordsCopy = records;
+    const std::vector<TestingCompany::Record>& recordsCopy = records;
     return recordsCopy;
 }
 
@@ -61,9 +86,9 @@ void TestingCompany::addManager(std::shared_ptr<Manager> manager)
     workers.push_back(manager);
 }
 
-void TestingCompany::testingFinished(const AbstractGame &game, Price price)
+void TestingCompany::testingFinished(const AbstractGame& game, Price price)
 {
-    TestingCompany::Record newRecord {game, false, 0, true};
+    TestingCompany::Record newRecord {currentRecordId++, game};
     records.push_back(newRecord);
     game.producer.testingFinished(game, price);
     out << "Finished testing of: " << game << ", payment pending."<< OutputHandler::endlWait;
@@ -76,16 +101,18 @@ void TestingCompany::paymentDone(const AbstractGame& game)
         if(record.testedGame == game)
         {
             record.paid = true;
+            out << "Confirmed payment for testing of: " << game;
             if(record.delay > 40)
             {
                 record.onTime = false;
+                out << " past due date";
             }
-            out << "Confirmed payment of: " << game << OutputHandler::endlWait;
+            out << OutputHandler::endlWait;
         }
     }
 }
 
-void TestingCompany::obtainTestingRequest(const AbstractGame &game)
+void TestingCompany::obtainTestingRequest(const AbstractGame& game)
 {
     out << "Received testing request for: " << game << OutputHandler::endlWait;
     database.newTestingRequest(game);
@@ -98,7 +125,7 @@ void TestingCompany::advanceTime()
         worker->doWork();
     }
     database.checkRecords();
-    for(TestingCompany::Record record: records)
+    for(TestingCompany::Record& record: records)
     {
         if(record.paid == false)
         {
@@ -161,6 +188,6 @@ bool TestingCompany::operator!=(const TestingCompany& company) const noexcept
 
 std::ostream& operator<<(std::ostream& os, const TestingCompany& company) noexcept
 {
-    os << "TestingCompany";
+    os << "TestingCompany" << company.id - company.minId + 1;
     return os;
 }

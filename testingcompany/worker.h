@@ -51,10 +51,6 @@ class Worker: public AbstractWorker
         Worker(const Worker&)=delete;
         Worker& operator=(const Worker&)=delete;
 
-
-        //Returns the identifier of the worker
-        int getId() const noexcept override;
-
         // Sets the name of the worker. Empty (all whitespace) names are not allowed.
         void setName(std::string name) override;
         // Returns the name of the worker.

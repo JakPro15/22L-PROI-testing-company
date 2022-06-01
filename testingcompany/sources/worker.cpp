@@ -36,11 +36,6 @@ Worker::Worker(int id, std::string name, std::string surname, TestingCompany& co
 
 Worker::~Worker(){}
 
-int Worker::getId() const noexcept
-{
-    return id;
-}
-
 void Worker::setName(std::string name)
 {
     if (checkAllWhitespace(name))
@@ -77,7 +72,7 @@ std::string Worker::getSurname() const noexcept
 
 bool Worker::operator==(const AbstractWorker& worker) const noexcept
 {
-    if(id == worker.getId())
+    if(id == worker.id)
     {
         return true;
     }

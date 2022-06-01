@@ -32,7 +32,7 @@ Manager::~Manager(){}
 
 bool Manager::operator==(const Manager& manager) const noexcept
 {
-    if (id == manager.getId())
+    if (id == manager.id)
     {
         return true;
     }

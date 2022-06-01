@@ -7,18 +7,24 @@
 
 TEST_CASE("Testing company methods", "[TestingCompany]")
 {
-    OutputHandler out("../simulationlog.txt");
-    TestingCompany testingCompany(out);
+    OutputHandler out(18000001, "../simulationlog.txt");
+    TestingCompany testingCompany(15000001, out);
 
     SECTION("Constructor and getters")
     {
-        TestingCompany company(out);
+        TestingCompany company(15000001, out);
+        CHECK(company.id == 15000001);
         CHECK(company.getEffort() == 0);
         CHECK(company.getRequestId() == 11000001);
         CHECK(company.getRequestId() == 11000002);
         CHECK(company.getRecords() == 0);
         CHECK(company.getWorkers() == 0);
         CHECK(company.getTesters() == 0);
+    }
+
+    SECTION("Wrong constructor")
+    {
+        CHECK_THROWS_AS(TestingCompany(7, out), InvalidId);
     }
 
     SECTION("Add effort")
@@ -43,36 +49,19 @@ TEST_CASE("Testing company methods", "[TestingCompany]")
         CHECK(testingCompany.getTesters() == 0);
     }
 
-    SECTION("Testing finished")
+    SECTION("Is there work")
     {
         Simulation sim(3, 0, "../producers.txt", "../games.txt", "../testers.txt", "../managers.txt", "../simulationlog.txt");
         Producer pr(out, 14000001, "Pr", Address("SN", 2, 5, "SNville", "12-345"), sim, testingCompany);
         Game game(1000001, "Bruh", pr, 1000, AbstractGame::Simple, 5);
-        testingCompany.testingFinished(game);
-        CHECK(testingCompany.getRecords() == 1);
-        CHECK(testingCompany.showRecords()[0].testedGame == game);
-        CHECK(testingCompany.showRecords()[0].paid == false);
-        CHECK(testingCompany.showRecords()[0].delay == 0);
-        CHECK(testingCompany.showRecords()[0].onTime == true);
-    }
-
-    SECTION("Payment done")
-    {
-        Simulation sim(3, 0, "../producers.txt", "../games.txt", "../testers.txt", "../managers.txt", "../simulationlog.txt");
-        Producer pr(out, 14000001, "Pr", Address("SN", 2, 5, "SNville", "12-345"), sim, testingCompany);
-        Game game(1000001, "Bruh", pr, 1000, AbstractGame::Simple, 5);
-        testingCompany.testingFinished(game);
-        testingCompany.paymentDone(game);
-        CHECK(testingCompany.getRecords() == 1);
-        CHECK(testingCompany.showRecords()[0].testedGame == game);
-        CHECK(testingCompany.showRecords()[0].paid == true);
-        CHECK(testingCompany.showRecords()[0].delay == 0);
-        CHECK(testingCompany.showRecords()[0].onTime == true);
+        CHECK(testingCompany.isThereWork() == false);
+        testingCompany.obtainTestingRequest(game);
+        CHECK(testingCompany.isThereWork() == true);
     }
 
     SECTION("Comparison operators")
     {
-        TestingCompany testingCompany2(out);
+        TestingCompany testingCompany2(15000001, out);
         CHECK(testingCompany == testingCompany);
         CHECK_FALSE(testingCompany != testingCompany);
         CHECK(testingCompany != testingCompany2);
@@ -87,7 +76,7 @@ TEST_CASE("Testing company methods", "[TestingCompany]")
 
         CHECK(stream1.str() == stream2.str());
 
-        TestingCompany testingCompany2(out);
+        TestingCompany testingCompany2(15000001, out);
 
         stream1.str("");
         stream1.clear();

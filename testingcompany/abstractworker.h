@@ -24,9 +24,6 @@ class AbstractWorker
         // Empty virtual destructor - for inheritance.
         virtual ~AbstractWorker()=0;
 
-        // Returns the identifier of the worker.
-        virtual int getId() const noexcept=0;
-
         // Sets the name of the worker. Empty (all whitespace) names are not allowed.
         virtual void setName(std::string name)=0;
         // Returns the name of the worker.

@@ -3,10 +3,19 @@
 #include <thread>
 #include <chrono>
 
-
-OutputHandler::OutputHandler(std::string fileName):
-    outputStream(std::cout)
+void OutputHandler::checkId() const
 {
+    if(id < minId or id > maxId)
+    {
+        throw InvalidId("OutputHandler", id);
+    }
+}
+
+OutputHandler::OutputHandler(int id, std::string fileName):
+    id(id), outputStream(std::cout)
+{
+    checkId();
+
     file.open(fileName);
     if(!file)
     {

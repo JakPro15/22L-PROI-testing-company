@@ -8,8 +8,8 @@
 
 TEST_CASE("Worker methods", "[Worker]")
 {
-    OutputHandler out("../simulationlog.txt");
-    TestingCompany company(out, {}, {});
+    OutputHandler out(18000001, "../simulationlog.txt");
+    TestingCompany company(15000001, out);
 
     Worker piekarz(8000001, "Paweł", "Piekarski", company, out);
 
@@ -17,7 +17,7 @@ TEST_CASE("Worker methods", "[Worker]")
     {
         Worker butcher(8000002, "Jan", "Rzeźnicki", company, out);
 
-        CHECK(butcher.getId() == 8000002);
+        CHECK(butcher.id == 8000002);
         CHECK(butcher.getName() == "Jan");
         CHECK(butcher.getSurname() == "Rzeźnicki");
     }

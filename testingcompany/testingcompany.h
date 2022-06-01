@@ -15,14 +15,31 @@ class Price;
 class TestingCompany
 {
 public:
+    // Unique ID of the company assigned at creation.
+    const int id;
+
     // Structure representing record of tested games.
-    struct Record
+    class Record
     {
-        const AbstractGame& testedGame;
-        bool paid;
-        // Delay in hours since planned payment time.
-        unsigned int delay;
-        bool onTime;
+        private:
+            // Throws InvalidId if the object's id is invalid for a Record object.
+            void checkId() const;
+        public:
+            // These constants define the ID limits for this class.
+            static const int minId = 16000001;
+            static const int maxId = 16999999;
+
+            // Creates a record with paid = false, delay = 0 and onTime = true.
+            Record(int id, const AbstractGame& testedGame);
+
+            // Unique ID of the record assigned at creation.
+            const int id;
+
+            const AbstractGame& testedGame;
+            bool paid;
+            // Delay in hours since planned payment time.
+            unsigned int delay;
+            bool onTime;
     };
 private:
     // Current amount of effort the company can use.
@@ -30,6 +47,9 @@ private:
 
     // Next request id possible to be given.
     int currentRequestId;
+
+    // Next record id possible to be given.
+    int currentRecordId;
 
     // Reference to the database of the given company.
     TestingDatabase database;
@@ -46,8 +66,15 @@ private:
     // Reference to the output handler.
     OutputHandler& out;
 
+    // Throws InvalidId if the object's id is invalid for a TestingCompany object.
+    void checkId() const;
+
 public:
-    TestingCompany(OutputHandler& out,
+    // These constants define the ID limits for this class.
+    static const int minId = 15000001;
+    static const int maxId = 15999999;
+    
+    TestingCompany(int id, OutputHandler& out,
         std::vector<std::shared_ptr<AbstractWorker>> workers = {},
         std::vector<std::shared_ptr<Tester>> testers = {});
 
@@ -73,7 +100,7 @@ public:
     int getTesters() const noexcept;
 
     // Returns a copy of records held by the company.
-    std::vector<TestingCompany::Record> showRecords() const noexcept;
+    const std::vector<TestingCompany::Record>& showRecords() const noexcept;
 
     // Adding increases effort held by the company by specified amount.
     void addEffort(unsigned int effort) noexcept;
