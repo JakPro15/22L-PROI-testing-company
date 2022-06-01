@@ -10,9 +10,9 @@
 
 TEST_CASE("Producer methods", "[Producer]")
 {
-    Simulation sim;
-    TestingCompany tcom;
+    Simulation sim(3, 0, "../producers.txt", "../games.txt", "../testers.txt", "../managers.txt", "../simulationlog.txt");
     OutputHandler out("../simulationlog.txt");
+    TestingCompany tcom(out);
     Producer producer(out, 14000001, "Pr", Address("SN", 2, 5, "SNville", "12-345"), sim, tcom);
     SECTION("Constructor and getters - typical")
     {
@@ -22,8 +22,8 @@ TEST_CASE("Producer methods", "[Producer]")
         CHECK(producer.simulation == sim);
         CHECK(producer.testingCompany == tcom);
 
-        Simulation sim2;
-        TestingCompany tcom2;
+        Simulation sim2(3, 0, "../producers.txt", "../games.txt", "../testers.txt", "../managers.txt", "../simulationlog.txt");
+        TestingCompany tcom2(out);
         Producer producer2(out, 14999999, "Prodd", Address("Zakopińska", 11, 11, "Zakopane", "33-333"), sim2, tcom2);
         CHECK(producer2.id == 14999999);
         CHECK(producer2.getName() == "Prodd");

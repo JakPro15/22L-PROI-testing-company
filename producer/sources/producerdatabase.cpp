@@ -5,7 +5,6 @@
 #include "../../games/abstractgame.h"
 #include "../../simulation/outputhandler.h"
 #include <algorithm>
-#include <sstream>
 #include <chrono>
 #include <random>
 
@@ -74,10 +73,9 @@ void ProducerDatabase::addGame(AbstractGame &game)
         }
         else
         {
-            std::stringstream stringstr;
             Record record(producer.getRecordId(), game);
-            stringstr << *this << " adds " << game << " to itself, enclosed in " << record.getUniqueName();
-            out << stringstr.str();
+            out << *this << " adds " << game << " to itself, enclosed in " << record.getUniqueName()
+                << OutputHandler::endlWait;
             games.push_back(std::move(record));  // to signify that the record is moved, not copied (no ID duplication).
         }
     }
@@ -93,10 +91,8 @@ void ProducerDatabase::checkPayments()
             record.timeUntilPaid--;
             if(record.timeUntilPaid == 0)
             {
-                std::stringstream stringstr;
-                stringstr << *this << " notices " << record.game << "stored in " << record.getUniqueName()
-                          << " should be paid for";
-                out << stringstr.str();
+                out << *this << " notices " << record.game << "stored in " << record.getUniqueName()
+                    << " should be paid for" << OutputHandler::endlWait;
                 producer.payForTesting(record.game);
             }
         }
@@ -127,9 +123,8 @@ AbstractGame& ProducerDatabase::getGameToBeTested()
     }
     else
     {
-        std::stringstream stringstr;
-        stringstr << *this << " prepares " << iterator->game << " to be tested, at request of " << producer;
-        out << stringstr.str();
+        out << *this << " prepares " << iterator->game << " to be tested, at request of " << producer
+            << OutputHandler::endlWait;
         iterator->testingRequested = true;
         return iterator->game;
     }
@@ -155,9 +150,7 @@ void ProducerDatabase::gameFinishedTesting(AbstractGame& game)
     }
     else
     {
-        std::stringstream stringstr;
-        stringstr << *this << " notices " << game << "'s testing has been finished";
-        out << stringstr.str();
+        out << *this << " notices " << game << "'s testing has been finished" << OutputHandler::endlWait;
         games[index].tested = true;
         games[index].timeUntilPaid = generator() % 100 + 1;
     }

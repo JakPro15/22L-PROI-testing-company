@@ -3,7 +3,6 @@
 #include "../../exceptions.h"
 #include "../../simulation/simulation.h"
 #include "../../games/abstractgame.h"
-#include <sstream>
 #include <chrono>
 #include <random>
 
@@ -62,18 +61,15 @@ Address Producer::getAddress() const noexcept
 
 int Producer::getRecordId() noexcept
 {
-    std::stringstream stringstr;
-    stringstr << *this << " requests an ID for a new ProducerDatabase::Record from " << simulation;
-    out << stringstr.str();
+    out << *this << " requests an ID for a new ProducerDatabase::Record from " << simulation
+        << OutputHandler::endlWait;
     return simulation.getProducerRecordId();
 }
 
 
 void Producer::payForTesting(AbstractGame &game)
 {
-    std::stringstream stringstr;
-    stringstr << *this << " pays for " << game << " to " << testingCompany;
-    out << stringstr.str();
+    out << *this << " pays for " << game << " to " << testingCompany << OutputHandler::endlWait;
     testingCompany.paymentDone(game);
 }
 
@@ -88,9 +84,8 @@ void Producer::advanceTime()
     {
         AbstractGame &game = simulation.getNewGame(*this);
         database.addGame(game);
-        std::stringstream stringstr;
-        stringstr << *this << " creates " << game << " (requested from " << simulation << ")";
-        out << stringstr.str();
+        out << *this << " creates " << game << " (requested from " << simulation << ")"
+            << OutputHandler::endlWait;
     }
 
     // 5% chance per hour for the producer to send a testing request.
@@ -100,9 +95,8 @@ void Producer::advanceTime()
         {
             AbstractGame &gameToTest = database.getGameToBeTested();
             testingCompany.obtainTestingRequest(gameToTest);
-            std::stringstream stringstr;
-            stringstr << *this << " requests testing of " << gameToTest << " by " << testingCompany;
-            out << stringstr.str();
+            out << *this << " requests testing of " << gameToTest << " by " << testingCompany
+                << OutputHandler::endlWait;
         }
     }
 }

@@ -9,9 +9,9 @@
 
 TEST_CASE("RolePlayingGame methods", "[RolePlayingGame]")
 {
-    Simulation sim;
-    TestingCompany tcom;
+    Simulation sim(3, 0, "../producers.txt", "../games.txt", "../testers.txt", "../managers.txt", "../simulationlog.txt");
     OutputHandler out("../simulationlog.txt");
+    TestingCompany tcom(out);
     Producer pr(out, 14000001, "Pr", Address("SN", 2, 5, "SNville", "12-345"), sim, tcom);
     RolePlayingGame game(3000001, "G", pr, 100, AbstractGame::Average, 3, 100, 200, true, Price(500));
     SECTION("Constructors and getters - typical")

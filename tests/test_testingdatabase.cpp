@@ -12,11 +12,11 @@
 
 TEST_CASE("TestingDatabase constructor and request processing", "[TestingDatabase]")
 {
-    TestingCompany company;
     OutputHandler out("../simulationlog.txt");
+    TestingCompany company(out);
     TestingDatabase database(out, 7000001, company);
-    Simulation sim;
-    TestingCompany tcom;
+    Simulation sim(3, 0, "../producers.txt", "../games.txt", "../testers.txt", "../managers.txt", "../simulationlog.txt");
+    TestingCompany tcom(out);
     Producer pr(out, 14000001, "Pr", Address("SN", 2, 5, "SNville", "12-345"), sim, tcom);
     Game game1(1000001, "G", pr, 100, AbstractGame::Average, 3, true, Price(500));
     RolePlayingGame game2(3000001, "G2", pr, 100, AbstractGame::Complex, 5, 120, 240, true, Price(4000));
@@ -28,7 +28,7 @@ TEST_CASE("TestingDatabase constructor and request processing", "[TestingDatabas
         CHECK(database.getGamesWaitingForTestersAmount() == 0);
         CHECK(database.getTestRequestsAmount() == 0);
 
-        TestingCompany company2;
+        TestingCompany company2(out);
         TestingDatabase database(out, 7005001, company2);
         CHECK(database.id == 7005001);
         CHECK(database.company == company2);
@@ -100,21 +100,21 @@ TEST_CASE("TestingDatabase constructor and request processing", "[TestingDatabas
 
 TEST_CASE("Assigning testers and removing testers to and from games", "[TestingDatabase]")
 {
-    TestingCompany company;
     OutputHandler out("../simulationlog.txt");
+    TestingCompany company(out);
     TestingDatabase database(out, 7000001, company);
-    Simulation sim;
-    TestingCompany tcom;
+    Simulation sim(3, 0, "../producers.txt", "../games.txt", "../testers.txt", "../managers.txt", "../simulationlog.txt");
+    TestingCompany tcom(out);
     Producer pr(out, 14000001, "Pr", Address("SN", 2, 5, "SNville", "12-345"), sim, tcom);
     Game game1(1000001, "G", pr, 100, AbstractGame::Average, 1, true, Price(500));
     RolePlayingGame game2(3000001, "G2", pr, 100, AbstractGame::Complex, 2, 120, 240, true, Price(4000));
-    auto tester1 = std::make_shared<Tester>(10000001, "Paweł", "Piekarski");
-    auto tester2 = std::make_shared<Tester>(10000001, "Paweł", "Piekarski");
-    auto tester3 = std::make_shared<Tester>(10000001, "Paweł", "Piekarski");
-    auto tester4 = std::make_shared<Tester>(10000001, "Paweł", "Piekarski");
-    auto tester5 = std::make_shared<Tester>(10000001, "Paweł", "Piekarski");
-    auto tester6 = std::make_shared<Tester>(10000001, "Paweł", "Piekarski");
-    auto tester7 = std::make_shared<Tester>(10000001, "Paweł", "Piekarski");
+    auto tester1 = std::make_shared<Tester>(10000001, "Paweł", "Piekarski", company, out);
+    auto tester2 = std::make_shared<Tester>(10000001, "Paweł", "Piekarski", company, out);
+    auto tester3 = std::make_shared<Tester>(10000001, "Paweł", "Piekarski", company, out);
+    auto tester4 = std::make_shared<Tester>(10000001, "Paweł", "Piekarski", company, out);
+    auto tester5 = std::make_shared<Tester>(10000001, "Paweł", "Piekarski", company, out);
+    auto tester6 = std::make_shared<Tester>(10000001, "Paweł", "Piekarski", company, out);
+    auto tester7 = std::make_shared<Tester>(10000001, "Paweł", "Piekarski", company, out);
     database.newTestingRequest(game1);
     database.newTestingRequest(game2);
     database.advanceRequestHandling(20);

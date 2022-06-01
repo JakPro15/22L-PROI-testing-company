@@ -1,5 +1,6 @@
 #include "catch.hpp"
 #include "../testingcompany/worker.h"
+#include "../testingcompany/testingrecord.h"
 #include "../simulation/outputhandler.h"
 #include "../testingcompany/testingcompany.h"
 #include "../exceptions.h"
