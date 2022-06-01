@@ -18,6 +18,32 @@ int TestingCompany::getRequestId()
     return currentRequestId++;
 }
 
+unsigned int TestingCompany::getEffort() const noexcept
+{
+    return effort;
+}
+
+int TestingCompany::getRecords() const noexcept
+{
+    return records.size();
+}
+
+int TestingCompany::getWorkers() const noexcept
+{
+    return workers.size();
+}
+
+int TestingCompany::getTesters() const noexcept
+{
+    return testers.size();
+}
+
+std::vector<TestingCompany::Record> TestingCompany::showRecords() const noexcept
+{
+    std::vector<TestingCompany::Record> recordsCopy = records;
+    return recordsCopy;
+}
+
 void TestingCompany::addEffort(unsigned int effort) noexcept
 {
     this->effort += effort;
@@ -43,7 +69,7 @@ void TestingCompany::testingFinished(const AbstractGame &game)
 
 void TestingCompany::paymentDone(const AbstractGame& game)
 {
-    for(auto record: records)
+    for(auto& record: records)
     {
         if(record.testedGame == game)
         {

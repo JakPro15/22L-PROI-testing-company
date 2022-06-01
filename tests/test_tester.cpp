@@ -10,12 +10,13 @@
 
 TEST_CASE("Tester methods", "[Tester]")
 {
-    TestingCompany company;
-    Tester piekarz(10000001, "Paweł", "Piekarski", company);
+    OutputHandler out("../simulationlog.txt");
+    TestingCompany company(out);
+    Tester piekarz(10000001, "Paweł", "Piekarski", company, out);
 
     SECTION("Constructor and getters")
     {
-        Tester butcher(10000002, "Jan", "Rzeźnicki", company);
+        Tester butcher(10000002, "Jan", "Rzeźnicki", company, out);
 
         CHECK(butcher.getId() == 10000002);
         CHECK(butcher.getName() == "Jan");
@@ -26,9 +27,9 @@ TEST_CASE("Tester methods", "[Tester]")
 
     SECTION("Constructor-exceptions")
     {
-        CHECK_THROWS_AS(Tester(1, "Jan", "Kowalski", company), InvalidId);
-        CHECK_THROWS_AS(Tester(10000002, "\n", "Kowalski", company), EmptyNameException);
-        CHECK_THROWS_AS(Tester(10000002, "Jan", "   ", company), EmptyNameException);
+        CHECK_THROWS_AS(Tester(1, "Jan", "Kowalski", company, out), InvalidId);
+        CHECK_THROWS_AS(Tester(10000002, "\n", "Kowalski", company, out), EmptyNameException);
+        CHECK_THROWS_AS(Tester(10000002, "Jan", "   ", company, out), EmptyNameException);
     }
 
     SECTION("Setters")
@@ -42,11 +43,8 @@ TEST_CASE("Tester methods", "[Tester]")
         piekarz.setBusy(true);
         CHECK(piekarz.getBusy() == true);
 
-    OutputHandler out("../simulationlog.txt");
-    Simulation sim(200, 3, 0, "producers.txt", "games.txt", "testers.txt", "managers.txt", "simulationlog.txt");
-    TestingCompany tcom;
-
-    Producer pr(out, 14000001, "Pr", Address("SN", 2, 5, "SNville", "12-345"), sim, tcom);
+        Simulation sim(3, 0, "../producers.txt", "../games.txt", "../testers.txt", "../managers.txt", "../simulationlog.txt");
+        Producer pr(out, 14000001, "Pr", Address("SN", 2, 5, "SNville", "12-345"), sim, company);
         Game game(1000001, "Bruh", pr, 1000, AbstractGame::Simple, 5);
         TestingRecord record(out, 6000003, game, 100);
         piekarz.setTestedGameRecord(&record);
@@ -61,8 +59,8 @@ TEST_CASE("Tester methods", "[Tester]")
 
     SECTION("Comparison operators")
     {
-        Tester evil_clone(10000001, "Graweł", "Piekarski", company);
-        Tester random(10000002, "Losowy", "Typ", company);
+        Tester evil_clone(10000001, "Graweł", "Piekarski", company, out);
+        Tester random(10000002, "Losowy", "Typ", company, out);
 
         CHECK((piekarz == evil_clone) == true);
         CHECK((piekarz != evil_clone) == false);
@@ -85,7 +83,7 @@ TEST_CASE("Tester methods", "[Tester]")
         stream2.str("");
         stream2.clear();
 
-        Tester random(10000002, "Losowy", "Typ", company);
+        Tester random(10000002, "Losowy", "Typ", company, out);
 
         stream1 << random;
         stream2 << "Tester 2";

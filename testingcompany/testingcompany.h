@@ -13,16 +13,7 @@ class Manager;
 
 class TestingCompany
 {
-private:
-    // Current amount of effort the company can use.
-    unsigned int effort;
-
-    // Next request id possible to be given.
-    int currentRequestId;
-
-    // Reference to the database of the given company.
-    TestingDatabase database;
-
+public:
     // Structure representing record of tested games.
     struct Record
     {
@@ -32,6 +23,15 @@ private:
         unsigned int delay;
         bool onTime;
     };
+private:
+    // Current amount of effort the company can use.
+    unsigned int effort;
+
+    // Next request id possible to be given.
+    int currentRequestId;
+
+    // Reference to the database of the given company.
+    TestingDatabase database;
 
     // Collection of records of tested games.
     std::vector<TestingCompany::Record> records;
@@ -47,8 +47,8 @@ private:
 
 public:
     TestingCompany(OutputHandler& out,
-        std::vector<std::shared_ptr<AbstractWorker>> workers,
-        std::vector<std::shared_ptr<Tester>> testers);
+        std::vector<std::shared_ptr<AbstractWorker>> workers = {},
+        std::vector<std::shared_ptr<Tester>> testers = {});
 
     // Copying of TestingCompany is forbidden (IDs wouldn't be unique).
     TestingCompany(const TestingCompany&)=delete;
@@ -58,6 +58,21 @@ public:
 
     // Returns the request id and increments the request counter.
     int getRequestId();
+
+    // Returns current effort the company holds.
+    unsigned int getEffort() const noexcept;
+
+    // Returns the amount of records in the company.
+    int getRecords() const noexcept;
+
+    // Returns the amount of workers in the company.
+    int getWorkers() const noexcept;
+
+    // Returns the amount of testers in the company.
+    int getTesters() const noexcept;
+
+    // Returns a copy of records held by the company.
+    std::vector<TestingCompany::Record> showRecords() const noexcept;
 
     // Adding increases effort held by the company by specified amount.
     void addEffort(unsigned int effort) noexcept;

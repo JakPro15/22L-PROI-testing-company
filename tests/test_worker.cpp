@@ -1,15 +1,20 @@
 #include "catch.hpp"
 #include "../testingcompany/worker.h"
+#include "../simulation/outputhandler.h"
+#include "../testingcompany/testingcompany.h"
 #include "../exceptions.h"
 #include <sstream>
 
 TEST_CASE("Worker methods", "[Worker]")
 {
-    Worker piekarz(8000001, "Paweł", "Piekarski");
+    OutputHandler out("../simulationlog.txt");
+    TestingCompany company(out, {}, {});
+
+    Worker piekarz(8000001, "Paweł", "Piekarski", company, out);
 
     SECTION("Constructor and getters")
     {
-        Worker butcher(8000002, "Jan", "Rzeźnicki");
+        Worker butcher(8000002, "Jan", "Rzeźnicki", company, out);
 
         CHECK(butcher.getId() == 8000002);
         CHECK(butcher.getName() == "Jan");
@@ -18,9 +23,9 @@ TEST_CASE("Worker methods", "[Worker]")
 
     SECTION("Constructor-exceptions")
     {
-        CHECK_THROWS_AS(Worker(1, "Jan", "Kowalski"), InvalidId);
-        CHECK_THROWS_AS(Worker(8000002, "\n", "Kowalski"), EmptyNameException);
-        CHECK_THROWS_AS(Worker(8000002, "Jan", "   "), EmptyNameException);
+        CHECK_THROWS_AS(Worker(1, "Jan", "Kowalski", company, out), InvalidId);
+        CHECK_THROWS_AS(Worker(8000002, "\n", "Kowalski", company, out), EmptyNameException);
+        CHECK_THROWS_AS(Worker(8000002, "Jan", "   ", company, out), EmptyNameException);
     }
 
     SECTION("Setters")
@@ -40,8 +45,8 @@ TEST_CASE("Worker methods", "[Worker]")
 
     SECTION("Comparison operators")
     {
-        Worker evil_clone(8000001, "Graweł", "Piekarski");
-        Worker random(8000002, "Losowy", "Typ");
+        Worker evil_clone(8000001, "Graweł", "Piekarski", company, out);
+        Worker random(8000002, "Losowy", "Typ", company, out);
 
         CHECK((piekarz == evil_clone) == true);
         CHECK((piekarz != evil_clone) == false);
@@ -64,7 +69,7 @@ TEST_CASE("Worker methods", "[Worker]")
         stream2.str("");
         stream2.clear();
 
-        Worker random(8000002, "Losowy", "Typ");
+        Worker random(8000002, "Losowy", "Typ", company, out);
 
         stream1 << random;
         stream2 << "Worker 2";

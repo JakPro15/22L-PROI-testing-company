@@ -3,16 +3,19 @@
 #include "../games/game.h"
 #include "../exceptions.h"
 #include "../testingcompany/testingcompany.h"
+#include "../testingcompany/testingrecord.h"
+#include "../simulation/outputhandler.h"
 #include <sstream>
 
 TEST_CASE("Manager methods", "[Manager]")
 {
-    TestingCompany company;
-    Manager piekarz(9000001, "Paweł", "Piekarski", company);
+    OutputHandler out("../simulationlog.txt");
+    TestingCompany company(out);
+    Manager piekarz(9000001, "Paweł", "Piekarski", company, out);
 
     SECTION("Constructor and getters")
     {
-        Manager butcher(9000002, "Jan", "Rzeźnicki", company);
+        Manager butcher(9000002, "Jan", "Rzeźnicki", company, out);
 
         CHECK(butcher.getId() == 9000002);
         CHECK(butcher.getName() == "Jan");
@@ -22,9 +25,9 @@ TEST_CASE("Manager methods", "[Manager]")
 
     SECTION("Constructor-exceptions")
     {
-        CHECK_THROWS_AS(Manager(1, "Jan", "Kowalski", company), InvalidId);
-        CHECK_THROWS_AS(Manager(9000002, "\n", "Kowalski", company), EmptyNameException);
-        CHECK_THROWS_AS(Manager(9000002, "Jan", "   ", company), EmptyNameException);
+        CHECK_THROWS_AS(Manager(1, "Jan", "Kowalski", company, out), InvalidId);
+        CHECK_THROWS_AS(Manager(9000002, "\n", "Kowalski", company, out), EmptyNameException);
+        CHECK_THROWS_AS(Manager(9000002, "Jan", "   ", company, out), EmptyNameException);
     }
 
     SECTION("Setters")
@@ -42,10 +45,17 @@ TEST_CASE("Manager methods", "[Manager]")
         CHECK_THROWS_AS(piekarz.setSurname("   \n\t"), EmptyNameException);
     }
 
+    SECTION("Do work")
+    {
+        unsigned int effort = company.getEffort();
+        piekarz.doWork();
+        assert(company.getEffort() == effort + piekarz.getProductivity());
+    }
+
     SECTION("Comparison operators")
     {
-        Manager evil_clone(9000001, "Graweł", "Piekarski", company);
-        Manager random(9000002, "Losowy", "Typ", company);
+        Manager evil_clone(9000001, "Graweł", "Piekarski", company, out);
+        Manager random(9000002, "Losowy", "Typ", company, out);
 
         CHECK((piekarz == evil_clone) == true);
         CHECK((piekarz != evil_clone) == false);
@@ -68,7 +78,7 @@ TEST_CASE("Manager methods", "[Manager]")
         stream2.str("");
         stream2.clear();
 
-        Manager random(9000002, "Losowy", "Typ", company);
+        Manager random(9000002, "Losowy", "Typ", company, out);
 
         stream1 << random;
         stream2 << "Manager 2";

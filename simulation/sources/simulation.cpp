@@ -9,7 +9,7 @@ Simulation::Simulation(unsigned int testersAmount, unsigned int managersAmount,
     out(outFileName),
     in(*this, out, producersFileName, gamesFileName, testersFileName, managersFileName),
     currentProducerRecordId(13000001),
-    testersAmount(testersAmount), managersAmount(managersAmount), testingCompany(out, {}, {}),
+    testersAmount(testersAmount), managersAmount(managersAmount), testingCompany(out),
     producers{}, games{}, testers{}, managers{}
 {}
 catch(const std::exception& e)
