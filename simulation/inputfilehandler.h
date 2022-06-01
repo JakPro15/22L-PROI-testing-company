@@ -16,7 +16,14 @@ class Simulation;
 
 class InputFileHandler
 {
+    public:
+        // Unique ID of the output handler assigned at creation.
+        const int id;
+
     private:
+        // Throws InvalidId if the object's id is invalid for a InputFileHandler object.
+        void checkId() const;
+
         // Simulation which this handler is a part of.
         Simulation& sim;
 
@@ -63,14 +70,22 @@ class InputFileHandler
         static void getlineWithEOFCheck(std::ifstream& file, std::string& string);
 
     public:
+        // These constants define the ID limits for this class.
+        static const int minId = 17000001;
+        static const int maxId = 17999999;
+
         // Throws exception when file can't be opened.
-        InputFileHandler(
+        InputFileHandler(int id,
             Simulation& sim, OutputHandler& out,
             std::string producersFileName, std::string gamesFileName,
             std::string testersFileName, std::string managersFileName);
 
         // All files are closed when object is destroyed.
         ~InputFileHandler();
+
+        // Copying of InputFileHandler is forbidden (IDs wouldn't be unique).
+        InputFileHandler(const InputFileHandler&)=delete;
+        InputFileHandler& operator=(const InputFileHandler&)=delete;
 
         // Creates next producer from the file and returns a pointer to it
         std::shared_ptr<Producer> createProducer();
@@ -85,7 +100,7 @@ class InputFileHandler
         std::shared_ptr<Manager> createManager();
 
         // Puts the name of the object into the stream.
-        friend std::ostream& operator<<(std::ostream &stream, const InputFileHandler &record) noexcept;
+        friend std::ostream& operator<<(std::ostream& os, const InputFileHandler& handler) noexcept;
 };
 
 #endif
