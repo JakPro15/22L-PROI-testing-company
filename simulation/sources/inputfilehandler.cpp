@@ -92,7 +92,7 @@ std::shared_ptr<Producer> InputFileHandler::createProducer()
     {
         throw ConversionError(strapartmentNumber, "int");
     }
-    
+
 
     std::string cityName;
     getlineWithEOFCheck(producersFile, cityName);
@@ -104,7 +104,7 @@ std::shared_ptr<Producer> InputFileHandler::createProducer()
 
     Address address(streetName, houseNumber, apartmentNumber, cityName, postCode);
     std::shared_ptr<Producer> producer = std::make_shared<Producer>(out, id, name, address, sim, testingCompany);
-    out << "Created " << *producer << OutputHandler::endlWait; 
+    out << *this << " creates " << *producer << OutputHandler::endlWait;
     return producer;
 }
 
@@ -275,7 +275,7 @@ std::shared_ptr<AbstractGame> InputFileHandler::createGame(Producer& producer, b
         getlineWithEOFCheck(gamesFile, strpriceGr);
         try
         {
-            priceZl = std::stoi(strpriceGr);
+            priceGr = std::stoi(strpriceGr);
         }
         catch(const std::exception& e)
         {
@@ -296,70 +296,50 @@ std::shared_ptr<AbstractGame> InputFileHandler::createGame(Producer& producer, b
     if(gameType == "competitive")
     {
         id = CompetitiveGame::minId + competetiveGames;
-        if(id > CompetitiveGame::maxId)
-        {
-            throw InvalidId("competitive game", id);
-        }
         competetiveGames++;
         std::shared_ptr<AbstractGame> game = std::make_shared<CompetitiveGame>(
             id, title, producer, filesSize, complexity, minTestersAmount, depth, serverSize, codeAvailable, priceZl, priceGr
-            );
-        out << "Created " << *game << OutputHandler::endlWait; 
+        );
+        out << *this << " creates " << *game << OutputHandler::endlWait;
         return game;
     }
     else if(gameType == "normal")
     {
         id = Game::minId + games;
-        if(id > Game::maxId)
-        {
-            throw InvalidId("game", id);
-        }
         games++;
         std::shared_ptr<AbstractGame> game = std::make_unique<Game>(
             id, title, producer, filesSize, complexity, minTestersAmount, codeAvailable, priceZl, priceGr
-            );
-        out << "Created " << *game << OutputHandler::endlWait; 
+        );
+        out << *this << " creates " << *game << OutputHandler::endlWait;
         return game;
     }
     else if(gameType == "infinite")
     {
         id = InfiniteGame::minId + infiniteGames;
-        if(id > InfiniteGame::maxId)
-        {
-            throw InvalidId("infinite game", id);
-        }
         infiniteGames++;
         std::shared_ptr<AbstractGame> game = std::make_unique<InfiniteGame>(
             id, title, producer, filesSize, complexity, minTestersAmount, depth, codeAvailable, priceZl, priceGr
             );
-        out << "Created " << *game << OutputHandler::endlWait; 
+        out << *this << " creates " << *game << OutputHandler::endlWait;
         return game;
     }
     else if(gameType == "puzzle")
     {
         id = Puzzle::minId + puzzles;
-        if(id > Puzzle::maxId)
-        {
-            throw InvalidId("puzzle", id);
-        }
         puzzles++;
         std::shared_ptr<AbstractGame> game = std::make_unique<Puzzle>(
             id, title, producer, filesSize, complexity, minTestersAmount, difficulty, length, codeAvailable, priceZl, priceGr
             );
-        out << "Created " << *game << OutputHandler::endlWait; 
+        out << *this << " creates " << *game << OutputHandler::endlWait;
         return game;
     }
     else if(gameType == "roleplaying")
     {
         id = RolePlayingGame::minId + roleplayingGames;
-        if(id > RolePlayingGame::maxId)
-        {
-            throw InvalidId("roleplaying game", id);
-        }
         roleplayingGames++;
         std::shared_ptr<AbstractGame> game = std::make_unique<RolePlayingGame>(
             id, title, producer, filesSize, complexity, minTestersAmount, length, fullLength, codeAvailable, priceZl, priceGr);
-        out << "Created " << *game << OutputHandler::endlWait; 
+        out << *this << " creates " << *game << OutputHandler::endlWait;
         return game;
     }
     else
@@ -371,14 +351,10 @@ std::shared_ptr<AbstractGame> InputFileHandler::createGame(Producer& producer, b
 std::shared_ptr<Tester> InputFileHandler::createTester()
 {
     int id = Tester::minId + testers;
-    if(id > Tester::maxId)
-    {
-        throw InvalidId("tester", id);
-    }
     testers++;
-    
+
     std::string name;
- 
+
     getlineWithEOFCheck(testersFile, name);
 
     std::string surname;
@@ -388,19 +364,15 @@ std::shared_ptr<Tester> InputFileHandler::createTester()
     TestingCompany& testingCompany = sim.getTestingCompany();
 
     std::unique_ptr<Tester> tester = std::make_unique<Tester>(id, name, surname, testingCompany, out);
-    out << "Created " << *tester << OutputHandler::endlWait; 
+    out << *this << " creates " << *tester << OutputHandler::endlWait;
     return tester;
 }
 
 std::shared_ptr<Manager> InputFileHandler::createManager()
 {
     int id = Manager::minId + managers;
-    if(id > Manager::maxId)
-    {
-        throw InvalidId("manager", id);
-    }
     managers++;
-    
+
     std::string name;
     getlineWithEOFCheck(managersFile, name);
 
@@ -410,6 +382,13 @@ std::shared_ptr<Manager> InputFileHandler::createManager()
     TestingCompany& testingCompany = sim.getTestingCompany();
 
     std::unique_ptr<Manager> manager = std::make_unique<Manager>(id, name, surname, testingCompany, out);
-    out << "Created " << *manager << OutputHandler::endlWait; 
+    out << *this << " creates " << *manager << OutputHandler::endlWait;
     return manager;
+}
+
+
+std::ostream& operator<<(std::ostream &stream, const InputFileHandler &record) noexcept
+{
+    stream << "InputFileHandler";
+    return stream;
 }

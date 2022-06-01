@@ -148,10 +148,16 @@ void TestingRecord::advanceTesting(unsigned int effortPut)
     }
     else if(beingTested)
     {
-        if(effortLeft > effortPut)
+        if(effortLeft == 0)
         {
-            out << *this << " advances " << game << "'s testing by " << effortPut << OutputHandler::endlWait;
+            out << *this << " notices " << game << "'s testing has just ended (no more work to be done)"
+                << OutputHandler::endlWait;
+        }
+        else if(effortLeft > effortPut)
+        {
             effortLeft -= effortPut;
+            out << *this << " advances " << game << "'s testing by " << effortPut << " (" << effortLeft << " left)"
+                << OutputHandler::endlWait;
         }
         else
         {

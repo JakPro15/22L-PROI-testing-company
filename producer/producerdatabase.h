@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <memory>
+#include "../games/price.h"
 
 
 class AbstractGame;
@@ -34,6 +35,8 @@ private:
         bool testingRequested;
         // Whether the testing has finished.
         bool tested;
+        // Price of the testing
+        Price price;
         // Hours until payment will be done. Ignored if testing not finished.
         unsigned int timeUntilPaid;
         // Creates a record storing the given game.
@@ -51,7 +54,7 @@ private:
     // List of records of the games produced by this producer.
     std::vector<Record> games;
     // Returns the index of the record holding the given Game. Returns -1 if the game is not found.
-    int findGame(AbstractGame &game);
+    int findGame(const AbstractGame &game);
 public:
     // These constants define the ID limits for this class.
     static const int minId = 12000001;
@@ -78,11 +81,13 @@ public:
 
     // Returns how many games in the database don't have a testing request sent.
     unsigned int getUntestedGamesAmount() const noexcept;
+    // Returns how many games in the database there are.
+    unsigned int getTotalGamesAmount() const noexcept;
     // Returns a reference to a Game that should be tested. Raises NoGamesUntestedError if there are none.
     AbstractGame& getGameToBeTested();
 
     // Registers in the database that the given game has been tested.
-    void gameFinishedTesting(AbstractGame& game);
+    void gameFinishedTesting(const AbstractGame& game, Price price);
 
     // Puts the unique name of the producer database into the stream.
     friend std::ostream& operator<<(std::ostream &stream, const ProducerDatabase &database) noexcept;

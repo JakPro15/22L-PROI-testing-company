@@ -9,6 +9,7 @@
 class AbstractGame;
 class AbstractWorker;
 class Manager;
+class Price;
 
 
 class TestingCompany
@@ -84,7 +85,7 @@ public:
     void addManager(std::shared_ptr<Manager> manager);
 
     // Creates a record of the tested game and adds it to tested records
-    void testingFinished(const AbstractGame& game);
+    void testingFinished(const AbstractGame& game, Price price);
 
     // Sets game's record as paid and marks if it was done on time (if not writes down delay).
     void paymentDone(const AbstractGame& game);
@@ -94,6 +95,9 @@ public:
 
     // Calling this method signals the Testing Company that one hour has passed.
     void advanceTime();
+
+    // Returns whether there is any work for managers to do.
+    bool isThereWork() const noexcept;
 
     bool operator==(const TestingCompany& company) const noexcept;
     bool operator!=(const TestingCompany& company) const noexcept;

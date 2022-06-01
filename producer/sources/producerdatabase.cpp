@@ -39,7 +39,7 @@ std::string ProducerDatabase::Record::getUniqueName() const noexcept
 }
 
 
-int ProducerDatabase::findGame(AbstractGame &game)
+int ProducerDatabase::findGame(const AbstractGame &game)
 {
     auto iterator = std::find_if(games.begin(), games.end(), [&game](Record &record) {return record.game == game;});
     if(iterator == games.end())
@@ -114,6 +114,12 @@ unsigned int ProducerDatabase::getUntestedGamesAmount() const noexcept
 }
 
 
+unsigned int ProducerDatabase::getTotalGamesAmount() const noexcept
+{
+    return games.size();
+}
+
+
 AbstractGame& ProducerDatabase::getGameToBeTested()
 {
     auto iterator = std::find_if(games.begin(), games.end(), [](Record &record) {return not record.testingRequested;});
@@ -131,7 +137,7 @@ AbstractGame& ProducerDatabase::getGameToBeTested()
 }
 
 
-void ProducerDatabase::gameFinishedTesting(AbstractGame& game)
+void ProducerDatabase::gameFinishedTesting(const AbstractGame& game, Price price)
 {
     unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
     std::mt19937 generator (seed);
@@ -150,8 +156,9 @@ void ProducerDatabase::gameFinishedTesting(AbstractGame& game)
     }
     else
     {
-        out << *this << " notices " << game << "'s testing has been finished" << OutputHandler::endlWait;
+        out << *this << " registers that " << game << "'s testing has been finished" << OutputHandler::endlWait;
         games[index].tested = true;
+        games[index].price = price;
         games[index].timeUntilPaid = generator() % 100 + 1;
     }
 }

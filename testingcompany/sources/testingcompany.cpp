@@ -1,8 +1,9 @@
 #include "../testingcompany.h"
 #include "../../exceptions.h"
 #include "../../games/abstractgame.h"
-#include "../../testingcompany/tester.h"
-#include "../../testingcompany/manager.h"
+#include "../tester.h"
+#include "../manager.h"
+#include "../../producer/producer.h"
 #include "../../simulation/outputhandler.h"
 #include <vector>
 
@@ -60,11 +61,12 @@ void TestingCompany::addManager(std::shared_ptr<Manager> manager)
     workers.push_back(manager);
 }
 
-void TestingCompany::testingFinished(const AbstractGame &game)
+void TestingCompany::testingFinished(const AbstractGame &game, Price price)
 {
     TestingCompany::Record newRecord {game, false, 0, true};
     records.push_back(newRecord);
-    out << "Finished testing of: " << game << " payment pending."<< OutputHandler::endlWait;
+    game.producer.testingFinished(game, price);
+    out << "Finished testing of: " << game << ", payment pending."<< OutputHandler::endlWait;
 }
 
 void TestingCompany::paymentDone(const AbstractGame& game)
@@ -85,8 +87,8 @@ void TestingCompany::paymentDone(const AbstractGame& game)
 
 void TestingCompany::obtainTestingRequest(const AbstractGame &game)
 {
-    database.newTestingRequest(game);
     out << "Received testing request for: " << game << OutputHandler::endlWait;
+    database.newTestingRequest(game);
 }
 
 void TestingCompany::advanceTime()
@@ -105,9 +107,20 @@ void TestingCompany::advanceTime()
     }
     for(std::shared_ptr<Tester> tester: testers)
     {
-        if(tester->getBusy() == false)
+        if(effort >= 4)
         {
-            database.assignTester(tester);
+            if(tester->getBusy() == false)
+            {
+                effort -= 4;
+                if(!database.assignTester(tester))
+                {
+                    break;
+                }
+            }
+        }
+        else
+        {
+            break;
         }
     }
     if(database.getTestRequestsAmount() > 0)
@@ -115,6 +128,25 @@ void TestingCompany::advanceTime()
         database.advanceRequestHandling(effort);
     }
     effort = 0;
+}
+
+bool TestingCompany::isThereWork() const noexcept
+{
+    if(database.getTestRequestsAmount() > 0)
+    {
+        return true;
+    }
+    else
+    {
+        for(std::shared_ptr<Tester> testerPtr: testers)
+        {
+            if(!testerPtr->getBusy())
+            {
+                return true;
+            }
+        }
+        return false;
+    }
 }
 
 bool TestingCompany::operator==(const TestingCompany& company) const noexcept
@@ -129,6 +161,6 @@ bool TestingCompany::operator!=(const TestingCompany& company) const noexcept
 
 std::ostream& operator<<(std::ostream& os, const TestingCompany& company) noexcept
 {
-    os << "Testing Company";
+    os << "TestingCompany";
     return os;
 }

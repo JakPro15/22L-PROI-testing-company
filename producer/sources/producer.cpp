@@ -78,27 +78,33 @@ void Producer::advanceTime()
 {
     unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
     std::mt19937 generator (seed);
-    // 1% chance per hour for the producer to make a new game.
-    // if(double(generator()) / generator.max() < 0.01)
-    if(true)
+    // 10% chance per hour for the producer to make a new game.
+    if(double(generator()) / generator.max() < 0.1 or database.getTotalGamesAmount() == 0)
     {
+        out << *this << " requests a new game from " << simulation << OutputHandler::endlWait;
         AbstractGame &game = simulation.getNewGame(*this);
         database.addGame(game);
-        out << *this << " creates " << game << " (requested from " << simulation << ")"
-            << OutputHandler::endlWait;
+        out << *this << " has made " << game << OutputHandler::endlWait;
     }
 
-    // 5% chance per hour for the producer to send a testing request.
+    // 20% chance per hour for the producer to send a testing request.
     if(database.getUntestedGamesAmount() > 0)
     {
         if(double(generator()) / generator.max() < 0.2)
         {
             AbstractGame &gameToTest = database.getGameToBeTested();
-            testingCompany.obtainTestingRequest(gameToTest);
             out << *this << " requests testing of " << gameToTest << " by " << testingCompany
                 << OutputHandler::endlWait;
+            testingCompany.obtainTestingRequest(gameToTest);
         }
     }
+}
+
+
+void Producer::testingFinished(const AbstractGame& game, Price price)
+{
+    out << *this << " receives notification that " << game << "'s testing has been finished" << OutputHandler::endlWait;
+    database.gameFinishedTesting(game, price);
 }
 
 

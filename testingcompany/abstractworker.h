@@ -22,7 +22,7 @@ class AbstractWorker
         AbstractWorker& operator=(const AbstractWorker&)=delete;
 
         // Empty virtual destructor - for inheritance.
-        virtual ~AbstractWorker() {};
+        virtual ~AbstractWorker()=0;
 
         // Returns the identifier of the worker.
         virtual int getId() const noexcept=0;

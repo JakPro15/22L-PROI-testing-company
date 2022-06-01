@@ -83,6 +83,9 @@ class InputFileHandler
 
         // Creates next manager from the file and returns a pointer to it
         std::shared_ptr<Manager> createManager();
+
+        // Puts the name of the object into the stream.
+        friend std::ostream& operator<<(std::ostream &stream, const InputFileHandler &record) noexcept;
 };
 
 #endif

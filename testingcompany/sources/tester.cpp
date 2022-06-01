@@ -3,6 +3,7 @@
 #include "../tester.h"
 #include "../../exceptions.h"
 #include "../../simulation/outputhandler.h"
+#include "../../games/abstractgame.h"
 
 
 void Tester::checkId() const
@@ -59,7 +60,11 @@ void Tester::doWork() noexcept
     if(gameRecord)
     {
         gameRecord->advanceTesting(productivity);
-        out << *this << "has done their work." << OutputHandler::endlWait;
+        out << *this << " has done their work on " << gameRecord->game << OutputHandler::endlWait;
+    }
+    else
+    {
+        out << *this << " has no work to do" << OutputHandler::endlWait;
     }
 }
 

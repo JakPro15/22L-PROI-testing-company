@@ -29,7 +29,7 @@ OutputHandler& OutputHandler::endlWait(OutputHandler& out)
     if(debug)
     {
     out << '\n';
-    //std::this_thread::sleep_for(std::chrono::milliseconds(3000));
+    std::this_thread::sleep_for(std::chrono::milliseconds(100));
     }
     return out;
 }

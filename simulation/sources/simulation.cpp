@@ -20,7 +20,6 @@ catch(const std::exception& e)
 
 void Simulation::simulate(unsigned int iterations)
 {
-    
     try
     {
         while(true)
@@ -89,7 +88,7 @@ AbstractGame& Simulation::getNewGame(Producer& producer)
         out << e.what() << OutputHandler::endlWait;
         throw FileError('a', "Malformed games file.");
     }
-    
+
 }
 
 bool Simulation::operator==(const Simulation &simulation) const noexcept

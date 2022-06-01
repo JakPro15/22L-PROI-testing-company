@@ -71,6 +71,9 @@ public:
     // Calling this function signals to the Producer that one hour has passed.
     void advanceTime();
 
+    // Registers in the database that the given game has been tested.
+    void testingFinished(const AbstractGame& game, Price price);
+
     // Compares only the unique IDs of the producers.
     bool operator==(const Producer &producer) const noexcept;
     bool operator!=(const Producer &producer) const noexcept;

@@ -25,7 +25,7 @@ Manager::Manager(int id, std::string name, std::string surname, TestingCompany& 
     checkId();
     unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
     std::mt19937 generator (seed);
-    productivity = (generator() % 8) + 2;  
+    productivity = (generator() % 8) + 2;
 }
 
 Manager::~Manager(){}
@@ -49,8 +49,15 @@ unsigned int Manager::getProductivity() const noexcept
 
 void Manager::doWork() noexcept
 {
-    company.addEffort(productivity);
-    out << *this << "has done their work." << OutputHandler::endlWait;
+    if(company.isThereWork())
+    {
+        company.addEffort(productivity);
+        out << *this << " has done their work (effort gathered: " << company.getEffort() << ")" << OutputHandler::endlWait;
+    }
+    else
+    {
+        out << *this << " has no work to do" << OutputHandler::endlWait;
+    }
 }
 
 bool Manager::operator!=(const Manager& manager) const noexcept

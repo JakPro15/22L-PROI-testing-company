@@ -36,7 +36,7 @@ public:
     AbstractGame& operator=(const AbstractGame&)=delete;
 
     // Empty virtual destructor - for inheritance.
-    virtual ~AbstractGame() {};
+    virtual ~AbstractGame()=0;
 
     // Sets the title of the game. Empty (all whitespace) titles are not allowed.
     virtual void setTitle(std::string title)=0;

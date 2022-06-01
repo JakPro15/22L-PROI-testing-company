@@ -4,6 +4,7 @@
 #include "../tester.h"
 #include "../../exceptions.h"
 #include "../../games/abstractgame.h"
+#include "../../games/price.h"
 #include "../../simulation/outputhandler.h"
 
 
@@ -106,7 +107,7 @@ void TestingDatabase::checkRecords()
         TestingRecord &record = **iterator;
         if(record.checkFinished())
         {
-            company.testingFinished(record.game);
+            company.testingFinished(record.game, record.getRealPrice());
             out << *this << " notices " << (*iterator)->game << "'s testing has finished"
                 << OutputHandler::endlWait;
             recordsToRemove.push(iterator);
@@ -134,7 +135,8 @@ bool TestingDatabase::assignTester(std::shared_ptr<Tester> testerPtr)
     if(not gamesNotBeingTested.empty())
     {
         gamesNotBeingTested.front()->addTester(testerPtr);
-        out << *this << " assigns " << *testerPtr << " to " << gamesNotBeingTested.front()->game;
+        out << *this << " assigns " << *testerPtr << " to " << gamesNotBeingTested.front()->game << " (effort left: "
+            << company.getEffort() << ")" << OutputHandler::endlWait;
         if(gamesNotBeingTested.front()->getBeingTested())
         {
             out << *this << " notices " << gamesNotBeingTested.front()->game << "'s testing has begun"
@@ -151,13 +153,14 @@ bool TestingDatabase::assignTester(std::shared_ptr<Tester> testerPtr)
             if(recordPtr->getTesters().size() < recordPtr->getMaxTestersAmount())
             {
                 recordPtr->addTester(testerPtr);
-                out << *this << " assigns " << *testerPtr << " to " << recordPtr->game
-                    << OutputHandler::endlWait;
+                out << *this << " assigns " << *testerPtr << " to " << recordPtr->game << " (effort left: "
+                    << company.getEffort() << ")" << OutputHandler::endlWait;
                 return true;
             }
         }
     }
-    out << *this << " fails to assign " << *testerPtr << " to a game" << OutputHandler::endlWait;
+    out << *this << " fails to assign " << *testerPtr << " to a game (effort left: "
+        << company.getEffort() << ")" << OutputHandler::endlWait;
     return false;
 }
 
