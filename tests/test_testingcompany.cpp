@@ -61,7 +61,7 @@ TEST_CASE("Testing company methods", "[TestingCompany]")
 
     SECTION("Comparison operators")
     {
-        TestingCompany testingCompany2(15000001, out);
+        TestingCompany testingCompany2(15000005, out);
         CHECK(testingCompany == testingCompany);
         CHECK_FALSE(testingCompany != testingCompany);
         CHECK(testingCompany != testingCompany2);

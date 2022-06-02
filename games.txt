@@ -1,6 +1,64 @@
+infinite
+The Binding Of Isaac: Repentance
+20000
+1
+4
+2
+false
+200
+99
+puzzle
+Helltaker
+4000
+2
+1
+1
+90
+true
+0
+0
+roleplaying
+Wiedźmin 3: Dziki Gon
+30000
+1
+5
+48
+90
+false
+250
+0
+competitive
+League of Legends
+15000
+2
+6
+1
+2000
+false
+0
+0
+infinite
+Vampire Survivors
+8000
+1
+1
+1
+false
+15
+99
+roleplaying
+Undertale
+10000
+2
+3
+36
+120
+false
+20
+0
 competitive
 Yeet: The Game
-100000
+10000
 0
 2
 0
@@ -10,9 +68,17 @@ false
 0
 normal
 The Normalest Game
-50000
+5000
 2
 3
 true
 0
+0
+normal
+Game
+1000
+1
+2
+true
+10
 0
