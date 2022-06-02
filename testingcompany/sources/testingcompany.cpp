@@ -179,7 +179,14 @@ bool TestingCompany::isThereWork() const noexcept
 
 bool TestingCompany::operator==(const TestingCompany& company) const noexcept
 {
-    return this == &company;
+    if (id == company.id)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
 }
 
 bool TestingCompany::operator!=(const TestingCompany& company) const noexcept
