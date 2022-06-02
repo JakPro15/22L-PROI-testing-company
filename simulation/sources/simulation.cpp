@@ -10,7 +10,7 @@ Simulation::Simulation(unsigned int testersAmount, unsigned int managersAmount,
     in(17000001, *this, out, producersFileName, gamesFileName, testersFileName, managersFileName),
     currentProducerRecordId(13000001),
     testersAmount(testersAmount), managersAmount(managersAmount), testingCompany(15000001, out),
-    producers{}, games{}, testers{}, managers{}
+    producers{}, games{}
 {}
 catch(const std::exception& e)
 {
@@ -37,14 +37,12 @@ void Simulation::simulate(unsigned int iterations)
         for(unsigned int i = 0; i < testersAmount; i++)
         {
             std::shared_ptr<Tester> newTester = in.createTester();
-            testers.push_back(newTester);
             testingCompany.addTester(newTester);
         }
 
         for(unsigned int i = 0; i < managersAmount; i++)
         {
             std::shared_ptr<Manager> newManager = in.createManager();
-            managers.push_back(newManager);
             testingCompany.addManager(newManager);
         }
         for(unsigned int i = 0; i < iterations; i++)

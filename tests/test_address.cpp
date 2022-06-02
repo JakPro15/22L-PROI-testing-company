@@ -27,7 +27,7 @@ TEST_CASE("Address tests")
     }
     SECTION("house number equal to zero")
     {
-        CHECK_THROWS_AS(Address("Słoneczna", 0, 0, "Lidzbark", "13-230"), ZeroException);
+        CHECK_THROWS_AS(Address("Słoneczna", 0, 0, "Lidzbark", "13-230"), InvalidHouseNumberError);
     }
     SECTION("improper post code")
     {
@@ -54,7 +54,7 @@ TEST_CASE("Address tests")
     SECTION("setters wrong")
     {
         CHECK_THROWS_AS(address.setStreetName("    "), EmptyNameException);
-        CHECK_THROWS_AS(address.setHouseNumber(0),  ZeroException);
+        CHECK_THROWS_AS(address.setHouseNumber(0),  InvalidHouseNumberError);
         CHECK_THROWS_AS(address.setCityName("    \n"), EmptyNameException);
         CHECK_THROWS_AS(address.setPostCode("13 230"), IncorrectAddressException);
         CHECK_THROWS_AS(address.setPostCode("1a-230"), IncorrectAddressException);

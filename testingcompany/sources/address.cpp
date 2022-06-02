@@ -22,7 +22,7 @@ Address::Address(std::string cstreetName, unsigned int chouseNumber,
     }
     else
     {
-        throw ZeroException("House number");
+        throw InvalidHouseNumberError();
     }
 
     apartmentNumber = capartmentNumber;
@@ -109,7 +109,7 @@ void Address::setHouseNumber(unsigned int newHnumber) {
     }
     else
     {
-        throw ZeroException("House number");
+        throw InvalidHouseNumberError();
     }
 }
 

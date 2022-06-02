@@ -38,12 +38,6 @@ class Simulation
         // Vector of shared pointers to games
         std::vector<std::shared_ptr<AbstractGame>> games;
 
-        // Vector of shared pointers to testers
-        std::vector<std::shared_ptr<Tester>> testers;
-
-        // Vector of shared pointers to managers
-        std::vector<std::shared_ptr<Manager>> managers;
-
     public:
         // Creates an object of class Simulation
         Simulation(
