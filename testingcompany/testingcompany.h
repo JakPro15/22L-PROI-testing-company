@@ -1,15 +1,14 @@
 #ifndef TESTINGCOMPANY_H
 #define TESTINGCOMPANY_H
 
-
 #include "testingdatabase.h"
+#include "../games/price.h"
 #include <iostream>
 
 
 class AbstractGame;
 class AbstractWorker;
 class Manager;
-class Price;
 
 
 class TestingCompany
@@ -30,12 +29,13 @@ public:
             static const int maxId = 16999999;
 
             // Creates a record with paid = false, delay = 0 and onTime = true.
-            Record(int id, const AbstractGame& testedGame);
+            Record(int id, const AbstractGame& testedGame, Price price);
 
             // Unique ID of the record assigned at creation.
             const int id;
 
             const AbstractGame& testedGame;
+            Price testingPrice;
             bool paid;
             // Delay in hours since planned payment time.
             unsigned int delay;
@@ -73,7 +73,7 @@ public:
     // These constants define the ID limits for this class.
     static const int minId = 15000001;
     static const int maxId = 15999999;
-    
+
     TestingCompany(int id, OutputHandler& out,
         std::vector<std::shared_ptr<AbstractWorker>> workers = {},
         std::vector<std::shared_ptr<Tester>> testers = {});
@@ -81,8 +81,6 @@ public:
     // Copying of TestingCompany is forbidden (IDs wouldn't be unique).
     TestingCompany(const TestingCompany&)=delete;
     TestingCompany& operator=(const TestingCompany&)=delete;
-
-    ~TestingCompany() {}
 
     // Returns the request id and increments the request counter.
     int getRequestId();

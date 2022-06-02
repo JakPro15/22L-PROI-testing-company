@@ -1,7 +1,7 @@
 #ifndef _OUTPUTHANDLER_H
 #define _OUTPUTHANDLER_H
 
-//#define PROI_Projekt_tests
+#define PROI_Projekt_tests
 
 #include <iostream>
 #include <fstream>

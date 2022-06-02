@@ -166,6 +166,11 @@ void TestingRecord::advanceTesting(unsigned int effortPut)
             effortLeft = 0;
         }
     }
+    else
+    {
+        out << *this << " notices testing of " << game << " cannot be advanced because of too few testers"
+            << OutputHandler::endlWait;
+    }
 }
 
 

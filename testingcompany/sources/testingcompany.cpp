@@ -16,8 +16,8 @@ void TestingCompany::Record::checkId() const
     }
 }
 
-TestingCompany::Record::Record(int id, const AbstractGame& testedGame):
-    id(id), testedGame(testedGame), paid(false), delay(0), onTime(true)
+TestingCompany::Record::Record(int id, const AbstractGame& testedGame, Price price):
+    id(id), testedGame(testedGame), testingPrice(price), paid(false), delay(0), onTime(true)
 {
     checkId();
 }
@@ -89,7 +89,7 @@ void TestingCompany::addManager(std::shared_ptr<Manager> manager)
 
 void TestingCompany::testingFinished(const AbstractGame& game, Price price)
 {
-    TestingCompany::Record newRecord {currentRecordId++, game};
+    TestingCompany::Record newRecord(currentRecordId++, game, price);
     records.push_back(newRecord);
     game.producer.testingFinished(game, price);
     out << "Finished testing of: " << game << ", payment pending."<< OutputHandler::endlWait;

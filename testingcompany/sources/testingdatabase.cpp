@@ -66,9 +66,18 @@ TestingDatabase::TestingDatabase(OutputHandler &out, int id, TestingCompany &com
 
 void TestingDatabase::newTestingRequest(const AbstractGame &game)
 {
-    Request newRequest(company.getRequestId(), game);
-    out << *this << " encloses " << game << " in " << newRequest.getUniqueName() << OutputHandler::endlWait;
-    testingRequests.push(newRequest);
+    if(game.getMinTestersAmount() > company.getTesters())
+    {
+        // The company has too few testers for this game - reject request.
+        out << *this << " rejects the testing request for " << game
+            << " because of too few testers in the company." << OutputHandler::endlWait;
+    }
+    else
+    {
+        Request newRequest(company.getRequestId(), game);
+        out << *this << " encloses " << game << " in " << newRequest.getUniqueName() << OutputHandler::endlWait;
+        testingRequests.push(newRequest);
+    }
 }
 
 

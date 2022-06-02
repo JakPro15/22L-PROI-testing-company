@@ -6,7 +6,7 @@ int main(int argc, char *argv[])
 {
     if(argc != 9)
     {
-        std::cerr << "The program takes exactly 7 command line arguments." << std::endl;
+        std::cerr << "The program takes exactly 8 command line arguments." << std::endl;
         return 1;
     }
 
