@@ -1,7 +1,7 @@
 #ifndef _OUTPUTHANDLER_H
 #define _OUTPUTHANDLER_H
 
-//define PROI_Projekt_tests
+#define PROI_Projekt_tests
 
 #include <iostream>
 #include <fstream>
@@ -53,7 +53,7 @@ class OutputHandler
 
         OutputHandler& operator<<(OutputHandler& (*func)(OutputHandler&));
 
-        // Inserts a new line into the stream and waits 2 seconds.
+        // Inserts a new line into the stream and waits 1 second.
         static OutputHandler& endlWait(OutputHandler& out);
 };
 

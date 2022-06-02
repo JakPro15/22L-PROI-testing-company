@@ -8,12 +8,27 @@
 #include "../simulation/simulation.h"
 #include "../exceptions.h"
 #include <sstream>
+#include <memory>
 
 
 TEST_CASE("TestingDatabase constructor and request processing", "[TestingDatabase]")
 {
     OutputHandler out(18000001, "../simulationlog.txt");
     TestingCompany company(15000001, out);
+    auto tester1 = std::make_shared<Tester>(10000001, "Paweł", "Piekarski", company, out);
+    auto tester2 = std::make_shared<Tester>(10000001, "Paweł", "Piekarski", company, out);
+    auto tester3 = std::make_shared<Tester>(10000001, "Paweł", "Piekarski", company, out);
+    auto tester4 = std::make_shared<Tester>(10000001, "Paweł", "Piekarski", company, out);
+    auto tester5 = std::make_shared<Tester>(10000001, "Paweł", "Piekarski", company, out);
+    auto tester6 = std::make_shared<Tester>(10000001, "Paweł", "Piekarski", company, out);
+    auto tester7 = std::make_shared<Tester>(10000001, "Paweł", "Piekarski", company, out);
+    company.addTester(tester1);
+    company.addTester(tester2);
+    company.addTester(tester3);
+    company.addTester(tester4);
+    company.addTester(tester5);
+    company.addTester(tester6);
+    company.addTester(tester7);
     TestingDatabase database(out, 7000001, company);
     Simulation sim(3, 0, "../producers.txt", "../games.txt", "../testers.txt", "../managers.txt", "../simulationlog.txt");
     TestingCompany tcom(15000001, out);
@@ -115,6 +130,13 @@ TEST_CASE("Assigning testers and removing testers to and from games", "[TestingD
     auto tester5 = std::make_shared<Tester>(10000001, "Paweł", "Piekarski", company, out);
     auto tester6 = std::make_shared<Tester>(10000001, "Paweł", "Piekarski", company, out);
     auto tester7 = std::make_shared<Tester>(10000001, "Paweł", "Piekarski", company, out);
+    company.addTester(tester1);
+    company.addTester(tester2);
+    company.addTester(tester3);
+    company.addTester(tester4);
+    company.addTester(tester5);
+    company.addTester(tester6);
+    company.addTester(tester7);
     database.newTestingRequest(game1);
     database.newTestingRequest(game2);
     database.advanceRequestHandling(20);

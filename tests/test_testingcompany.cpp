@@ -51,11 +51,9 @@ TEST_CASE("Testing company methods", "[TestingCompany]")
 
     SECTION("Is there work")
     {
-        Simulation sim(3, 0, "../producers.txt", "../games.txt", "../testers.txt", "../managers.txt", "../simulationlog.txt");
-        Producer pr(out, 14000001, "Pr", Address("SN", 2, 5, "SNville", "12-345"), sim, testingCompany);
-        Game game(1000001, "Bruh", pr, 1000, AbstractGame::Simple, 5);
+        auto tester1 = std::make_shared<Tester>(10000001, "Paweł", "Piekarski", testingCompany, out);
         CHECK(testingCompany.isThereWork() == false);
-        testingCompany.obtainTestingRequest(game);
+        testingCompany.addTester(tester1);
         CHECK(testingCompany.isThereWork() == true);
     }
 

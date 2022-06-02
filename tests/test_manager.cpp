@@ -12,6 +12,8 @@ TEST_CASE("Manager methods", "[Manager]")
 {
     OutputHandler out(18000001, "../simulationlog.txt");
     TestingCompany company(15000001, out);
+    auto testerPtr = std::make_shared<Tester>(10000001, "Paweł", "Piekarski", company, out);
+    company.addTester(testerPtr);
     Manager piekarz(9000001, "Paweł", "Piekarski", company, out);
 
     SECTION("Constructor and getters")
@@ -50,7 +52,7 @@ TEST_CASE("Manager methods", "[Manager]")
     {
         Simulation sim(3, 0, "../producers.txt", "../games.txt", "../testers.txt", "../managers.txt", "../simulationlog.txt");
         Producer pr(out, 14000001, "Pr", Address("SN", 2, 5, "SNville", "12-345"), sim, company);
-        Game game(1000001, "Bruh", pr, 1000, AbstractGame::Simple, 5);
+        Game game(1000001, "Bruh", pr, 1000, AbstractGame::Simple, 1);
         company.obtainTestingRequest(game);
         unsigned int effort = company.getEffort();
         piekarz.doWork();
